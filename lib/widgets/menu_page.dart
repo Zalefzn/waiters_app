@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_mobile/screens/logout.dart';
+import 'package:flutter_mobile/screens/produk_list.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
@@ -660,11 +661,8 @@ class _MenuPageState extends State<MenuPage> {
                               left: SizeConfig.blockHorizontal * 3),
                           height: SizeConfig.blockVertical * 53.2,
                           width: SizeConfig.blockHorizontal * 100,
-                          decoration: BoxDecoration(
-                            color: Colors.amber,
-                          ),
                           child: Stack(
-                            children: [Container()],
+                            children: [],
                           )),
                     ],
                   ),

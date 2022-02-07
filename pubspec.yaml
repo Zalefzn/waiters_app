@@ -82,8 +82,8 @@ flutter:
     - images/logo.png
     - images/qoligo.png
     - images/qoligo_white.png
-     
-
+    - images/no_image.png
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
