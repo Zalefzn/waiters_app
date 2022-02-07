@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_mobile/model/gridcall.dart';
 import 'package:flutter_mobile/screens/logout.dart';
-import 'package:flutter_mobile/screens/produk_list.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-
-import 'dart:convert';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/api/services.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key? key}) : super(key: key);
@@ -21,6 +18,26 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  gridview(AsyncSnapshot<List<Produk>> snapshot) {
+    return Padding(
+        padding: EdgeInsets.all(5.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 1.0,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+          children: snapshot.data!.map((produk) {
+            return GridTile(child: ProdukCell(produk));
+          }).toList(),
+        ));
+  }
+
+  circularProgres() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -662,7 +679,23 @@ class _MenuPageState extends State<MenuPage> {
                           height: SizeConfig.blockVertical * 53.2,
                           width: SizeConfig.blockHorizontal * 100,
                           child: Stack(
-                            children: [],
+                            children: [
+                              Container(
+                                child: Flexible(
+                                    child: FutureBuilder<List<Produk>>(
+                                        future: Services.getProduk(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasError) {
+                                            return Text(
+                                                'Error ${snapshot.error}');
+                                          }
+                                          if (snapshot.hasData) {
+                                            return gridview(snapshot);
+                                          }
+                                          return circularProgres();
+                                        })),
+                              ),
+                            ],
                           )),
                     ],
                   ),
