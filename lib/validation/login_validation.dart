@@ -118,6 +118,12 @@ class _ValidationLoginState extends State<ValidationLogin> {
                           setState(() {
                             _isLoading = true;
                           });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: Colors.green,
+                            content: Text("Login Success",
+                                textAlign: TextAlign.center),
+                          ));
                           loginPin(_pin.text);
                         },
                   child: Text(
