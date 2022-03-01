@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/widgets/page2.dart';
 
-import 'package:flutter_mobile/widgets/page_view.dart';
 import 'package:flutter_mobile/widgets/summery_page.dart';
 
 import 'package:sizer/sizer.dart';

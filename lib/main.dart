@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_mobile/providers/auth_providers.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
-
+import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/widgets/splash_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -15,12 +17,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: AnimatedSplashScreen(
-              splash: Image.asset('images/logo.png', height: 40.h, width: 40.w),
-              nextScreen: LoginPage(),
-              splashTransition: SplashTransition.fadeTransition));
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => AuthProviders(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => TableProviders(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ProductProviders(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CartProvider(),
+          ),
+        ],
+        child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
+          '/': (context) => const SplashScreen(),
+          '/Login': (context) => const LoginPage(),
+        }),
+      );
     });
   }
 }

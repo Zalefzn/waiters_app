@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/table.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/input_customer_count.dart';
 import 'package:flutter_mobile/screens/logout.dart';
 import 'package:flutter_mobile/screens/marge_table.dart';
 import 'package:flutter_mobile/screens/move_table.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:flutter_mobile/validation/page_View2.dart';
 
@@ -23,6 +25,8 @@ class ViewPage2 extends StatefulWidget {
 class _ViewPage2State extends State<ViewPage2> {
   @override
   Widget build(BuildContext context) {
+    TableProviders tableProviders = Provider.of<TableProviders>(context);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -149,215 +153,12 @@ class _ViewPage2State extends State<ViewPage2> {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  Stack(
+                  Row(
                     children: [
                       Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-1',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-2',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-3',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-4',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-5',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 4,
-                                    top: SizeConfig.blockVertical * 2),
-                                height: SizeConfig.blockVertical * 23,
-                                width: SizeConfig.blockHorizontal * 44,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  InputCustomer()));
-                                    });
-                                  },
-                                  child: Text(
-                                    'T-6',
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                        children: tableProviders.tables
+                            .map((tableProducts) => TableCard(tableProducts))
+                            .toList(),
                       ),
                     ],
                   ),
@@ -374,13 +175,35 @@ class _ViewPage2State extends State<ViewPage2> {
 _buildPopupDialog(BuildContext context) {
   return AlertDialog(
     title: Center(
-      child: Text(
-        'Table Management',
-        style: TextStyle(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-        ),
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 10),
+            child: Text(
+              'Table Management',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 2,
+                bottom: SizeConfig.blockVertical * 0),
+            height: SizeConfig.blockVertical * 5,
+            width: SizeConfig.blockHorizontal * 15,
+            child: RaisedButton(
+                color: Colors.white,
+                elevation: 0,
+                child: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ViewBar()));
+                }),
+          ),
+        ],
       ),
     ),
     content: Column(
@@ -393,7 +216,7 @@ _buildPopupDialog(BuildContext context) {
             child: Text('Marge Table'),
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MargeTables()));
+                  MaterialPageRoute(builder: (context) => MargeTable()));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.blue.shade900,
@@ -408,7 +231,7 @@ _buildPopupDialog(BuildContext context) {
             child: Text('Move Table'),
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MoveTables()));
+                  MaterialPageRoute(builder: (context) => MoveTable()));
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.blue.shade900,
@@ -427,4 +250,63 @@ List<DropdownMenuItem<String>> _dropDownItem() {
         (value) => DropdownMenuItem(value: value, child: Text(value)),
       )
       .toList();
+}
+
+class TableCard extends StatelessWidget {
+  final TableManagement tableProducts;
+  TableCard(this.tableProducts);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => InputCustomer()));
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockVertical * 2,
+                left: SizeConfig.blockHorizontal * 2.5),
+            height: SizeConfig.blockVertical * 25,
+            width: SizeConfig.blockHorizontal * 46,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Center(
+              child: Text(
+                tableProducts.tableName,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => InputCustomer()));
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                top: SizeConfig.blockVertical * 2,
+                left: SizeConfig.blockHorizontal * 3),
+            height: SizeConfig.blockVertical * 25,
+            width: SizeConfig.blockHorizontal * 46,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Center(
+              child: Text(
+                tableProducts.tableName,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

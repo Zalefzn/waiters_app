@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
+
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/outdoor_move_table.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
+import 'package:flutter_mobile/screens/marge_table.dart';
+import 'package:flutter_mobile/validation/method.dart';
 
 import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/validation/method.dart';
+import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:provider/provider.dart';
 
-class MoveTable extends StatefulWidget {
-  const MoveTable({Key? key}) : super(key: key);
+class OutMarge extends StatefulWidget {
+  const OutMarge({Key? key}) : super(key: key);
 
   @override
-  _MoveTable createState() => _MoveTable();
+  _OutMarge createState() => _OutMarge();
 }
 
-class _MoveTable extends State<MoveTable> {
+class _OutMarge extends State<OutMarge> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
-    return Sizer(builder: (context, orientation, deviceType) {
+
+    return Sizer(builder: (context, oreintation, deviceType) {
       return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -35,15 +37,16 @@ class _MoveTable extends State<MoveTable> {
                       color: Colors.grey.shade300,
                       spreadRadius: 2,
                       blurRadius: 7,
-                      offset: Offset(0, 2), // changes position of shadow
-                    )
+                      offset: Offset(0, 2),
+                    ),
                   ],
                 ),
                 child: Column(
                   children: [
                     Container(
-                      margin:
-                          EdgeInsets.only(top: SizeConfig.blockVertical * 5),
+                      margin: EdgeInsets.only(
+                        top: SizeConfig.blockVertical * 5,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -60,39 +63,36 @@ class _MoveTable extends State<MoveTable> {
                             iconSize: 35,
                           ),
                           Container(
-                              margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 23,
-                              ),
-                              child: Text(
-                                "Move Table",
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              )),
-                          Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 13),
-                            child: RaisedButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.blue[600]),
-                              ),
-                              color: Colors.white,
-                              elevation: 0,
+                              left: SizeConfig.blockHorizontal * 23,
                             ),
+                            child: Text("Marge Table",
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black)),
                           ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 13),
+                              child: RaisedButton(
+                                onPressed: () {},
+                                child: Text("Save",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.blue[600],
+                                    )),
+                                color: Colors.white,
+                                elevation: 0,
+                              )),
                         ],
                       ),
                     ),
                     Container(
-                      margin:
-                          EdgeInsets.only(top: SizeConfig.blockVertical * 2),
+                      margin: EdgeInsets.only(
+                        top: SizeConfig.blockVertical * 2,
+                      ),
                       height: SizeConfig.blockVertical * 0.1,
                       width: SizeConfig.blockHorizontal * 90,
                       decoration: BoxDecoration(
@@ -115,30 +115,31 @@ class _MoveTable extends State<MoveTable> {
                                     left: SizeConfig.blockHorizontal * 3,
                                     top: SizeConfig.blockVertical * 3,
                                   ),
-                                  child: Text(
-                                    'Section/Floor :',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
+                                  child: Text("Section/Floor :",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                      )),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(
-                                      left: SizeConfig.blockHorizontal * 3,
-                                      top: SizeConfig.blockVertical * 3),
+                                    left: SizeConfig.blockHorizontal * 3,
+                                    top: SizeConfig.blockVertical * 3,
+                                  ),
                                   width: SizeConfig.blockHorizontal * 64,
                                   height: SizeConfig.blockVertical * 6,
                                   decoration: BoxDecoration(
                                       border: Border.all(
-                                          width: 1, color: Colors.black),
+                                        width: 1,
+                                        color: Colors.black,
+                                      ),
                                       borderRadius: BorderRadius.circular(10)),
                                   child: DropdownButton<String>(
                                     hint: Container(
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockHorizontal * 2),
                                       child: Text(
-                                        'Indoor',
+                                        'Outdoor',
                                         style: TextStyle(
                                           fontSize: 12.sp,
                                           color: Colors.black,
@@ -150,19 +151,19 @@ class _MoveTable extends State<MoveTable> {
                                     items: _dropDownItem(),
                                     onChanged: (value) {
                                       switch (value) {
-                                        case 'Indoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MoveTable()));
-                                          break;
                                         case 'Outdoor':
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      OutMove()));
+                                                      OutMarge()));
+                                          break;
+                                        case 'Indoor':
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MargeTable()));
                                       }
                                     },
                                   ),
@@ -207,11 +208,9 @@ class _MoveTable extends State<MoveTable> {
 }
 
 List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Indoor', 'Outdoor'];
-  return dll
-      .map(
-        (value) => DropdownMenuItem(value: value, child: Text(value)),
-      )
+  List<String> lll = ['Outdoor', 'Indoor'];
+  return lll
+      .map((value) => DropdownMenuItem(value: value, child: Text(value)))
       .toList();
 }
 

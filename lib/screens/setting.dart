@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
-class LogOut extends StatefulWidget {
-  const LogOut({Key? key}) : super(key: key);
+class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
 
   @override
-  State<LogOut> createState() => _LogOutState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _LogOutState extends State<LogOut> {
+class _SettingsState extends State<Settings> {
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
@@ -30,21 +29,6 @@ class _LogOutState extends State<LogOut> {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-            leading: RaisedButton(
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              color: Colors.white,
-              elevation: 0,
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewBar(),
-                    ));
-              },
-            ),
             elevation: 1,
             backgroundColor: Colors.white,
             title: Container(
@@ -156,7 +140,7 @@ class _LogOutState extends State<LogOut> {
                               validator: Validators.compose([
                                 Validators.required('Fill IP Address'),
                                 Validators.maxLength(
-                                    15, 'Your IP Address cant Access'),
+                                    160, 'Your IP Address cant Access'),
                               ]),
                             ),
                           ),
@@ -178,6 +162,7 @@ class _LogOutState extends State<LogOut> {
 
                                 sharedPreferences.setString(
                                     'setApi', dataApi.text);
+
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
@@ -229,17 +214,14 @@ class _LogOutState extends State<LogOut> {
                           height: SizeConfig.blockVertical * 10,
                           width: SizeConfig.blockHorizontal * 95,
                           child: ElevatedButton(
-                            onPressed: () async {
-                              SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
-                              sharedPreferences.remove('setApi');
+                            onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => LoginPage()));
                             },
                             child: Text(
-                              'Log Out',
+                              'Back',
                               style: TextStyle(
                                   color: Colors.blue.shade900,
                                   fontSize: 12.sp,

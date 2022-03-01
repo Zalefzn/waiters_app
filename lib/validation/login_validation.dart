@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
@@ -16,19 +18,30 @@ class ValidationLogin extends StatefulWidget {
 }
 
 class _ValidationLoginState extends State<ValidationLogin> {
-  TextEditingController _email = TextEditingController();
   TextEditingController _pin = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  late bool _isLoading;
+
+  @override
+  void initState() {
+    _isLoading = true;
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    super.initState();
+  }
 
   loginPin(String pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map body = {"pin": pin};
     var jsonResponse;
     var res = await http.post(
-        Uri.parse("https://backend-staging.qoligo.com/api/auth/pin"),
-        body: body);
+      Uri.parse("https://backend-staging.qoligo.com/api/auth/pin"),
+      body: body,
+    );
     if (res.statusCode == 200) {
       jsonResponse = json.decode(res.body);
 
@@ -115,9 +128,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
                   onPressed: _pin.text == ""
                       ? null
                       : () {
-                          setState(() {
-                            _isLoading = true;
-                          });
+                          setState(() {});
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             duration: Duration(milliseconds: 500),
                             backgroundColor: Colors.green,

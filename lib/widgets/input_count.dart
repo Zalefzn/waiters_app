@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/screens/logout.dart';
+import 'package:flutter_mobile/screens/marge_table.dart';
+import 'package:flutter_mobile/screens/move_table.dart';
 import 'package:flutter_mobile/screens/numpad_page.dart';
 
 import 'package:flutter_mobile/validation/method.dart';
@@ -40,7 +42,13 @@ class _InputCount extends State<InputCount> {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        _buildPopupDialog(context),
+                  );
+                },
                 icon: Icon(
                   Icons.table_chart,
                 )),
@@ -103,4 +111,75 @@ class _InputCount extends State<InputCount> {
       );
     });
   }
+}
+
+_buildPopupDialog(BuildContext context) {
+  return AlertDialog(
+    title: Center(
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 10),
+            child: Text(
+              'Table Management',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 2,
+                bottom: SizeConfig.blockVertical * 0),
+            height: SizeConfig.blockVertical * 5,
+            width: SizeConfig.blockHorizontal * 15,
+            child: RaisedButton(
+                color: Colors.white,
+                elevation: 0,
+                child: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ViewBar()));
+                }),
+          ),
+        ],
+      ),
+    ),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: SizeConfig.blockVertical * 8,
+          width: SizeConfig.blockHorizontal * 95,
+          child: ElevatedButton(
+            child: Text('Marge Table'),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => MargeTable()));
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue.shade900,
+            ),
+          ),
+        ),
+        SizedBox(height: SizeConfig.blockVertical * 1),
+        Container(
+          height: SizeConfig.blockVertical * 8,
+          width: SizeConfig.blockHorizontal * 95,
+          child: ElevatedButton(
+            child: Text('Move Table'),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => MoveTable()));
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue.shade900,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
