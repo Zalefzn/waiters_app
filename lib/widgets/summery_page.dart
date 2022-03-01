@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-
+import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
@@ -55,6 +55,7 @@ class _SummeryPage extends State<SummeryPage> {
           ],
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               height: SizeConfig.blockVertical * 12,
@@ -62,8 +63,57 @@ class _SummeryPage extends State<SummeryPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: Text('Table'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('No.of Customers',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                      Text(
+                        "Table No",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade300),
+                      ),
+                      Text("Served By",
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('07',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                      Text(
+                        "T-1",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      Text("Rizal",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            SizedBox(height: SizeConfig.blockVertical * 0.2),
             Container(
               height: SizeConfig.blockVertical * 47,
               width: SizeConfig.blockHorizontal * 100,
@@ -156,6 +206,11 @@ class _SummeryPage extends State<SummeryPage> {
                                       if (mounted) {
                                         setState(() {
                                           isButtonActive = false;
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewMenu()));
                                         });
                                       }
                                     }
@@ -192,6 +247,8 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     return Container(
       height: SizeConfig.blockVertical * 20,
       width: SizeConfig.blockHorizontal * 100,
@@ -256,16 +313,24 @@ class CartCard extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    left: SizeConfig.blockHorizontal * 17,
-                    bottom: SizeConfig.blockVertical * 4,
-                  ),
+                      left: SizeConfig.blockHorizontal * 17,
+                      bottom: SizeConfig.blockVertical * 0.3),
                   child: TextButton(
-                    child: Text(
-                      "Edit",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.blue.shade900),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Edit",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.blue.shade900),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              cartProvider.removeCart(cart.id);
+                            },
+                            child: Icon(Icons.remove)),
+                      ],
                     ),
                     onPressed: () {
                       Navigator.push(

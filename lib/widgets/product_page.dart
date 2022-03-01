@@ -70,7 +70,7 @@ class _ProductPageState extends State<ProductPage> {
                 ),
                 Container(
                   margin:
-                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 30),
+                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 20),
                   child: Text(
                     widget.product.hargaProduct,
                     style: TextStyle(

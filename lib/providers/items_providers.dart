@@ -2,6 +2,7 @@ import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 
 class TableProviders with ChangeNotifier {
   List<TableManagement> _tables = [];
@@ -73,6 +74,11 @@ class CartProvider with ChangeNotifier {
       _carts.removeAt(id);
     }
     _carts[id].quantity--;
+    notifyListeners();
+  }
+
+  removeCart(int id) {
+    _carts.removeAt(id);
     notifyListeners();
   }
 
