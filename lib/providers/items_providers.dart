@@ -1,5 +1,6 @@
 import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/model/produk.dart';
 
@@ -154,14 +155,10 @@ class UserProvider with ChangeNotifier {
 }
 
 class OrderProvider with ChangeNotifier {
-  Future<bool> orderCart(
-    List<CartModel> carts,
-    List<TableManagement> tables,
-  ) async {
+  Future<bool> orderCheck(
+      List<CartModel> carts, List<TableManagement> tables) async {
     try {
-      if (await OrderProduct().orderProduct(
-        carts,
-      )) {
+      if (await OrderService().orderCheck(carts, tables)) {
         return true;
       } else {
         return false;

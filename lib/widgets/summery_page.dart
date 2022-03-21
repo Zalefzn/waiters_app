@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/bloc/bloc_model_color.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/providers/auth_providers.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/validation/change_page_view.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/widgets/update_product_page.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +32,8 @@ class _SummeryPage extends State<SummeryPage> {
     TableProviders tableProvider = Provider.of<TableProviders>(context);
 
     handleOrder() async {
-      if (await orderProvider.orderCart(
-        cartProvider.carts,
-        tableProvider.tables,
-      )) {
-        cartProvider.carts = [];
-      }
+      if (await orderProvider.orderCheck(
+          cartProvider.carts, tableProvider.tables)) {}
     }
 
     SizeConfig().init(context);
@@ -186,9 +184,10 @@ class _SummeryPage extends State<SummeryPage> {
                                         return null;
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
+                                        cartProvider.carts = [];
                                         //Navigator.push(
                                         //context,
-                                        //MaterialPageRoute(
+                                        // MaterialPageRoute(
                                         //builder: (context) =>
                                         //ViewBarPage()));
                                         handleOrder();

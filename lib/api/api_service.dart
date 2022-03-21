@@ -147,52 +147,50 @@ class UserModelApi {
   }
 }
 
-class OrderProduct {
-  Future<bool> orderProduct(
-    List<CartModel> cartss,
-  ) async {
-    SharedPreferences postOrder = await SharedPreferences.getInstance();
-    var baseUrl = postOrder.getString("setApi");
-    var getTableName = postOrder.getString("saveTable");
-    var countNumber = postOrder.getInt("key");
-    print(countNumber);
-    print(getTableName);
+class OrderService {
+  Future<bool> orderCheck(
+      List<CartModel> carts, List<TableManagement> tables) async {
+    SharedPreferences getOrder = await SharedPreferences.getInstance();
+    var baseUrl = getOrder.getString("setApi");
+    var getTableName = getOrder.getString("saveTable");
+    var getCount = getOrder.getInt("key");
     print(baseUrl);
+    print(getTableName);
+    print(getCount);
 
     var url = '$baseUrl/order';
-    var auth = postOrder.getString("access_token");
+    var auth = getOrder.getString("access_token");
     print(auth);
-    var headers = {"Authorization": "Bearer ${auth}"};
-    var bodyy = jsonEncode({
-      'customer': {
-        'count': countNumber,
-        'name': getTableName,
-        'phone': null,
-        'address': null,
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer ${auth}",
+    };
+    var body = jsonEncode({
+      "customer": {
+        "name": getTableName,
+        "count": getCount,
+        "products": carts
+            .map((cart) => {
+                  'product_price': cart.product.hargaProduct,
+                  'total_price': cart.product.hargaProduct,
+                  'quantity': cart.quantity,
+                })
+            .toList(),
+        "table": tables
+            .map((tables) => {
+                  "table_name": getTableName,
+                })
+            .toList()
       },
-      'produtcs': cartss
-          .map((carts) => {
-                'id': carts.product.productId,
-                'product_price': carts.product.hargaProduct,
-                'total_price': carts.product.hargaProduct,
-              })
-          .toList(),
-      'id_order_type': 1,
-      'table': {
-        'table_name': getTableName,
-        'id_outlet': 4,
-        'id_table_management': 303
-      }
     });
-
     var response =
-        await http.post(Uri.parse(url), headers: headers, body: bodyy);
-    print(bodyy);
+        await http.post(Uri.parse(url), headers: headers, body: body);
+    print(response.body);
 
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw Exception('Gagal Post Order');
+      throw Exception("Gagal Post");
     }
   }
 }

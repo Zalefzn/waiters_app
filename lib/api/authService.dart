@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/model/tokenModel.dart';
 
 class AuthService {
-  String baseUrl = "https://backend-staging.qoligo.com/api/auth";
-
   Future<ModelToken> login({
-    required String pin,
+    required int pin,
   }) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var baseUrl = sharedPreferences.getString("setApi");
+    print(baseUrl);
     var url = '$baseUrl/pin';
     var headers = {'Content-type': 'application/json'};
     var body = jsonEncode({

@@ -217,9 +217,7 @@ class _TableAreaState extends State<TableArea> {
                 height: SizeConfig.blockVertical * 25,
                 width: SizeConfig.blockHorizontal * 46,
                 decoration: BoxDecoration(
-                  color: _buttonPressed
-                      ? Colors.indigoAccent.shade400
-                      : snapshot.data,
+                  color: _buttonPressed ? snapshot.data : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(

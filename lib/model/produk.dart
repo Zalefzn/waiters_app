@@ -169,3 +169,22 @@ class UserModel {
     };
   }
 }
+
+class Customer {
+  late String name;
+  late String count;
+
+  Customer({required this.name, required this.count});
+
+  Customer.fromJson(Map<String, dynamic> json) {
+    name = json["name"];
+    count = json["count"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "count": count,
+    };
+  }
+}

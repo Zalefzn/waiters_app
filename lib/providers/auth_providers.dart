@@ -7,12 +7,12 @@ class AuthProviders with ChangeNotifier {
 
   ModelToken get pin => _pin;
   set pin(ModelToken pin) {
-    _pin = pin;
+    pin = _pin;
     notifyListeners();
   }
 
   Future<bool> login({
-    required String pin,
+    required pin,
   }) async {
     try {
       ModelToken basePin = await AuthService().login(pin: pin);
