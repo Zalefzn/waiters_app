@@ -89,14 +89,14 @@ class _InputCount extends State<InputCount> {
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w500,
-                          color: Colors.blue.shade900,
+                          color: Colors.indigoAccent.shade400,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
                         shape: RoundedRectangleBorder(
                             side: BorderSide(
-                              color: Colors.blue.shade900,
+                              color: Colors.indigoAccent.shade400,
                               width: 3,
                             ),
                             borderRadius: BorderRadius.circular(5)),

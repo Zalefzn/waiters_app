@@ -2,7 +2,6 @@ import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
 
 class TableProviders with ChangeNotifier {
   List<TableManagement> _tables = [];
@@ -24,6 +23,7 @@ class TableProviders with ChangeNotifier {
 
 class ProductProviders with ChangeNotifier {
   List<DataProduct> _barangs = [];
+
   List<DataProduct> get products => _barangs;
   set products(List<DataProduct> barangs) {
     notifyListeners();
@@ -82,6 +82,14 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  totalItems() {
+    int total = 0;
+    for (var item in _carts) {
+      total += item.quantity;
+    }
+    return total;
+  }
+
   productExist(DataProduct product) {
     if (carts.indexWhere(
             (element) => element.product.productId == product.productId) ==
@@ -89,6 +97,78 @@ class CartProvider with ChangeNotifier {
       return false;
     } else {
       return true;
+    }
+  }
+}
+
+class ProductCategorys with ChangeNotifier {
+  List<ProductCategory> _category = [];
+  List<ProductCategory> get categorys => _category;
+
+  set category(List<ProductCategory> _category) {
+    notifyListeners();
+  }
+
+  Future<void> getCategory() async {
+    try {
+      List<ProductCategory> category = await GetCategory().getCategoryProduct();
+      _category = category;
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class SectionTable with ChangeNotifier {
+  List<Section> _section = [];
+  List<Section> get sections => _section;
+
+  set sections(List<Section> _section) {
+    notifyListeners();
+  }
+
+  Future<void> getSection() async {
+    try {
+      List<Section> sectionTab = await GetSection().getSection();
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class UserProvider with ChangeNotifier {
+  List<UserModel> _user = [];
+  List<UserModel> get users => _user;
+
+  set users(List<UserModel> _user) {
+    notifyListeners();
+  }
+
+  Future<void> getUsers() async {
+    try {
+      List<UserModel> getUsers = await UserModelApi().getUser();
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class OrderProvider with ChangeNotifier {
+  Future<bool> orderCart(
+    List<CartModel> carts,
+    List<TableManagement> tables,
+  ) async {
+    try {
+      if (await OrderProduct().orderProduct(
+        carts,
+      )) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

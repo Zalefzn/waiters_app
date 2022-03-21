@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/auth_providers.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -29,7 +28,19 @@ class MyApp extends StatelessWidget {
             create: (context) => ProductProviders(),
           ),
           ChangeNotifierProvider(
+            create: (context) => ProductCategorys(),
+          ),
+          ChangeNotifierProvider(
             create: (context) => CartProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => SectionTable(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => OrderProvider(),
           ),
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {

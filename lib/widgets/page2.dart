@@ -85,6 +85,7 @@ class _ViewPage2State extends State<ViewPage2> {
                                   child: Text(
                                     'Section/Floor : ',
                                     style: TextStyle(
+                                        fontFamily: 'Montserrat',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -99,38 +100,41 @@ class _ViewPage2State extends State<ViewPage2> {
                                       border: Border.all(
                                           width: 1, color: Colors.black),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: DropdownButton<String>(
-                                    hint: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockVertical * 2),
-                                      child: Text(
-                                        'Outdoor',
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      hint: Container(
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockVertical * 2),
+                                        child: Text(
+                                          'Outdoor',
+                                          style: TextStyle(
+                                            fontFamily: 'Rubik',
+                                            fontSize: 12.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
+                                      elevation: 0,
+                                      items: _dropDownItem(),
+                                      onChanged: (value) {
+                                        switch (value) {
+                                          case 'Indoor':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar()));
+                                            break;
+                                          case 'Outdoor':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar2()));
+                                        }
+                                      },
                                     ),
-                                    elevation: 0,
-                                    items: _dropDownItem(),
-                                    onChanged: (value) {
-                                      switch (value) {
-                                        case 'Indoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar()));
-                                          break;
-                                        case 'Outdoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar2()));
-                                      }
-                                    },
                                   ),
                                 ),
                               ],
@@ -150,26 +154,28 @@ class _ViewPage2State extends State<ViewPage2> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        children: tableProviders.tables
-                            .map((tableProducts) => TableCard(tableProducts))
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: RefreshIndicator(
+                  onRefresh: _refresh,
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 0,
+                    padding: EdgeInsets.all(1),
+                    childAspectRatio: 1,
+                    children: tableProviders.tables
+                        .map((tableProducts) => TableCard(tableProducts))
+                        .toList(),
+                  )),
             ),
           ],
         ),
       );
     });
   }
+}
+
+Future<void> _refresh() {
+  return Future.delayed(Duration(milliseconds: 300));
 }
 
 _buildPopupDialog(BuildContext context) {
@@ -182,8 +188,9 @@ _buildPopupDialog(BuildContext context) {
             child: Text(
               'Table Management',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontFamily: 'Monserrat',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),
@@ -213,13 +220,20 @@ _buildPopupDialog(BuildContext context) {
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
-            child: Text('Marge Table'),
+            child: Text(
+              'Marge Table',
+              style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontFamily: 'Rubik'),
+            ),
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => MargeTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: Colors.indigoAccent.shade400,
             ),
           ),
         ),
@@ -228,13 +242,19 @@ _buildPopupDialog(BuildContext context) {
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
-            child: Text('Move Table'),
+            child: Text('Move Table',
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Rubik',
+                  color: Colors.white,
+                )),
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => MoveTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: Colors.indigoAccent.shade400,
             ),
           ),
         ),
@@ -252,9 +272,16 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       .toList();
 }
 
-class TableCard extends StatelessWidget {
+class TableCard extends StatefulWidget {
   final TableManagement tableProducts;
   TableCard(this.tableProducts);
+
+  @override
+  State<TableCard> createState() => _TableCardState();
+}
+
+class _TableCardState extends State<TableCard> {
+  bool _hasBeenPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -262,8 +289,23 @@ class TableCard extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InputCustomer()));
+            setState(() {
+              _hasBeenPressed = !_hasBeenPressed;
+            });
+            if (widget.tableProducts.tableName.contains("T-1")) {
+            } else if (widget.tableProducts.tableName.contains("T-2")) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-3")) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-4")) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-5")) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            }
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -272,36 +314,17 @@ class TableCard extends StatelessWidget {
             height: SizeConfig.blockVertical * 25,
             width: SizeConfig.blockHorizontal * 46,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color:
+                  _hasBeenPressed ? Colors.grey.shade200 : Colors.grey.shade300,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Center(
               child: Text(
-                tableProducts.tableName,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InputCustomer()));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                top: SizeConfig.blockVertical * 2,
-                left: SizeConfig.blockHorizontal * 3),
-            height: SizeConfig.blockVertical * 25,
-            width: SizeConfig.blockHorizontal * 46,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Text(
-                tableProducts.tableName,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                widget.tableProducts.tableName,
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat'),
               ),
             ),
           ),

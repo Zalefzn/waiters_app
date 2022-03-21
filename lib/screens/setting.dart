@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
 import 'package:sizer/sizer.dart';
+import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class Settings extends StatefulWidget {
@@ -17,7 +19,6 @@ class _SettingsState extends State<Settings> {
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
-
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
   var formatedTahun = DateFormat.yMMMEd().format(today);
@@ -38,8 +39,9 @@ class _SettingsState extends State<Settings> {
               child: Text(
                 'Settings',
                 style: TextStyle(
+                  fontFamily: ' Montserrat',
                   color: Colors.black,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             )),
@@ -60,52 +62,68 @@ class _SettingsState extends State<Settings> {
                       ),
                       child: Stack(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 0,
-                                top: SizeConfig.blockVertical * 4),
-                            height: SizeConfig.blockVertical * 15,
-                            width: SizeConfig.blockHorizontal * 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Servers Name:      Qoligo Pos',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 4),
-                                  child: Text(
-                                    'Clock in Time: ' +
-                                        '           ' +
-                                        formatedTanggal.toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey.shade400,
-                                      fontWeight: FontWeight.w800,
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 0,
+                                  top: SizeConfig.blockVertical * 5),
+                              height: SizeConfig.blockVertical * 25,
+                              width: SizeConfig.blockHorizontal * 100,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            SizeConfig.blockHorizontal * 44.5),
+                                    child: Text(
+                                      'Servers Name:      Qoligo Pos',
+                                      style: TextStyle(
+                                        fontFamily: ' Montserrat',
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade400,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 6),
-                                  child: Text(
-                                      '  Date:      ' +
-                                          ' ' +
-                                          formatedTahun.toString(),
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 2),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            SizeConfig.blockHorizontal * 47.5),
+                                    child: Text(
+                                      'Clock in Time: ' +
+                                          '           ' +
+                                          formatedTanggal.toString(),
                                       style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
-                                ),
-                              ],
+                                        fontFamily: ' Montserrat',
+                                        fontSize: 11.sp,
+                                        color: Colors.grey.shade400,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 2),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right: SizeConfig.blockHorizontal * 50),
+                                    child: Text(
+                                        '  Date:      ' +
+                                            ' ' +
+                                            formatedTahun.toString(),
+                                        style: TextStyle(
+                                            fontFamily: ' Montserrat',
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.grey.shade400)),
+                                  ),
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 2),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -131,12 +149,13 @@ class _SettingsState extends State<Settings> {
                             child: TextFormField(
                               controller: dataApi,
                               decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 3, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  labelText: 'Outlet IP Address'),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                labelText: "Outlet IP Address",
+                              ),
                               validator: Validators.compose([
                                 Validators.required('Fill IP Address'),
                                 Validators.maxLength(
@@ -168,20 +187,22 @@ class _SettingsState extends State<Settings> {
                                   builder: (BuildContext context) =>
                                       _buildPopDialog(context),
                                 );
+                                setState(() {});
                               },
                               child: Text(
                                 'Confirm IP Address',
                                 style: TextStyle(
+                                  fontFamily: 'Rubik',
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
-                                  fontSize: 12.sp,
+                                  fontSize: 13.sp,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.blue.shade900,
+                                  primary: Colors.indigoAccent.shade400,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
-                                      color: Colors.blue.shade900,
+                                      color: Colors.indigoAccent.shade400,
                                       width: 3,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -202,6 +223,7 @@ class _SettingsState extends State<Settings> {
                                 ", " +
                                 formatedTahun.toString(),
                             style: TextStyle(
+                              fontFamily: ' Montserrat',
                               fontSize: 12.sp,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -223,15 +245,16 @@ class _SettingsState extends State<Settings> {
                             child: Text(
                               'Back',
                               style: TextStyle(
-                                  color: Colors.blue.shade900,
-                                  fontSize: 12.sp,
+                                  fontFamily: 'Rubik',
+                                  color: Colors.indigoAccent.shade400,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                    color: Colors.blue.shade900,
+                                    color: Colors.indigoAccent.shade400,
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(10)),
@@ -258,26 +281,24 @@ _buildPopDialog(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 0,
-                bottom: SizeConfig.blockVertical * 5),
-            height: SizeConfig.blockVertical * 15,
-            width: SizeConfig.blockHorizontal * 20,
-            child: Icon(
-              Icons.check_rounded,
-              color: Colors.blue.shade900,
-              size: 100,
-            )),
-        Container(
           margin: EdgeInsets.only(
-              left: SizeConfig.blockHorizontal * 5,
-              bottom: SizeConfig.blockVertical * 4),
-          child: Text("Ip Address Confirmed!",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black)),
+              left: SizeConfig.blockHorizontal * 0,
+              bottom: SizeConfig.blockVertical * 6),
+          height: SizeConfig.blockVertical * 16,
+          width: SizeConfig.blockHorizontal * 100,
+          color: Colors.white,
+          child: Icon(
+            Icons.check_rounded,
+            color: Colors.indigoAccent.shade400,
+            size: 130,
+          ),
         ),
+        Text("Ip Address Confirmed!",
+            style: TextStyle(
+                fontFamily: ' Montserrat',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
       ],
     ),
   ));

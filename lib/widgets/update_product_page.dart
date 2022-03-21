@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
 
 class UpdateProductPage extends StatefulWidget {
+  final CartModel cartModel;
+  UpdateProductPage(
+    this.cartModel,
+  );
+
   @override
   State<UpdateProductPage> createState() => _UpdateProductPageState();
 }
@@ -10,7 +17,25 @@ class UpdateProductPage extends StatefulWidget {
 class _UpdateProductPageState extends State<UpdateProductPage> {
   @override
   Widget build(BuildContext context) {
-    Widget header() {
+    bool _changeWarna = false;
+    bool _changeColor = false;
+    int _n = 0;
+
+    add() {
+      setState(() {
+        _n++;
+      });
+    }
+
+    minus() {
+      setState(() {
+        if (_n != 0) {
+          _n--;
+        }
+      });
+    }
+
+    Widget header2() {
       return Column(
         children: [
           Container(
@@ -23,9 +48,9 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
               GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewBar()));
+                        MaterialPageRoute(builder: (context) => ViewMenu()));
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.chevron_left,
                   )),
             ]),
@@ -34,7 +59,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       );
     }
 
-    Widget image() {
+    Widget image2() {
       return Container(
         height: SizeConfig.blockVertical * 45,
         width: SizeConfig.blockHorizontal * 100,
@@ -43,27 +68,30 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             Container(
                 height: SizeConfig.blockVertical * 23,
                 width: SizeConfig.blockHorizontal * 100,
-                child: Image.asset("images/no_image.png")),
+                child: Image.network(widget.cartModel.product.gambarProduct)),
             SizedBox(height: SizeConfig.blockVertical * 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 2),
                   child: Text(
-                    "",
-                    style: TextStyle(
-                      fontSize: 20,
+                    widget.cartModel.product.nameProduct,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Container(
                   margin:
-                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 30),
+                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 20),
                   child: Text(
-                    "",
-                    style: TextStyle(
-                      fontSize: 20,
+                    widget.cartModel.product.hargaProduct,
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -73,14 +101,15 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             SizedBox(height: SizeConfig.blockVertical * 3),
             Container(
                 margin: EdgeInsets.only(right: SizeConfig.blockHorizontal * 48),
-                child: Text(
-                    "ini adalah text untuk deskripsi\nmenu yang tertara disini")),
+                child: const Text(
+                    "ini adalah text untuk deskripsi\nmenu yang tertara disini",
+                    style: TextStyle(fontFamily: 'Montserrat'))),
           ],
         ),
       );
     }
 
-    Widget notes() {
+    Widget notes2() {
       return Container(
         height: SizeConfig.blockVertical * 30,
         width: SizeConfig.blockHorizontal * 100,
@@ -90,9 +119,10 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
               margin: EdgeInsets.only(
                   right: SizeConfig.blockHorizontal * 58,
                   top: SizeConfig.blockVertical * 2),
-              child: Text(
+              child: const Text(
                 "Additional Notes  :",
                 style: TextStyle(
+                  fontFamily: 'Montserrat',
                   fontSize: 17,
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
@@ -109,7 +139,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
                   hintText: "   Contoh : Pedas Manis",
                   border: InputBorder.none,
@@ -121,68 +151,81 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       );
     }
 
-    Widget addChart() {
+    Widget addChart2() {
       return Container(
+        margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 4),
         height: SizeConfig.blockVertical * 13.5,
         width: SizeConfig.blockHorizontal * 100,
         child: Row(
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
-            TextButton(
-                onPressed: () {},
-                child: Container(
-                    margin: EdgeInsets.all(5),
-                    child: Text("-",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blue.shade900))),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: CircleBorder(),
-                )),
-            SizedBox(width: SizeConfig.blockHorizontal * 5),
-            Text(""),
-            SizedBox(width: SizeConfig.blockHorizontal * 5),
-            TextButton(
-                onPressed: () {},
-                child: Container(
-                    margin: EdgeInsets.all(5),
-                    child: Text("+",
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.blue.shade900))),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: CircleBorder(),
-                )),
-            SizedBox(width: SizeConfig.blockHorizontal * 5),
+            GestureDetector(
+              onTap: () {
+                add();
+              },
+              child: Container(
+                  margin: const EdgeInsets.all(5),
+                  child: Text("+",
+                      style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade900))),
+            ),
+            SizedBox(width: SizeConfig.blockHorizontal * 8),
+            const Text(
+              "0",
+              style: TextStyle(
+                  fontFamily: 'Rubik',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            SizedBox(width: SizeConfig.blockHorizontal * 8),
+            GestureDetector(
+              onTap: () {
+                minus();
+              },
+              child: Container(
+                  margin: const EdgeInsets.all(5),
+                  child: Text("-",
+                      style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 35,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue.shade900))),
+            ),
+            SizedBox(width: SizeConfig.blockHorizontal * 8),
             Container(
               width: SizeConfig.blockHorizontal * 47,
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         duration: Duration(milliseconds: 500),
                         backgroundColor: Colors.green,
                         content: Text(
-                          "Update Success",
+                          "Add Success",
                           textAlign: TextAlign.center,
                         ),
                       ),
                     );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ViewBar()));
                   },
                   child: Container(
-                      margin: EdgeInsets.all(5),
-                      child: Text("Update Cart",
+                      margin: const EdgeInsets.all(5),
+                      child: const Text("Update Cart",
                           style: TextStyle(
+                              fontFamily: 'Rubik',
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.w600))),
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue.shade900,
+                    backgroundColor: _changeColor == _changeWarna
+                        ? Colors.grey.shade300
+                        : Colors.indigoAccent.shade400,
                   )),
             ),
           ],
@@ -194,20 +237,20 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          header(),
-          image(),
+          header2(),
+          image2(),
           Container(
             height: SizeConfig.blockVertical * 0.2,
             width: SizeConfig.blockHorizontal * 100,
             decoration: BoxDecoration(color: Colors.grey[300]),
           ),
-          notes(),
+          notes2(),
           Container(
             height: SizeConfig.blockVertical * 0.2,
             width: SizeConfig.blockHorizontal * 100,
             decoration: BoxDecoration(color: Colors.grey[300]),
           ),
-          addChart(),
+          addChart2(),
         ],
       ),
     );

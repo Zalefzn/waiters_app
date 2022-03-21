@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/widgets/menu_page.dart';
-import 'package:flutter_mobile/widgets/summery_page.dart';
+import 'package:flutter_mobile/widgets/change_summerypage.dart';
+import 'package:flutter_mobile/widgets/page_table.dart';
+
 import 'package:sizer/sizer.dart';
-import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class ViewMenu extends StatefulWidget {
-  const ViewMenu({Key? key}) : super(key: key);
-
+class ViewBarPage extends StatefulWidget {
   @override
-  State<ViewMenu> createState() => _ViewMenuState();
+  State<ViewBarPage> createState() => _ViewBarPage();
 }
 
-class _ViewMenuState extends State<ViewMenu> {
+class _ViewBarPage extends State<ViewBarPage> {
   int _currentIndex = 0;
   List options = [
-    MenuPage(),
-    SummeryPage(),
+    ViewTable(),
+    ChangeSummerPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -34,16 +33,9 @@ class _ViewMenuState extends State<ViewMenu> {
               Icons.shopping_bag_outlined,
               color: Colors.black,
             ),
-            Badge(
-              badgeContent: Text("0",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              child: Icon(
-                Icons.summarize_outlined,
-                color: Colors.black,
-              ),
-              badgeColor: Colors.orangeAccent,
+            Icon(
+              Icons.summarize_outlined,
+              color: Colors.black,
             ),
           ],
           onTap: (index) {

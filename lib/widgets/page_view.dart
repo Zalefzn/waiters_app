@@ -10,10 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:flutter_mobile/validation/page_View2.dart';
 import 'package:sizer/sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewPage extends StatefulWidget {
-  ViewPage({Key? key}) : super(key: key);
-
   TextEditingController indoor = TextEditingController();
   TextEditingController outdoor = TextEditingController();
 
@@ -36,7 +35,13 @@ class _ViewPageState extends State<ViewPage> {
 
     getProducts();
     getTab();
+    getSection();
+
     super.initState();
+  }
+
+  getSection() async {
+    await Provider.of<SectionTable>(context, listen: false).getSection();
   }
 
   getProducts() async {
@@ -50,6 +55,7 @@ class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
+    SectionTable sectionTable = Provider.of<SectionTable>(context);
 
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
@@ -109,6 +115,7 @@ class _ViewPageState extends State<ViewPage> {
                                   child: Text(
                                     'Section/Floor : ',
                                     style: TextStyle(
+                                        fontFamily: 'Montserrat',
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -123,38 +130,41 @@ class _ViewPageState extends State<ViewPage> {
                                       border: Border.all(
                                           width: 1, color: Colors.black),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: DropdownButton<String>(
-                                    hint: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockVertical * 2),
-                                      child: Text(
-                                        'Indoor',
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      hint: Container(
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockVertical * 2),
+                                        child: Text(
+                                          "Indoor",
+                                          style: TextStyle(
+                                            fontFamily: ' Montserrat',
+                                            fontSize: 12.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
+                                      elevation: 0,
+                                      items: _dropDownItem(),
+                                      onChanged: (value) {
+                                        switch (value) {
+                                          case 'Indoor':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar()));
+                                            break;
+                                          case 'Outdoor':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar2()));
+                                        }
+                                      },
                                     ),
-                                    elevation: 0,
-                                    items: _dropDownItem(),
-                                    onChanged: (value) {
-                                      switch (value) {
-                                        case 'Indoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar()));
-                                          break;
-                                        case 'Outdoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar2()));
-                                      }
-                                    },
                                   ),
                                 ),
                               ],
@@ -175,25 +185,17 @@ class _ViewPageState extends State<ViewPage> {
                 color: Colors.white,
               ),
               child: RefreshIndicator(
-                onRefresh: _refresh,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    Row(
-                      children: [
-                        Center(
-                          child: Column(
-                            children: tableProviders.tables
-                                .map(
-                                    (tableProducts) => TableCard(tableProducts))
-                                .toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  onRefresh: _refresh,
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 1,
+                    crossAxisSpacing: 0,
+                    padding: EdgeInsets.all(1),
+                    childAspectRatio: 1,
+                    children: tableProviders.tables
+                        .map((tableProducts) => TableCard(tableProducts))
+                        .toList(),
+                  )),
             ),
           ],
         ),
@@ -212,12 +214,13 @@ _buildPopupDialog(BuildContext context) {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 10),
+            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 9),
             child: Text(
               'Table Management',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontFamily: 'Rubik',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),
@@ -247,13 +250,21 @@ _buildPopupDialog(BuildContext context) {
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
-            child: Text('Marge Table'),
+            child: Text(
+              'Marge Table',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp,
+                color: Colors.white,
+                fontFamily: 'Rubik',
+              ),
+            ),
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => MargeTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: Colors.indigoAccent.shade400,
             ),
           ),
         ),
@@ -262,13 +273,21 @@ _buildPopupDialog(BuildContext context) {
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
-            child: Text('Move Table'),
+            child: Text(
+              'Move Table',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp,
+                color: Colors.white,
+                fontFamily: 'Rubik',
+              ),
+            ),
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => MoveTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: Colors.indigoAccent.shade400,
             ),
           ),
         ),
@@ -286,18 +305,78 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       .toList();
 }
 
-class TableCard extends StatelessWidget {
+class TableCard extends StatefulWidget {
   final TableManagement tableProducts;
   TableCard(this.tableProducts);
 
+  @override
+  State<TableCard> createState() => _TableCardState();
+}
+
+class _TableCardState extends State<TableCard> {
+  bool _hasBeenPressed = false;
+  List saveName = ["T-1", "T-2", "T-3", "T-4", "T-5"];
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InputCustomer()));
+          onTap: () async {
+            setState(() {
+              _hasBeenPressed = !_hasBeenPressed;
+            });
+            if (widget.tableProducts.tableName.contains("T-1")) {
+              if (widget.tableProducts.tableName.contains("T-1")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", saveName[0]);
+                print(saveName[0]);
+              }
+
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-2")) {
+              if (widget.tableProducts.tableName.contains("T-2")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", saveName[1]);
+                print(saveName[1]);
+              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-3")) {
+              if (widget.tableProducts.tableName.contains("T-3")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", saveName[2]);
+                print(saveName[2]);
+              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-4")) {
+              if (widget.tableProducts.tableName.contains("T-4")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", saveName[3]);
+                print(saveName[3]);
+              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            } else if (widget.tableProducts.tableName.contains("T-5")) {
+              if (widget.tableProducts.tableName.contains("T-5")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", saveName[4]);
+                print(saveName[4]);
+              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InputCustomer()));
+            }
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -306,36 +385,18 @@ class TableCard extends StatelessWidget {
             height: SizeConfig.blockVertical * 25,
             width: SizeConfig.blockHorizontal * 46,
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color:
+                  _hasBeenPressed ? Colors.grey.shade200 : Colors.grey.shade300,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Center(
               child: Text(
-                tableProducts.tableName,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InputCustomer()));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                top: SizeConfig.blockVertical * 2,
-                left: SizeConfig.blockHorizontal * 3),
-            height: SizeConfig.blockVertical * 25,
-            width: SizeConfig.blockHorizontal * 46,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Text(
-                tableProducts.tableName,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                widget.tableProducts.tableName,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: ' Rubik',
+                ),
               ),
             ),
           ),

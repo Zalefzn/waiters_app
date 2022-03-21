@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
@@ -37,9 +35,13 @@ class _ValidationLoginState extends State<ValidationLogin> {
   loginPin(String pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map body = {"pin": pin};
+    var baseUrl = sharedPreferences.getString("setApi");
+    print(baseUrl);
+    var url = '$baseUrl/auth/pin';
     var jsonResponse;
     var res = await http.post(
-      Uri.parse("https://backend-staging.qoligo.com/api/auth/pin"),
+      //Uri.parse("https://backend-staging.qoligo.com/api/auth/pin"),
+      Uri.parse(url),
       body: body,
     );
     if (res.statusCode == 200) {
@@ -99,7 +101,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
                                   color: Colors.grey.shade400,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(4),
                                   borderSide: BorderSide(
                                     width: SizeConfig.blockHorizontal * 1,
                                     color: Colors.black,
@@ -121,31 +123,51 @@ class _ValidationLoginState extends State<ValidationLogin> {
               Container(
                 margin: EdgeInsets.only(
                     left: SizeConfig.blockHorizontal * 1.5,
-                    top: SizeConfig.blockVertical * 9),
+                    top: SizeConfig.blockVertical * 10),
                 height: SizeConfig.blockVertical * 7,
                 width: SizeConfig.blockHorizontal * 85,
                 child: ElevatedButton(
-                  onPressed: _pin.text == ""
-                      ? null
-                      : () {
-                          setState(() {});
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: Duration(milliseconds: 500),
-                            backgroundColor: Colors.green,
-                            content: Text("Login Success",
-                                textAlign: TextAlign.center),
-                          ));
-                          loginPin(_pin.text);
-                        },
+                  onPressed: () {
+                    if (_pin.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Login Valid",
+                            textAlign: TextAlign.center,
+                          )));
+                    } else if (_pin.text.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          backgroundColor: Colors.green,
+                          content: Text(
+                            "Login Success",
+                            textAlign: TextAlign.center,
+                          )));
+                      loginPin(_pin.text);
+                    }
+                  }, //_pin.text == ""
+                  //? null
+                  //: () {
+                  //setState(() {});
+                  //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  //duration: Duration(milliseconds: 500),
+                  //backgroundColor: Colors.green,
+                  //content: Text("Login Success",
+                  //textAlign: TextAlign.center),
+                  // ));
+                  //loginPin(_pin.text);
+                  //},
                   child: Text(
                     'Login',
                     style: TextStyle(
-                        fontSize: 25.sp,
+                        fontFamily: 'Rubik',
+                        fontSize: 30.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue.shade900,
+                    primary: Colors.indigoAccent[400],
                   ),
                 ),
               ),

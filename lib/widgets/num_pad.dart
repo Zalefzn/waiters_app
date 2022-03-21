@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,6 +23,18 @@ class NumPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List number = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "0",
+    ];
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Container(
@@ -172,23 +184,29 @@ class NumberButton extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Colors.grey.shade300,
-        ),
-        child: Center(
-          child: Text(
-            number.toString(),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () async {},
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.grey.shade300,
+          ),
+          child: Center(
+            child: Text(
+              number.toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
+          onPressed: () async {
+            controller.text += number.toString();
+            SharedPreferences getCount = await SharedPreferences.getInstance();
+            getCount.setInt("key", number);
+            print(number);
+          },
         ),
-        onPressed: () {
-          controller.text += number.toString();
-        },
       ),
     );
   }

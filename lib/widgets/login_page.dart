@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_mobile/screens/setting.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/login_validation.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:sizer/sizer.dart';
@@ -58,23 +55,25 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Stack(
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: SizeConfig.blockVertical * 6,
-                            left: SizeConfig.blockHorizontal * 3),
-                        child: Image.asset('images/logo.png',
-                            height: SizeConfig.blockVertical * 45,
-                            width: SizeConfig.blockHorizontal * 45),
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              bottom: SizeConfig.blockVertical * 7,
+                              left: SizeConfig.blockHorizontal * 1),
+                          child: Image.asset('images/logo.png',
+                              height: SizeConfig.blockVertical * 45,
+                              width: SizeConfig.blockHorizontal * 45),
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                            left: SizeConfig.blockHorizontal * 15,
+                            left: SizeConfig.blockHorizontal * 13,
                             top: SizeConfig.blockVertical * 27),
                         height: SizeConfig.blockVertical * 0.8,
                         width: SizeConfig.blockHorizontal * 22,
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade900,
-                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.indigoAccent[400],
+                          borderRadius: BorderRadius.circular(0),
                         ),
                       ),
                     ],
@@ -97,14 +96,15 @@ class _LoginPageState extends State<LoginPage> {
                             left: SizeConfig.blockHorizontal * 5),
                         child: Container(
                           margin: EdgeInsets.only(
-                              right: SizeConfig.blockHorizontal * 6),
+                              right: SizeConfig.blockHorizontal * 3.5),
                           child: Center(
                             child: Text(
                               'Hello, Armor Kopi Leuwit!',
                               style: TextStyle(
-                                fontSize: 15.sp,
+                                fontFamily: 'Montserrat',
+                                fontSize: 14.sp,
                                 color: Colors.black,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -138,16 +138,19 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Stack(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 23,
-                                top: SizeConfig.blockVertical * 1),
-                            child: Text(
-                              'Qoligo© Mobile Pos Lite Ver.01',
-                              style: TextStyle(
-                                fontSize: 11.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 2,
+                                  bottom: SizeConfig.blockVertical * 5),
+                              child: Text(
+                                'Qoligo© Mobile Waiter Ver.01',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 11.sp,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),

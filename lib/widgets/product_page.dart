@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
-import 'package:flutter_mobile/widgets/summery_page.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
   final DataProduct product;
 
-  ProductPage(this.product);
+  ProductPage(
+    this.product,
+  );
 
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
+  bool _changeWarna = false;
+  bool _changeColor = false;
+  int _n = 0;
+
+  add() {
+    setState(() {
+      _n++;
+    });
+  }
+
+  minus() {
+    setState(() {
+      if (_n != 0) {
+        _n--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -54,27 +71,30 @@ class _ProductPageState extends State<ProductPage> {
             Container(
                 height: SizeConfig.blockVertical * 23,
                 width: SizeConfig.blockHorizontal * 100,
-                child: Image.asset("images/no_image.png")),
+                child: Image.network(widget.product.gambarProduct)),
             SizedBox(height: SizeConfig.blockVertical * 4),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 2),
+                  margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 3),
                   child: Text(
                     widget.product.nameProduct,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontFamily: 'Montserrat',
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Container(
                   margin:
-                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 20),
+                      EdgeInsets.only(right: SizeConfig.blockHorizontal * 3),
                   child: Text(
                     widget.product.hargaProduct,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontFamily: 'Montserrat',
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -83,9 +103,14 @@ class _ProductPageState extends State<ProductPage> {
             ),
             SizedBox(height: SizeConfig.blockVertical * 3),
             Container(
-                margin: EdgeInsets.only(right: SizeConfig.blockHorizontal * 48),
+                margin: EdgeInsets.only(right: SizeConfig.blockHorizontal * 55),
                 child: Text(
-                    "ini adalah text untuk deskripsi\nmenu yang tertara disini")),
+                    "ini adalah text untuk deskripsi\nmenu yang tertara disini\nsilahkan di order yaaa",
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 10,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500))),
           ],
         ),
       );
@@ -99,11 +124,12 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             Container(
               margin: EdgeInsets.only(
-                  right: SizeConfig.blockHorizontal * 58,
+                  right: SizeConfig.blockHorizontal * 53,
                   top: SizeConfig.blockVertical * 2),
               child: Text(
                 "Additional Notes  :",
                 style: TextStyle(
+                  fontFamily: 'Montserrat',
                   fontSize: 17,
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
@@ -121,8 +147,9 @@ class _ProductPageState extends State<ProductPage> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextField(
+                maxLines: null,
                 decoration: InputDecoration(
-                  hintText: "   Contoh : Pedas Manis",
+                  hintText: "Contoh : Pedas Manis",
                   border: InputBorder.none,
                 ),
               ),
@@ -141,63 +168,96 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                add();
+              },
               child: Container(
                   margin: EdgeInsets.all(5),
-                  child: Text("-",
+                  child: Text("+",
                       style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.blue.shade900))),
+                          color: Colors.indigoAccent.shade400))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Text(
-              "0",
-              style: TextStyle(
+              "$_n",
+              style: const TextStyle(
+                  fontFamily: 'Rubik',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                minus();
+              },
               child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: Text("+",
+                  margin: const EdgeInsets.all(5),
+                  child: Text("-",
                       style: TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.blue.shade900))),
+                          color: Colors.indigoAccent.shade400))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Container(
               width: SizeConfig.blockHorizontal * 47,
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
-                  onPressed: () {
-                    cartProvider.addCart(widget.product);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        duration: Duration(milliseconds: 500),
-                        backgroundColor: Colors.green,
-                        content: Text(
-                          "Add Success",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewBar()));
+                  onPressed: () async {
+                    if (cartProvider.carts.isEmpty ||
+                        cartProvider.carts.isNotEmpty) {
+                      if (_n == 0) {
+                        setState(() {
+                          _changeWarna = _changeColor;
+                        });
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Add Valid",
+                            textAlign: TextAlign.center,
+                          ),
+                        ));
+                      } else if (_n > 0) {
+                        setState(() {
+                          _changeWarna = !_changeColor;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: Colors.green,
+                            content: Text(
+                              "Add Success",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                        cartProvider.addCart(widget.product);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewMenu()));
+                      }
+                    }
                   },
                   child: Container(
-                      margin: EdgeInsets.all(5),
-                      child: Text("Add to Cart",
+                      margin: const EdgeInsets.all(5),
+                      child: const Text("Add to Cart",
                           style: TextStyle(
+                              fontFamily: 'Rubik',
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.w600))),
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.blue.shade900,
+                    backgroundColor: _changeColor == _changeWarna
+                        ? Colors.grey.shade300
+                        : Colors.indigoAccent.shade400,
                   )),
             ),
           ],

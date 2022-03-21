@@ -18,7 +18,7 @@ class _LogOutState extends State<LogOut> {
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
-
+  var getData;
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
   var formatedTahun = DateFormat.yMMMEd().format(today);
@@ -76,52 +76,67 @@ class _LogOutState extends State<LogOut> {
                       ),
                       child: Stack(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 0,
-                                top: SizeConfig.blockVertical * 4),
-                            height: SizeConfig.blockVertical * 15,
-                            width: SizeConfig.blockHorizontal * 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Servers Name:      Qoligo Pos',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 4),
-                                  child: Text(
-                                    'Clock in Time: ' +
-                                        '           ' +
-                                        formatedTanggal.toString(),
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey.shade400,
-                                      fontWeight: FontWeight.w800,
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 0,
+                                  bottom: SizeConfig.blockVertical * 2),
+                              height: SizeConfig.blockVertical * 25,
+                              width: SizeConfig.blockHorizontal * 100,
+                              color: Colors.white,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            SizeConfig.blockHorizontal * 37.5),
+                                    child: Text(
+                                      'Servers Name:      Qoligo Pos',
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.grey.shade400,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 6),
-                                  child: Text(
-                                      '  Date:      ' +
-                                          ' ' +
-                                          formatedTahun.toString(),
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 2),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right: SizeConfig.blockHorizontal * 46),
+                                    child: Text(
+                                      'Clock in Time: ' +
+                                          '           ' +
+                                          formatedTanggal.toString(),
                                       style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
-                                ),
-                              ],
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 11.sp,
+                                        color: Colors.grey.shade400,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 2),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        right:
+                                            SizeConfig.blockHorizontal * 46.5),
+                                    child: Text(
+                                        '  Date:      ' +
+                                            ' ' +
+                                            formatedTahun.toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey.shade400)),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -150,7 +165,7 @@ class _LogOutState extends State<LogOut> {
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 3, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                   labelText: 'Outlet IP Address'),
                               validator: Validators.compose([
@@ -187,19 +202,20 @@ class _LogOutState extends State<LogOut> {
                               child: Text(
                                 'Confirm IP Address',
                                 style: TextStyle(
+                                  fontFamily: 'Rubik',
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
-                                  fontSize: 12.sp,
+                                  fontSize: 13.sp,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.blue.shade900,
+                                  primary: Colors.indigoAccent.shade400,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
-                                      color: Colors.blue.shade900,
+                                      color: Colors.indigoAccent.shade400,
                                       width: 3,
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(5),
                                   )),
                             ),
                           ),
@@ -217,6 +233,7 @@ class _LogOutState extends State<LogOut> {
                                 ", " +
                                 formatedTahun.toString(),
                             style: TextStyle(
+                              fontFamily: 'Montserrat',
                               fontSize: 12.sp,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -232,7 +249,7 @@ class _LogOutState extends State<LogOut> {
                             onPressed: () async {
                               SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
-                              sharedPreferences.remove('setApi');
+                              sharedPreferences.clear();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -241,18 +258,19 @@ class _LogOutState extends State<LogOut> {
                             child: Text(
                               'Log Out',
                               style: TextStyle(
+                                  fontFamily: 'Rubik',
                                   color: Colors.blue.shade900,
-                                  fontSize: 12.sp,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                    color: Colors.blue.shade900,
+                                    color: Colors.indigoAccent.shade400,
                                     width: 3,
                                   ),
-                                  borderRadius: BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(5)),
                             ),
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/logout.dart';
+import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/widgets/product_page.dart';
 import 'package:sizer/sizer.dart';
@@ -15,32 +16,29 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  late String filter;
-
-  TextEditingController indoor = TextEditingController();
-  TextEditingController outdoor = TextEditingController();
-  TextEditingController controller = TextEditingController();
-  TextEditingController searchControl = TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  bool isActiveBotton = false;
 
   @override
-  initState() {
-    searchControl.addListener(() {
-      setState(() {
-        filter = searchControl.text;
-      });
-    });
+  void initState() {
+    getCategory();
+    getProducts();
+
+    super.initState();
   }
 
-  @override
-  void dispose() {
-    searchControl.dispose();
-    super.dispose();
+  getCategory() async {
+    await Provider.of<ProductCategorys>(context, listen: false).getCategory();
   }
 
-  List<DataProduct> products = [];
+  getProducts() async {
+    await Provider.of<ProductProviders>(context, listen: false).getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     ProductProviders productProviders = Provider.of<ProductProviders>(context);
+    ProductCategorys categorys = Provider.of<ProductCategorys>(context);
 
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
@@ -59,7 +57,7 @@ class _MenuPageState extends State<MenuPage> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => LogOut()));
             },
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
           ),
         ),
         body: SingleChildScrollView(
@@ -73,7 +71,7 @@ class _MenuPageState extends State<MenuPage> {
                       Container(
                         height: SizeConfig.blockVertical * 10,
                         width: SizeConfig.blockHorizontal * 100,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                         ),
                         child: Stack(
@@ -90,12 +88,20 @@ class _MenuPageState extends State<MenuPage> {
                                     child: Text(
                                       'List Menu                                                                   >',
                                       style: TextStyle(
-                                        fontSize: 10.sp,
+                                        fontFamily: 'Rubik',
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w700,
                                         color: Colors.black,
                                       ),
                                     ),
                                     onPressed: () {
                                       showModalBottomSheet(
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(45),
+                                              topRight: Radius.circular(45),
+                                            ),
+                                          ),
                                           isScrollControlled: true,
                                           enableDrag: true,
                                           context: context,
@@ -103,7 +109,11 @@ class _MenuPageState extends State<MenuPage> {
                                             return Container(
                                               height:
                                                   SizeConfig.blockVertical * 90,
-                                              color: Colors.white,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          45)),
                                               child: SingleChildScrollView(
                                                 child: Column(
                                                   children: [
@@ -119,8 +129,13 @@ class _MenuPageState extends State<MenuPage> {
                                                       width: SizeConfig
                                                               .blockHorizontal *
                                                           40,
-                                                      color:
-                                                          Colors.grey.shade300,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .grey.shade300,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
                                                     ),
                                                     Container(
                                                       margin: EdgeInsets.only(
@@ -130,6 +145,8 @@ class _MenuPageState extends State<MenuPage> {
                                                       child: Text(
                                                         'Armor Kopi Leuwit - Best Seller',
                                                         style: TextStyle(
+                                                          fontFamily:
+                                                              'Montserrat',
                                                           fontSize: 15.sp,
                                                           color: Colors.black,
                                                           fontWeight:
@@ -138,497 +155,62 @@ class _MenuPageState extends State<MenuPage> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      margin: EdgeInsets.only(
-                                                          top: SizeConfig
-                                                                  .blockVertical *
-                                                              2,
-                                                          left: SizeConfig
-                                                                  .blockHorizontal *
-                                                              0),
-                                                      height: SizeConfig
-                                                              .blockVertical *
-                                                          80,
-                                                      width: SizeConfig
-                                                              .blockHorizontal *
-                                                          100,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                      ),
-                                                      child: ListView(
-                                                        scrollDirection:
-                                                            Axis.vertical,
-                                                        children: [
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
+                                                        margin: EdgeInsets.only(
+                                                            top: SizeConfig
                                                                     .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'All Menu Items',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
+                                                                2,
+                                                            left: SizeConfig.blockHorizontal *
+                                                                0),
+                                                        height: SizeConfig
+                                                                .blockVertical *
+                                                            80,
+                                                        width: SizeConfig
+                                                                .blockHorizontal *
+                                                            100,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Colors.white,
+                                                        ),
+                                                        child: ListView.builder(
+                                                            itemCount: 1,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    int index) {
+                                                              return Container(
+                                                                height: SizeConfig
                                                                         .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Best Sellers',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
+                                                                    80,
+                                                                decoration:
+                                                                    const BoxDecoration(
                                                                   color: Colors
-                                                                      .black,
+                                                                      .white,
                                                                 ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {},
+                                                                  child: Column(
+                                                                    children: categorys
+                                                                        .categorys
+                                                                        .map((category) =>
+                                                                            CategoryPage(category))
+                                                                        .toList(),
                                                                   ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Dim Sum',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Appetizers',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Noodles',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Main Course',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Dessert',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Coffe',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            margin: EdgeInsets.only(
-                                                                left: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                right: SizeConfig
-                                                                        .blockHorizontal *
-                                                                    2,
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                9,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                95,
-                                                            child:
-                                                                ElevatedButton(
-                                                              child: Text(
-                                                                'Tea',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      12.sp,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                              ),
-                                                              onPressed: () {},
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                primary: Colors
-                                                                    .white,
-                                                                elevation: 0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  side:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .black,
-                                                                    width: 1,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              7),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
+                                                              );
+                                                            }) //GridView.count(
+                                                        //crossAxisCount: 2,
+                                                        //mainAxisSpacing: 2,
+                                                        //crossAxisSpacing: 3,
+                                                        //padding:
+                                                        //EdgeInsets.all(6),
+                                                        //childAspectRatio: 1,
+                                                        //children: categorys
+                                                        //.categorys
+                                                        //.map((category) =>
+                                                        //CategoryPage(
+                                                        //category))
+                                                        //.toList(),
+                                                        ),
                                                   ],
                                                 ),
                                               ),
@@ -639,11 +221,11 @@ class _MenuPageState extends State<MenuPage> {
                                       primary: Colors.white,
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
-                                        side: BorderSide(
+                                        side: const BorderSide(
                                           color: Colors.black,
-                                          width: 1,
+                                          width: 1.5,
                                         ),
-                                        borderRadius: BorderRadius.circular(7),
+                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                     ),
                                   ),
@@ -668,9 +250,11 @@ class _MenuPageState extends State<MenuPage> {
                     color: Colors.white,
                   ),
                   child: Stack(
-                    children: const [
+                    children: [
                       TextField(
-                        decoration: InputDecoration(
+                        controller: searchController,
+                        onChanged: (value) {},
+                        decoration: const InputDecoration(
                           hintText: 'Search Product ...',
                           icon: Icon(Icons.search),
                         ),
@@ -684,19 +268,15 @@ class _MenuPageState extends State<MenuPage> {
               height: SizeConfig.blockVertical * 54,
               width: SizeConfig.blockHorizontal * 100,
               color: Colors.white,
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        children: productProviders.products
-                            .map((product) => ProductCard(product))
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                ],
+              child: GridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 1,
+                padding: const EdgeInsets.all(6),
+                childAspectRatio: 1,
+                children: productProviders.products
+                    .map((product) => ProductCard(product))
+                    .toList(),
               ),
             ),
           ]),
@@ -731,7 +311,7 @@ class ProductCard extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.blockVertical * 1),
-                Image.asset("images/no_image.png",
+                Image.network(product.gambarUrl,
                     height: 100, width: 130, fit: BoxFit.fill),
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
@@ -740,61 +320,20 @@ class ProductCard extends StatelessWidget {
                       Center(
                         child: Text(
                           product.nameProduct,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Montserrat'),
                         ),
                       ),
                       SizedBox(height: SizeConfig.blockVertical * 1),
                       Center(
                         child: Text(
                           product.hargaProduct,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProductPage(product)));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 3,
-                top: SizeConfig.blockVertical * 2),
-            height: SizeConfig.blockVertical * 34,
-            width: SizeConfig.blockHorizontal * 45,
-            decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              children: [
-                SizedBox(height: SizeConfig.blockVertical * 1),
-                Image.asset("images/no_image.png",
-                    height: 100, width: 130, fit: BoxFit.fill),
-                Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          product.nameProduct,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.blockVertical * 1),
-                      Center(
-                        child: Text(
-                          product.hargaProduct,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w700),
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat'),
                         ),
                       ),
                     ],
@@ -805,6 +344,73 @@ class ProductCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CategoryPage extends StatefulWidget {
+  final ProductCategory category;
+  CategoryPage(this.category);
+
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+  bool buttonPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    ProductCategorys category = Provider.of<ProductCategorys>(context);
+    ProductProviders productProviders = Provider.of<ProductProviders>(context);
+    return GestureDetector(
+      onTap: () {
+        if (widget.category.categoryName.contains("Extra")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        } else if (widget.category.categoryName.contains("Meal")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        } else if (widget.category.categoryName.contains("Non-Coffe")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        } else if (widget.category.categoryName.contains("Coffe")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        } else if (widget.category.categoryName.contains("Food")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        } else if (widget.category.categoryName.contains("Dessert")) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        }
+
+        setState(() {
+          buttonPressed = !buttonPressed;
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),
+        height: SizeConfig.blockVertical * 10,
+        width: SizeConfig.blockHorizontal * 96,
+        decoration: BoxDecoration(
+            color: buttonPressed ? Colors.blueAccent[700] : Colors.white,
+            border: Border.all(
+              width: 1,
+              color: Colors.black,
+            ),
+            borderRadius: BorderRadius.circular(5)),
+        child: Center(
+          child: Text(
+            widget.category.categoryName,
+            style: TextStyle(
+              color: buttonPressed ? Colors.white : Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
