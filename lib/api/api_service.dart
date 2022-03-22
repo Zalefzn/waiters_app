@@ -154,6 +154,8 @@ class OrderService {
     var baseUrl = getOrder.getString("setApi");
     var getTableName = getOrder.getString("saveTable");
     var getCount = getOrder.getInt("key");
+    var getId = getOrder.getInt("saveId");
+    print(getId);
     print(baseUrl);
     print(getTableName);
     print(getCount);
@@ -171,6 +173,7 @@ class OrderService {
         "count": getCount,
         "products": carts
             .map((cart) => {
+                  'id_product': cart.product.productId,
                   'product_price': cart.product.hargaProduct,
                   'total_price': cart.product.hargaProduct,
                   'quantity': cart.quantity,
@@ -179,6 +182,8 @@ class OrderService {
         "table": tables
             .map((tables) => {
                   "table_name": getTableName,
+                  "id_outlet": tables.idOutlet,
+                  "id_table_management": getId,
                 })
             .toList()
       },

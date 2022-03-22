@@ -264,72 +264,55 @@ class _TableCardState extends State<TableCard> {
   bool pressed2 = false;
   @override
   Widget build(BuildContext context) {
-    List saveName = ["T-1", "T-2", "T-3", "T-4", "T-5"];
     return Row(
       children: [
         GestureDetector(
           onTap: () async {
             if (widget.tableProducts.tableName.contains("T-1")) {
               if (widget.tableProducts.tableName.contains("T-1")) {
-                SharedPreferences getMarge =
+                SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getMarge.setString("saveMarge", saveName[0]);
-                print(saveName[0]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                setState(() {});
               }
-              setState(() {
-                pressed = !pressed;
-                _hasBeenPressed = !_hasBeenPressed;
-              });
             } else if (widget.tableProducts.tableName.contains("T-2")) {
               if (widget.tableProducts.tableName.contains("T-2")) {
-                SharedPreferences getMarge =
+                SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getMarge.setString("saveMarge", saveName[1]);
-                print(saveName[1]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                setState(() {});
               }
-              setState(() {
-                pressed2 = !pressed2;
-                _hasBeenPressed = !_hasBeenPressed;
-              });
             } else if (widget.tableProducts.tableName.contains("T-3")) {
               if (widget.tableProducts.tableName.contains("T-3")) {
-                SharedPreferences getMarge =
+                SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getMarge.setString("saveMarge", saveName[2]);
-                print(saveName[2]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                setState(() {});
               }
-              setState(() {
-                pressed = !pressed;
-
-                _hasBeenPressed = !_hasBeenPressed;
-              });
             } else if (widget.tableProducts.tableName.contains("T-4")) {
               if (widget.tableProducts.tableName.contains("T-4")) {
-                SharedPreferences getMarge =
+                SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getMarge.setString("saveMarge", saveName[3]);
-                print(saveName[3]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                setState(() {});
               }
-              setState(() {
-                pressed2 = !pressed2;
-                _hasBeenPressed = !_hasBeenPressed;
-              });
             } else if (widget.tableProducts.tableName.contains("T-5")) {
               if (widget.tableProducts.tableName.contains("T-5")) {
-                SharedPreferences getMarge =
+                SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getMarge.setString("saveMarge", saveName[4]);
-                print(saveName[4]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                setState(() {});
               }
-              setState(() {
-                pressed = !pressed;
-                _hasBeenPressed = !_hasBeenPressed;
-              });
             }
           },
           child: Container(
