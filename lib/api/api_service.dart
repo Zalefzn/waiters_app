@@ -149,12 +149,15 @@ class UserModelApi {
 
 class OrderService {
   Future<bool> orderCheck(
-      List<CartModel> carts, List<TableManagement> tables) async {
+    List<CartModel> carts,
+  ) async {
     SharedPreferences getOrder = await SharedPreferences.getInstance();
     var baseUrl = getOrder.getString("setApi");
     var getTableName = getOrder.getString("saveTable");
     var getCount = getOrder.getInt("key");
+    var getIdOut = getOrder.getInt("saveIdOutlete");
     var getId = getOrder.getInt("saveId");
+    print(getIdOut);
     print(getId);
     print(baseUrl);
     print(getTableName);
@@ -179,13 +182,11 @@ class OrderService {
                   'quantity': cart.quantity,
                 })
             .toList(),
-        "table": tables
-            .map((tables) => {
-                  "table_name": getTableName,
-                  "id_outlet": tables.idOutlet,
-                  "id_table_management": getId,
-                })
-            .toList()
+        "table": {
+          "table_name": getTableName,
+          "id_outlet": getIdOut,
+          "id_table_management": getId,
+        }
       },
     });
     var response =

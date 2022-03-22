@@ -29,11 +29,9 @@ class _SummeryPage extends State<SummeryPage> {
     ColorBloc bloc = ColorBloc();
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     OrderProvider orderProvider = Provider.of<OrderProvider>(context);
-    TableProviders tableProvider = Provider.of<TableProviders>(context);
 
     handleOrder() async {
-      if (await orderProvider.orderCheck(
-          cartProvider.carts, tableProvider.tables)) {}
+      if (await orderProvider.orderCheck(cartProvider.carts)) {}
     }
 
     SizeConfig().init(context);

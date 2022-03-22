@@ -213,7 +213,7 @@ class _ProductPageState extends State<ProductPage> {
                         cartProvider.carts.isNotEmpty) {
                       if (_n == 0) {
                         setState(() {
-                          _changeWarna = _changeColor;
+                          _changeColor = false;
                         });
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
@@ -226,7 +226,12 @@ class _ProductPageState extends State<ProductPage> {
                         ));
                       } else if (_n > 0) {
                         setState(() {
-                          _changeWarna = !_changeColor;
+                          _changeWarna = true;
+                          if (_n < 1) {
+                            setState(() {
+                              _changeWarna = false;
+                            });
+                          }
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

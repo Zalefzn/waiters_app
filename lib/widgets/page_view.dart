@@ -325,8 +325,11 @@ class _TableCardState extends State<TableCard> {
             });
             if (widget.tableProducts.tableName.contains("T-1")) {
               if (widget.tableProducts.tableName.contains("T-1")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
-
                 getId.setInt("saveId", widget.tableProducts.idTable);
                 print(widget.tableProducts.idTable);
                 SharedPreferences getTable =
@@ -340,6 +343,10 @@ class _TableCardState extends State<TableCard> {
                   MaterialPageRoute(builder: (context) => InputCustomer()));
             } else if (widget.tableProducts.tableName.contains("T-2")) {
               if (widget.tableProducts.tableName.contains("T-2")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
                 getId.setInt("saveId", widget.tableProducts.idTable);
@@ -354,6 +361,10 @@ class _TableCardState extends State<TableCard> {
                   MaterialPageRoute(builder: (context) => InputCustomer()));
             } else if (widget.tableProducts.tableName.contains("T-3")) {
               if (widget.tableProducts.tableName.contains("T-3")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
                 getId.setInt("saveId", widget.tableProducts.idTable);
@@ -368,6 +379,10 @@ class _TableCardState extends State<TableCard> {
                   MaterialPageRoute(builder: (context) => InputCustomer()));
             } else if (widget.tableProducts.tableName.contains("T-4")) {
               if (widget.tableProducts.tableName.contains("T-4")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
                 getId.setInt("saveId", widget.tableProducts.idTable);
@@ -381,6 +396,10 @@ class _TableCardState extends State<TableCard> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InputCustomer()));
             } else if (widget.tableProducts.tableName.contains("T-5")) {
+              SharedPreferences getOutlet =
+                  await SharedPreferences.getInstance();
+              getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+              print(widget.tableProducts.idOutlet);
               SharedPreferences getId = await SharedPreferences.getInstance();
 
               getId.setInt("saveId", widget.tableProducts.idTable);

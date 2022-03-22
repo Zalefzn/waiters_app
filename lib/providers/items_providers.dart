@@ -155,10 +155,9 @@ class UserProvider with ChangeNotifier {
 }
 
 class OrderProvider with ChangeNotifier {
-  Future<bool> orderCheck(
-      List<CartModel> carts, List<TableManagement> tables) async {
+  Future<bool> orderCheck(List<CartModel> carts) async {
     try {
-      if (await OrderService().orderCheck(carts, tables)) {
+      if (await OrderService().orderCheck(carts)) {
         return true;
       } else {
         return false;
