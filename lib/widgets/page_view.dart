@@ -327,7 +327,8 @@ class _TableCardState extends State<TableCard> {
               if (widget.tableProducts.tableName.contains("T-1")) {
                 SharedPreferences getOutlet =
                     await SharedPreferences.getInstance();
-                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                getOutlet.setInt(
+                    "saveIdOutlete", widget.tableProducts.idOutlet);
                 print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
                 getId.setInt("saveId", widget.tableProducts.idTable);
@@ -345,7 +346,8 @@ class _TableCardState extends State<TableCard> {
               if (widget.tableProducts.tableName.contains("T-2")) {
                 SharedPreferences getOutlet =
                     await SharedPreferences.getInstance();
-                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                getOutlet.setInt(
+                    "saveIdOutlete", widget.tableProducts.idOutlet);
                 print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
@@ -363,7 +365,8 @@ class _TableCardState extends State<TableCard> {
               if (widget.tableProducts.tableName.contains("T-3")) {
                 SharedPreferences getOutlet =
                     await SharedPreferences.getInstance();
-                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                getOutlet.setInt(
+                    "saveIdOutlete", widget.tableProducts.idOutlet);
                 print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
@@ -381,7 +384,8 @@ class _TableCardState extends State<TableCard> {
               if (widget.tableProducts.tableName.contains("T-4")) {
                 SharedPreferences getOutlet =
                     await SharedPreferences.getInstance();
-                getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+                getOutlet.setInt(
+                    "saveIdOutlete", widget.tableProducts.idOutlet);
                 print(widget.tableProducts.idOutlet);
                 SharedPreferences getId = await SharedPreferences.getInstance();
 
@@ -398,7 +402,7 @@ class _TableCardState extends State<TableCard> {
             } else if (widget.tableProducts.tableName.contains("T-5")) {
               SharedPreferences getOutlet =
                   await SharedPreferences.getInstance();
-              getOutlet.setInt("saveIdOutlete", widget.tableProducts.idTable);
+              getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
               print(widget.tableProducts.idOutlet);
               SharedPreferences getId = await SharedPreferences.getInstance();
 
