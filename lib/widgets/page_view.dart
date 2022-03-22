@@ -90,115 +90,113 @@ class _ViewPageState extends State<ViewPage> {
                 )),
           ],
         ),
-        body: Column(
-          children: [
-            Stack(
-              children: [
-                Material(
-                  elevation: 4,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: SizeConfig.blockVertical * 10,
-                        width: SizeConfig.blockHorizontal * 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Stack(
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockHorizontal * 3,
-                                      top: SizeConfig.blockVertical * 3),
-                                  child: Text(
-                                    'Section/Floor : ',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+        body: Column(children: [
+          Stack(
+            children: [
+              Material(
+                elevation: 4,
+                child: Stack(
+                  children: [
+                    Container(
+                      height: SizeConfig.blockVertical * 10,
+                      width: SizeConfig.blockHorizontal * 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Stack(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockHorizontal * 3,
+                                    top: SizeConfig.blockVertical * 3),
+                                child: Text(
+                                  'Section/Floor : ',
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockHorizontal * 1,
-                                      top: SizeConfig.blockVertical * 2.5),
-                                  width: SizeConfig.blockHorizontal * 64,
-                                  height: SizeConfig.blockVertical * 5,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      hint: Container(
-                                        margin: EdgeInsets.only(
-                                            left: SizeConfig.blockVertical * 2),
-                                        child: Text(
-                                          "Indoor",
-                                          style: TextStyle(
-                                            fontFamily: ' Montserrat',
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: SizeConfig.blockHorizontal * 1,
+                                    top: SizeConfig.blockVertical * 2.5),
+                                width: SizeConfig.blockHorizontal * 64,
+                                height: SizeConfig.blockVertical * 5,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.black),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    hint: Container(
+                                      margin: EdgeInsets.only(
+                                          left: SizeConfig.blockVertical * 2),
+                                      child: Text(
+                                        "Indoor",
+                                        style: TextStyle(
+                                          fontFamily: ' Montserrat',
+                                          fontSize: 12.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      elevation: 0,
-                                      items: _dropDownItem(),
-                                      onChanged: (value) {
-                                        switch (value) {
-                                          case 'Indoor':
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ViewBar()));
-                                            break;
-                                          case 'Outdoor':
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ViewBar2()));
-                                        }
-                                      },
                                     ),
+                                    elevation: 0,
+                                    items: _dropDownItem(),
+                                    onChanged: (value) {
+                                      switch (value) {
+                                        case 'Indoor':
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewBar()));
+                                          break;
+                                        case 'Outdoor':
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewBar2()));
+                                      }
+                                    },
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-              height: SizeConfig.blockVertical * 65.9,
-              width: SizeConfig.blockHorizontal * 100,
-              decoration: BoxDecoration(
-                color: Colors.white,
               ),
-              child: RefreshIndicator(
-                  onRefresh: _refresh,
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 0,
-                    padding: EdgeInsets.all(1),
-                    childAspectRatio: 1,
-                    children: tableProviders.tables
-                        .map((tableProducts) => TableCard(tableProducts))
-                        .toList(),
-                  )),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
+            height: SizeConfig.blockVertical * 65.9,
+            width: SizeConfig.blockHorizontal * 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-          ],
-        ),
+            child: RefreshIndicator(
+                onRefresh: _refresh,
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 1,
+                  crossAxisSpacing: 0,
+                  padding: EdgeInsets.all(1),
+                  childAspectRatio: 1,
+                  children: tableProviders.tables
+                      .map((tableProducts) => TableCard(tableProducts))
+                      .toList(),
+                )),
+          )
+        ]),
       );
     });
   }
@@ -315,7 +313,7 @@ class TableCard extends StatefulWidget {
 
 class _TableCardState extends State<TableCard> {
   bool _hasBeenPressed = false;
-  List saveName = ["T-1", "T-2", "T-3", "T-4", "T-5"];
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -330,8 +328,8 @@ class _TableCardState extends State<TableCard> {
                 SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getTable.setString("saveTable", saveName[0]);
-                print(saveName[0]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
               }
 
               Navigator.push(context,
@@ -341,8 +339,8 @@ class _TableCardState extends State<TableCard> {
                 SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getTable.setString("saveTable", saveName[1]);
-                print(saveName[1]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
               }
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InputCustomer()));
@@ -351,8 +349,8 @@ class _TableCardState extends State<TableCard> {
                 SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getTable.setString("saveTable", saveName[2]);
-                print(saveName[2]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
               }
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InputCustomer()));
@@ -361,8 +359,8 @@ class _TableCardState extends State<TableCard> {
                 SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getTable.setString("saveTable", saveName[3]);
-                print(saveName[3]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
               }
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InputCustomer()));
@@ -371,8 +369,8 @@ class _TableCardState extends State<TableCard> {
                 SharedPreferences getTable =
                     await SharedPreferences.getInstance();
 
-                getTable.setString("saveTable", saveName[4]);
-                print(saveName[4]);
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
               }
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => InputCustomer()));
