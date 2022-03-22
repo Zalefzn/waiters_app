@@ -6,6 +6,7 @@ import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MargeTable extends StatefulWidget {
   const MargeTable({Key? key}) : super(key: key);
@@ -15,22 +16,6 @@ class MargeTable extends StatefulWidget {
 }
 
 class _MargeTable extends State<MargeTable> {
-  bool _isVisible = true;
-  bool tableName = false;
-
-  @override
-  void showWidget() {
-    setState(() {
-      _isVisible = false;
-    });
-  }
-
-  void hideWidget() {
-    setState(() {
-      _isVisible = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
@@ -279,32 +264,68 @@ class _TableCardState extends State<TableCard> {
   bool pressed2 = false;
   @override
   Widget build(BuildContext context) {
+    List saveName = ["T-1", "T-2", "T-3", "T-4", "T-5"];
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (widget.tableProducts.tableName.contains("T-1")) {
+              if (widget.tableProducts.tableName.contains("T-1")) {
+                SharedPreferences getMarge =
+                    await SharedPreferences.getInstance();
+
+                getMarge.setString("saveMarge", saveName[0]);
+                print(saveName[0]);
+              }
               setState(() {
                 pressed = !pressed;
                 _hasBeenPressed = !_hasBeenPressed;
               });
             } else if (widget.tableProducts.tableName.contains("T-2")) {
+              if (widget.tableProducts.tableName.contains("T-2")) {
+                SharedPreferences getMarge =
+                    await SharedPreferences.getInstance();
+
+                getMarge.setString("saveMarge", saveName[1]);
+                print(saveName[1]);
+              }
               setState(() {
                 pressed2 = !pressed2;
                 _hasBeenPressed = !_hasBeenPressed;
               });
             } else if (widget.tableProducts.tableName.contains("T-3")) {
+              if (widget.tableProducts.tableName.contains("T-3")) {
+                SharedPreferences getMarge =
+                    await SharedPreferences.getInstance();
+
+                getMarge.setString("saveMarge", saveName[2]);
+                print(saveName[2]);
+              }
               setState(() {
                 pressed = !pressed;
 
                 _hasBeenPressed = !_hasBeenPressed;
               });
             } else if (widget.tableProducts.tableName.contains("T-4")) {
+              if (widget.tableProducts.tableName.contains("T-4")) {
+                SharedPreferences getMarge =
+                    await SharedPreferences.getInstance();
+
+                getMarge.setString("saveMarge", saveName[3]);
+                print(saveName[3]);
+              }
               setState(() {
                 pressed2 = !pressed2;
                 _hasBeenPressed = !_hasBeenPressed;
               });
             } else if (widget.tableProducts.tableName.contains("T-5")) {
+              if (widget.tableProducts.tableName.contains("T-5")) {
+                SharedPreferences getMarge =
+                    await SharedPreferences.getInstance();
+
+                getMarge.setString("saveMarge", saveName[4]);
+                print(saveName[4]);
+              }
               setState(() {
                 pressed = !pressed;
                 _hasBeenPressed = !_hasBeenPressed;

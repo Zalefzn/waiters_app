@@ -186,6 +186,7 @@ class OrderService {
     var response =
         await http.post(Uri.parse(url), headers: headers, body: body);
     print(response.body);
+    print(body);
 
     if (response.statusCode == 200) {
       return true;

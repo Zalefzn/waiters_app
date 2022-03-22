@@ -185,6 +185,7 @@ class _SummeryPage extends State<SummeryPage> {
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
                                         cartProvider.carts = [];
+
                                         //Navigator.push(
                                         //context,
                                         // MaterialPageRoute(
@@ -409,7 +410,7 @@ tagContainer() {
           children: [
             Container(
               margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 7),
-              child: Text('07',
+              child: Text("07",
                   style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 13,
@@ -419,7 +420,7 @@ tagContainer() {
             Container(
                 margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
                 child: Text(
-                  "T-1",
+                  "T-2",
                   style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 13,
