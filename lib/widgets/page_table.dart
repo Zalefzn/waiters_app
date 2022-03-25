@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/bloc/bloc_model_color.dart';
+
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/input_customer_count.dart';
 import 'package:flutter_mobile/screens/logout.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/widgets/summery_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewTable extends StatefulWidget {
   @override
@@ -181,8 +180,8 @@ List<DropdownMenuItem<String>> _dropDownItem() {
 }
 
 class TableArea extends StatefulWidget {
-  final TableManagement products;
-  TableArea(this.products);
+  final TableManagement tableProduct;
+  TableArea(this.tableProduct);
 
   @override
   State<TableArea> createState() => _TableAreaState();
@@ -193,48 +192,109 @@ class _TableAreaState extends State<TableArea> {
 
   @override
   Widget build(BuildContext context) {
-    ColorBloc bloc = ColorBloc();
     return Row(
       children: [
-        StreamBuilder<Color>(
-          stream: bloc.stateStream,
-          initialData: Colors.grey.shade300,
-          builder: (context, snapshot) {
-            return GestureDetector(
-              onTap: () {
-                if (widget.products.tableName.contains("T-1")) {
-                  setState(() {});
-                } else if (widget.products.tableName.contains("T-2")) {
-                  setState(() {});
-                } else if (widget.products.tableName.contains("T-3")) {
-                  setState(() {});
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.only(
-                    left: SizeConfig.blockHorizontal * 2.5,
-                    top: SizeConfig.blockVertical * 2),
-                height: SizeConfig.blockVertical * 25,
-                width: SizeConfig.blockHorizontal * 46,
-                decoration: BoxDecoration(
-                  color: _buttonPressed ? snapshot.data : Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.products.tableName,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
+        GestureDetector(
+          onTap: () async {
+            if (widget.tableProduct.tableName.contains("T-1")) {
+              if (widget.tableProduct.tableName.contains("T-1")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.getInt("saveIdOutlete");
+
+                SharedPreferences getId = await SharedPreferences.getInstance();
+                getId.getInt("saveId");
+
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.getString("saveTable");
+              }
+            } else if (widget.tableProduct.tableName.contains("T-2")) {
+              if (widget.tableProduct.tableName.contains("T-2")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.getInt("saveIdOutlete");
+
+                SharedPreferences getId = await SharedPreferences.getInstance();
+
+                getId.getInt("saveId");
+
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.getString("saveTable");
+              }
+            } else if (widget.tableProduct.tableName.contains("T-3")) {
+              if (widget.tableProduct.tableName.contains("T-3")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.getInt("saveIdOutlete");
+
+                SharedPreferences getId = await SharedPreferences.getInstance();
+
+                getId.getInt("saveId");
+
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.getString("saveTable");
+              }
+            } else if (widget.tableProduct.tableName.contains("T-4")) {
+              if (widget.tableProduct.tableName.contains("T-4")) {
+                SharedPreferences getOutlet =
+                    await SharedPreferences.getInstance();
+                getOutlet.getInt("saveIdOutlete");
+
+                SharedPreferences getId = await SharedPreferences.getInstance();
+
+                getId.getInt("saveId");
+
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.getString("saveTable");
+              }
+            } else if (widget.tableProduct.tableName.contains("T-5")) {
+              SharedPreferences getOutlet =
+                  await SharedPreferences.getInstance();
+              getOutlet.getInt("saveIdOutlete");
+
+              SharedPreferences getId = await SharedPreferences.getInstance();
+
+              getId.getInt("saveId");
+
+              if (widget.tableProduct.tableName.contains("T-5")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.getString("saveTable");
+              }
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 2.5,
+                top: SizeConfig.blockVertical * 2),
+            height: SizeConfig.blockVertical * 25,
+            width: SizeConfig.blockHorizontal * 46,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Center(
+              child: Text(
+                widget.tableProduct.tableName,
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        )
       ],
     );
   }

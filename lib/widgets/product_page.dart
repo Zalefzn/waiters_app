@@ -4,6 +4,7 @@ import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductPage extends StatefulWidget {
   final DataProduct product;
@@ -17,6 +18,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  TextEditingController textEditing = TextEditingController();
+
   bool _changeWarna = false;
   bool _changeColor = false;
   int _n = 0;
@@ -69,7 +72,7 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           children: [
             Container(
-                height: SizeConfig.blockVertical * 23,
+                height: SizeConfig.blockVertical * 30,
                 width: SizeConfig.blockHorizontal * 100,
                 child: Image.network(widget.product.gambarProduct)),
             SizedBox(height: SizeConfig.blockVertical * 4),
@@ -102,15 +105,6 @@ class _ProductPageState extends State<ProductPage> {
               ],
             ),
             SizedBox(height: SizeConfig.blockVertical * 3),
-            Container(
-                margin: EdgeInsets.only(right: SizeConfig.blockHorizontal * 55),
-                child: Text(
-                    "ini adalah text untuk deskripsi\nmenu yang tertara disini\nsilahkan di order yaaa",
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 10,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500))),
           ],
         ),
       );
@@ -147,7 +141,8 @@ class _ProductPageState extends State<ProductPage> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: TextField(
-                maxLines: null,
+                controller: textEditing,
+                maxLines: 9,
                 decoration: InputDecoration(
                   hintText: "Contoh : Pedas Manis",
                   border: InputBorder.none,
@@ -168,8 +163,14 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
-              onTap: () {
-                add();
+              onTap: () async {
+                SharedPreferences setAdd =
+                    await SharedPreferences.getInstance();
+                setAdd.setInt("getCount", _n);
+                print(_n);
+                setState(() {
+                  add();
+                });
               },
               child: Container(
                   margin: EdgeInsets.all(5),
@@ -209,6 +210,10 @@ class _ProductPageState extends State<ProductPage> {
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
                   onPressed: () async {
+                    SharedPreferences setNotes =
+                        await SharedPreferences.getInstance();
+                    setNotes.setString("Notes", textEditing.text);
+                    print(textEditing.text);
                     if (cartProvider.carts.isEmpty ||
                         cartProvider.carts.isNotEmpty) {
                       if (_n == 0) {
@@ -227,6 +232,7 @@ class _ProductPageState extends State<ProductPage> {
                       } else if (_n > 0) {
                         setState(() {
                           _changeWarna = true;
+
                           if (_n < 1) {
                             setState(() {
                               _changeWarna = false;

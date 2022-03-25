@@ -77,7 +77,7 @@ class _OutMarge extends State<OutMarge> {
                                   left: SizeConfig.blockHorizontal * 13),
                               child: RaisedButton(
                                 onPressed: () {},
-                                child: Text("Save",
+                                child: Text(" Clear",
                                     style: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w600,
@@ -182,7 +182,7 @@ class _OutMarge extends State<OutMarge> {
               ),
               SizedBox(height: SizeConfig.blockVertical * 3),
               Container(
-                height: SizeConfig.blockVertical * 5,
+                height: SizeConfig.blockVertical * 10,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -211,20 +211,43 @@ class _OutMarge extends State<OutMarge> {
                 ),
               ),
               Container(
-                height: SizeConfig.blockVertical * 69,
+                height: SizeConfig.blockVertical * 50,
                 width: SizeConfig.blockHorizontal * 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: GridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 0,
-                  padding: EdgeInsets.all(1),
+                  padding: const EdgeInsets.all(1),
                   childAspectRatio: 1,
                   children: tableProviders.tables
                       .map((tableProducts) => TableCard(tableProducts))
                       .toList(),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+                height: SizeConfig.blockVertical * 10,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                ),
+                child: ElevatedButton(
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: Colors.white,
+                      fontFamily: 'Rubik',
+                    ),
+                  ),
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.indigoAccent.shade400,
+                  ),
                 ),
               ),
             ],

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/logout.dart';
-import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/widgets/product_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
+import 'package:flutter_mobile/api/api_service.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key? key}) : super(key: key);
@@ -16,13 +18,21 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  // List<DataProduct> dataProduct = [];
+
   TextEditingController searchController = TextEditingController();
   bool isActiveBotton = false;
+  bool buttonPressed = false;
 
   @override
   void initState() {
     getCategory();
     getProducts();
+    // DataService.getDataPro().then((value) {
+    //   setState(() {
+    //     dataProduct = value;
+    //   });
+    // });
 
     super.initState();
   }
@@ -38,8 +48,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     ProductProviders productProviders = Provider.of<ProductProviders>(context);
-    ProductCategorys categorys = Provider.of<ProductCategorys>(context);
-
+    ProductCategorys category = Provider.of<ProductCategorys>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -185,16 +194,13 @@ class _MenuPageState extends State<MenuPage> {
                                                                   color: Colors
                                                                       .white,
                                                                 ),
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap: () {},
-                                                                  child: Column(
-                                                                    children: categorys
-                                                                        .categorys
-                                                                        .map((category) =>
-                                                                            CategoryPage(category))
-                                                                        .toList(),
-                                                                  ),
+                                                                child: Column(
+                                                                  children: category
+                                                                      .categorys
+                                                                      .map((category) =>
+                                                                          CategoryPage(
+                                                                              category))
+                                                                      .toList(),
                                                                 ),
                                                               );
                                                             }) //GridView.count(
@@ -268,6 +274,21 @@ class _MenuPageState extends State<MenuPage> {
               height: SizeConfig.blockVertical * 54,
               width: SizeConfig.blockHorizontal * 100,
               color: Colors.white,
+              // child: GridView.builder(
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       mainAxisSpacing: 2,
+              //       crossAxisSpacing: 1,
+              //       childAspectRatio: 1,
+              //     ),
+              //     // itemCount: //dataProduct.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return Card(
+              //         child: Column(children: [
+              //           Text(dataProduct[index].nameProduct),
+              //         ]),
+              //       );
+              //     })
               child: GridView.count(
                 crossAxisCount: 2,
                 mainAxisSpacing: 2,
@@ -295,7 +316,7 @@ class ProductCard extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ProductPage(product)));
           },
@@ -357,37 +378,50 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  List<DataProduct> dataProduct = [];
   bool buttonPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    ProductCategorys category = Provider.of<ProductCategorys>(context);
-    ProductProviders productProviders = Provider.of<ProductProviders>(context);
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (widget.category.categoryName.contains("Extra")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          //  Navigator.push(
+          //         context, MaterialPageRoute(builder: (context) => ViewMenu()));
         } else if (widget.category.categoryName.contains("Meal")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          //Navigator.push(
+          //context, MaterialPageRoute(builder: (context) => ViewMenu()));
         } else if (widget.category.categoryName.contains("Non-Coffe")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          //Navigator.push(
+          //context, MaterialPageRoute(builder: (context) => ViewMenu()));
         } else if (widget.category.categoryName.contains("Coffe")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
         } else if (widget.category.categoryName.contains("Food")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
         } else if (widget.category.categoryName.contains("Dessert")) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ViewMenu()));
+          setState(() {
+            buttonPressed = !buttonPressed;
+          });
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
         }
-
-        setState(() {
-          buttonPressed = !buttonPressed;
-        });
       },
       child: Container(
         margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),

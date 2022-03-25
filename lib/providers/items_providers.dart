@@ -32,7 +32,7 @@ class ProductProviders with ChangeNotifier {
 
   Future<void> getData() async {
     try {
-      List<DataProduct> barang = await DataService().getDataPro();
+      List<DataProduct> barang = await DataService.getDataPro();
       _barangs = barang;
     } catch (e) {
       print(e);
@@ -83,12 +83,24 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  removeAll(int id) {
+    _carts.remove(id);
+    notifyListeners();
+  }
+
   totalItems() {
     int total = 0;
     for (var item in _carts) {
       total += item.quantity;
     }
     return total;
+  }
+
+  totalPrice() {
+    int total = 0;
+    for (var item in carts) {
+      total += item.id;
+    }
   }
 
   productExist(DataProduct product) {
@@ -155,9 +167,10 @@ class UserProvider with ChangeNotifier {
 }
 
 class OrderProvider with ChangeNotifier {
-  Future<bool> orderCheck(List<CartModel> carts) async {
+  Future<bool> orderCheck(
+      List<CartModel> carts, List<TableManagement> tables) async {
     try {
-      if (await OrderService().orderCheck(carts)) {
+      if (await OrderService().orderCheck(carts, tables)) {
         return true;
       } else {
         return false;

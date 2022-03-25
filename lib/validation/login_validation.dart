@@ -137,6 +137,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
                             textAlign: TextAlign.center,
                           )));
                     } else if (_pin.text.isNotEmpty) {
+                      loginPin(_pin.text);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           duration: Duration(milliseconds: 500),
                           backgroundColor: Colors.green,
@@ -144,7 +145,6 @@ class _ValidationLoginState extends State<ValidationLogin> {
                             "Login Success",
                             textAlign: TextAlign.center,
                           )));
-                      loginPin(_pin.text);
                     }
                   }, //_pin.text == ""
                   //? null

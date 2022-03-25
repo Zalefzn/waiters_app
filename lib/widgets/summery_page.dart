@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/bloc/bloc_model_color.dart';
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/auth_providers.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -14,8 +13,6 @@ import 'package:flutter_mobile/screens/input_customer_count.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SummeryPage extends StatefulWidget {
-  const SummeryPage({Key? key}) : super(key: key);
-
   @override
   State<SummeryPage> createState() => _SummeryPage();
 }
@@ -23,15 +20,39 @@ class SummeryPage extends StatefulWidget {
 class _SummeryPage extends State<SummeryPage> {
   bool isButtonActive = true;
   bool isButtonActive2 = true;
+  String _tableName = "";
+  int _count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getStatus();
+    getCount();
+  }
+
+  void getCount() async {
+    final SharedPreferences getCount = await SharedPreferences.getInstance();
+    setState(() {
+      _count = getCount.getInt("key") ?? 0;
+    });
+  }
+
+  void getStatus() async {
+    final SharedPreferences getName = await SharedPreferences.getInstance();
+    setState(() {
+      _tableName = getName.getString("saveTable") ?? "noTable";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    ColorBloc bloc = ColorBloc();
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     OrderProvider orderProvider = Provider.of<OrderProvider>(context);
+    TableProviders tableProvider = Provider.of<TableProviders>(context);
 
     handleOrder() async {
-      if (await orderProvider.orderCheck(cartProvider.carts)) {}
+      if (await orderProvider.orderCheck(
+          cartProvider.carts, tableProvider.tables)) {}
     }
 
     SizeConfig().init(context);
@@ -73,7 +94,75 @@ class _SummeryPage extends State<SummeryPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            tagContainer(),
+            Container(
+              height: SizeConfig.blockVertical * 12,
+              width: SizeConfig.blockHorizontal * 100,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('No.of Customers',
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                      Text(
+                        "Table No",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade300),
+                      ),
+                      Text("Served By",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: SizeConfig.blockHorizontal * 7),
+                        child: Text("$_count",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockHorizontal * 8),
+                          child: Text(
+                            "$_tableName",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )),
+                      const Text("Rizal",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: SizeConfig.blockVertical * 0.2),
             Container(
               height: SizeConfig.blockVertical * 47,
@@ -117,8 +206,8 @@ class _SummeryPage extends State<SummeryPage> {
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockHorizontal * 64,
                                 top: SizeConfig.blockVertical * 3),
-                            child: const Text(
-                              "0",
+                            child: Text(
+                              cartProvider.totalItems().toString(),
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 20,
@@ -147,11 +236,11 @@ class _SummeryPage extends State<SummeryPage> {
                                                     const ViewMenu()));
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ViewMenu()));
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              _buildPopDialog2(context),
+                                        );
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -184,11 +273,11 @@ class _SummeryPage extends State<SummeryPage> {
                                           .carts.isNotEmpty) {
                                         cartProvider.carts = [];
 
-                                        //Navigator.push(
-                                        //context,
-                                        // MaterialPageRoute(
-                                        //builder: (context) =>
-                                        //ViewBarPage()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBarPage()));
                                         handleOrder();
                                         showDialog(
                                           context: context,
@@ -260,9 +349,95 @@ _buildPopDialog(BuildContext context) {
   ));
 }
 
-class CartCard extends StatelessWidget {
+_buildPopDialog2(BuildContext context) {
+  CartProvider cartProvider = Provider.of<CartProvider>(context);
+  return AlertDialog(
+      title: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 0,
+                bottom: SizeConfig.blockVertical * 5),
+            height: SizeConfig.blockVertical * 15,
+            width: SizeConfig.blockHorizontal * 50,
+            child: Center(
+              child: Text("Are You Sure Want to Leave ?",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )),
+            )),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const ViewBar()));
+                cartProvider.carts.clear();
+              },
+              child: Container(
+                height: SizeConfig.blockVertical * 5,
+                width: SizeConfig.blockHorizontal * 25,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.indigoAccent.shade400,
+                ),
+                child: Center(
+                    child: Text("Yes", style: TextStyle(color: Colors.white))),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ViewMenu()));
+              },
+              child: Container(
+                  height: SizeConfig.blockVertical * 5,
+                  width: SizeConfig.blockHorizontal * 25,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey.shade200,
+                  ),
+                  child: Center(
+                      child: Text("No",
+                          style:
+                              TextStyle(color: Colors.indigoAccent.shade400)))),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ));
+}
+
+class CartCard extends StatefulWidget {
   final CartModel cartModel;
   CartCard(this.cartModel);
+
+  @override
+  State<CartCard> createState() => _CartCardState();
+}
+
+class _CartCardState extends State<CartCard> {
+  String _notes = "";
+
+  @override
+  void initState() {
+    getNotes();
+    super.initState();
+  }
+
+  void getNotes() async {
+    final SharedPreferences getNote = await SharedPreferences.getInstance();
+    setState(() {
+      _notes = getNote.getString("Notes") ?? "No Notes";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +452,7 @@ class CartCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => UpdateProductPage(cartModel)));
+                  builder: (context) => UpdateProductPage(widget.cartModel)));
         },
         child: Container(
           height: SizeConfig.blockVertical * 20,
@@ -292,7 +467,7 @@ class CartCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text(
+                  Text(
                     "2x",
                     style: TextStyle(
                       fontSize: 20,
@@ -304,7 +479,7 @@ class CartCard extends StatelessWidget {
                     margin:
                         EdgeInsets.only(right: SizeConfig.blockHorizontal * 18),
                     child: Text(
-                      cartModel.product.nameProduct,
+                      widget.cartModel.product.nameProduct,
                       style: const TextStyle(
                         fontSize: 17,
                         color: Colors.black,
@@ -316,7 +491,7 @@ class CartCard extends StatelessWidget {
                     margin:
                         EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
                     child: Text(
-                      cartModel.product.hargaProduct,
+                      widget.cartModel.product.hargaProduct,
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -326,13 +501,14 @@ class CartCard extends StatelessWidget {
                 ],
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     margin: EdgeInsets.only(
                         left: SizeConfig.blockHorizontal * 11.5,
                         top: SizeConfig.blockVertical * 1),
-                    child: const Text(
-                      "Dimsum isi Cumi dan keju\nrasanya yang lezat kaya akan gizi\ndengan keju yang meleleh di dalamnya\nmembuat dimsum\nini menjadi yang paling favorite",
+                    child: Text(
+                      "$_notes",
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 10,
@@ -350,7 +526,7 @@ class CartCard extends StatelessWidget {
                         children: [
                           GestureDetector(
                               onTap: () {
-                                cartProvider.removeCart(cartModel.id);
+                                cartProvider.removeCart(widget.cartModel.id);
                               },
                               child: Icon(Icons.remove,
                                   color: Colors.indigoAccent.shade400,
@@ -366,74 +542,4 @@ class CartCard extends StatelessWidget {
           ),
         ));
   }
-}
-
-tagContainer() {
-  return Container(
-    height: SizeConfig.blockVertical * 12,
-    width: SizeConfig.blockHorizontal * 100,
-    decoration: const BoxDecoration(
-      color: Colors.white,
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text('No.of Customers',
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    color: Colors.grey.shade300,
-                    fontWeight: FontWeight.w500)),
-            Text(
-              "Table No",
-              style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade300),
-            ),
-            Text("Served By",
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 16,
-                    color: Colors.grey.shade300,
-                    fontWeight: FontWeight.w500)),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 7),
-              child: Text("07",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 13,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold)),
-            ),
-            Container(
-                margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
-                child: Text(
-                  "T-2",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                )),
-            const Text("Rizal",
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 13,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ],
-    ),
-  );
 }

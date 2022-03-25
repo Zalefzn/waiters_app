@@ -6,6 +6,7 @@ import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MoveTable extends StatefulWidget {
   const MoveTable({Key? key}) : super(key: key);
@@ -76,7 +77,7 @@ class _MoveTable extends State<MoveTable> {
                             child: RaisedButton(
                               onPressed: () {},
                               child: Text(
-                                "Save",
+                                "Clear",
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w600,
@@ -210,20 +211,43 @@ class _MoveTable extends State<MoveTable> {
                 ),
               ),
               Container(
-                height: SizeConfig.blockVertical * 69,
+                height: SizeConfig.blockVertical * 50,
                 width: SizeConfig.blockHorizontal * 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: GridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 0,
-                  padding: EdgeInsets.all(1),
+                  padding: const EdgeInsets.all(1),
                   childAspectRatio: 1,
                   children: tableProviders.tables
                       .map((tableProducts) => TableCard(tableProducts))
                       .toList(),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+                height: SizeConfig.blockVertical * 10,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                ),
+                child: ElevatedButton(
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: Colors.white,
+                      fontFamily: 'Rubik',
+                    ),
+                  ),
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.indigoAccent.shade400,
+                  ),
                 ),
               ),
             ],
@@ -253,21 +277,136 @@ class TableCard extends StatefulWidget {
 
 class _TableCardState extends State<TableCard> {
   bool _hasBeenPressed = false;
+  bool pressed = false;
+  bool pressed2 = false;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (widget.tableProducts.tableName.contains("T-1")) {
+              if (widget.tableProducts.tableName.contains("T-1")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                pressed
+                    ? null
+                    : setState(() {
+                        pressed = !pressed;
+                        _hasBeenPressed = !_hasBeenPressed;
+                        // if (pressed) {
+                        //   setState(() {
+                        //     pressed == null;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     pressed = !pressed;
+                        //     _hasBeenPressed = !_hasBeenPressed;
+                        //   });
+                        // }
+                      });
+              }
             } else if (widget.tableProducts.tableName.contains("T-2")) {
+              if (widget.tableProducts.tableName.contains("T-2")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                pressed2
+                    ? null
+                    : setState(() {
+                        pressed2 = !pressed2;
+                        _hasBeenPressed = !_hasBeenPressed;
+                        // if (pressed2) {
+                        //   setState(() {
+                        //     pressed2 == null;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     pressed2 = !pressed2;
+                        //     _hasBeenPressed = !_hasBeenPressed;
+                        //   });
+                        // }
+                      });
+              }
             } else if (widget.tableProducts.tableName.contains("T-3")) {
+              if (widget.tableProducts.tableName.contains("T-3")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                pressed2
+                    ? null
+                    : setState(() {
+                        pressed2 = !pressed2;
+                        _hasBeenPressed = !_hasBeenPressed;
+                        // if (pressed2) {
+                        //   setState(() {
+                        //     pressed2 == null;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     pressed2 = !pressed2;
+                        //     _hasBeenPressed = !_hasBeenPressed;
+                        //   });
+                        // }
+                      });
+              }
             } else if (widget.tableProducts.tableName.contains("T-4")) {
-            } else if (widget.tableProducts.tableName.contains("T-5")) {}
-            setState(() {
-              _hasBeenPressed = !_hasBeenPressed;
-            });
+              if (widget.tableProducts.tableName.contains("T-4")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                pressed2
+                    ? null
+                    : setState(() {
+                        pressed2 = !pressed2;
+                        _hasBeenPressed = !_hasBeenPressed;
+                        // if (pressed2) {
+                        //   setState(() {
+                        //     pressed2 == null;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     pressed2 = !pressed2;
+                        //     _hasBeenPressed = !_hasBeenPressed;
+                        //   });
+                        // }
+                      });
+              }
+            } else if (widget.tableProducts.tableName.contains("T-5")) {
+              if (widget.tableProducts.tableName.contains("T-5")) {
+                SharedPreferences getTable =
+                    await SharedPreferences.getInstance();
+
+                getTable.setString("saveTable", widget.tableProducts.tableName);
+                print(widget.tableProducts.tableName);
+                pressed2
+                    ? null
+                    : setState(() {
+                        pressed2 = !pressed2;
+                        _hasBeenPressed = !_hasBeenPressed;
+                        // if (pressed2) {
+                        //   setState(() {
+                        //     pressed2 == null;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     pressed2 = !pressed2;
+                        //     _hasBeenPressed = !_hasBeenPressed;
+                        //   });
+                        // }
+                      });
+              }
+            }
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -281,9 +420,16 @@ class _TableCardState extends State<TableCard> {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Center(
-              child: Text(
-                widget.tableProducts.tableName,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.tableProducts.tableName,
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  pressed ? Text("MainTable") : Container(),
+                  pressed2 ? Text("Child Table") : Container(),
+                ],
               ),
             ),
           ),

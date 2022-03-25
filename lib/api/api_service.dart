@@ -36,7 +36,7 @@ class TableService {
 }
 
 class DataService {
-  Future<List<DataProduct>> getDataPro() async {
+  static Future<List<DataProduct>> getDataPro() async {
     SharedPreferences qoligoPos = await SharedPreferences.getInstance();
     var baseUrl = qoligoPos.getString("setApi");
     print(baseUrl);
@@ -60,6 +60,13 @@ class DataService {
     } else {
       throw Exception('Gagal Get Product');
     }
+  }
+
+  static List<DataProduct> parseData(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<DataProduct>((json) => DataProduct.fromJson(json))
+        .toList();
   }
 }
 
@@ -149,15 +156,15 @@ class UserModelApi {
 
 class OrderService {
   Future<bool> orderCheck(
-    List<CartModel> carts,
-  ) async {
+      List<CartModel> carts, List<TableManagement> tables) async {
     SharedPreferences getOrder = await SharedPreferences.getInstance();
+    var getNote = getOrder.getString("Notes");
     var baseUrl = getOrder.getString("setApi");
     var getTableName = getOrder.getString("saveTable");
+    var getOut = getOrder.getInt("saveIdOutlete");
     var getCount = getOrder.getInt("key");
-    var getIdOut = getOrder.getInt("saveIdOutlete");
     var getId = getOrder.getInt("saveId");
-    print(getIdOut);
+    print(getNote);
     print(getId);
     print(baseUrl);
     print(getTableName);
@@ -174,20 +181,22 @@ class OrderService {
       "customer": {
         "name": getTableName,
         "count": getCount,
-        "products": carts
-            .map((cart) => {
-                  'id_product': cart.product.productId,
-                  'product_price': cart.product.hargaProduct,
-                  'total_price': cart.product.hargaProduct,
-                  'quantity': cart.quantity,
-                })
-            .toList(),
-        "table": {
-          "table_name": getTableName,
-          "id_outlet": getIdOut,
-          "id_table_management": getId,
-        }
       },
+      "id_order_type": 1,
+      "products": carts
+          .map((cart) => {
+                'id_product': cart.product.productId,
+                'note': getNote,
+                'product_price': cart.product.hargaProduct,
+                'total_price': cart.product.hargaProduct,
+                'quantity': cart.quantity,
+              })
+          .toList(),
+      "table": {
+        "table_name": getTableName,
+        "id_outlet": getOut,
+        "id_table_management": getId,
+      }
     });
     var response =
         await http.post(Uri.parse(url), headers: headers, body: body);

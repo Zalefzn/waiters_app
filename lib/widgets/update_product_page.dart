@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/validation/navbutton_page.dart';
+import 'package:provider/provider.dart';
 
 class UpdateProductPage extends StatefulWidget {
   final CartModel cartModel;
@@ -15,25 +18,29 @@ class UpdateProductPage extends StatefulWidget {
 }
 
 class _UpdateProductPageState extends State<UpdateProductPage> {
+  TextEditingController textController = TextEditingController();
+
+  bool _changeWarna = false;
+  bool _changeColor = false;
+  int _s = 0;
+
+  tambah() {
+    setState(() {
+      _s++;
+    });
+  }
+
+  kurang() {
+    setState(() {
+      if (_s != 0) {
+        _s--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _changeWarna = false;
-    bool _changeColor = false;
-    int _n = 0;
-
-    add() {
-      setState(() {
-        _n++;
-      });
-    }
-
-    minus() {
-      setState(() {
-        if (_n != 0) {
-          _n--;
-        }
-      });
-    }
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     Widget header2() {
       return Column(
@@ -66,7 +73,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
         child: Column(
           children: [
             Container(
-                height: SizeConfig.blockVertical * 23,
+                height: SizeConfig.blockVertical * 30,
                 width: SizeConfig.blockHorizontal * 100,
                 child: Image.network(widget.cartModel.product.gambarProduct)),
             SizedBox(height: SizeConfig.blockVertical * 4),
@@ -99,11 +106,6 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
               ],
             ),
             SizedBox(height: SizeConfig.blockVertical * 3),
-            Container(
-                margin: EdgeInsets.only(right: SizeConfig.blockHorizontal * 48),
-                child: const Text(
-                    "ini adalah text untuk deskripsi\nmenu yang tertara disini",
-                    style: TextStyle(fontFamily: 'Montserrat'))),
           ],
         ),
       );
@@ -139,7 +141,9 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: const TextField(
+              child: TextField(
+                controller: textController,
+                maxLines: 9,
                 decoration: InputDecoration(
                   hintText: "   Contoh : Pedas Manis",
                   border: InputBorder.none,
@@ -161,7 +165,9 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
               onTap: () {
-                add();
+                setState(() {
+                  tambah();
+                });
               },
               child: Container(
                   margin: const EdgeInsets.all(5),
@@ -173,8 +179,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                           color: Colors.blue.shade900))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
-            const Text(
-              "0",
+            Text(
+              "$_s",
               style: TextStyle(
                   fontFamily: 'Rubik',
                   fontSize: 20,
@@ -184,7 +190,9 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
               onTap: () {
-                minus();
+                setState(() {
+                  kurang();
+                });
               },
               child: Container(
                   margin: const EdgeInsets.all(5),
@@ -201,18 +209,52 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
                   onPressed: () async {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        duration: Duration(milliseconds: 500),
-                        backgroundColor: Colors.green,
-                        content: Text(
-                          "Add Success",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewBar()));
+                    SharedPreferences setNotes =
+                        await SharedPreferences.getInstance();
+                    setNotes.setString("Notes", textController.text);
+                    print(textController.text);
+                    if (cartProvider.carts.isEmpty ||
+                        cartProvider.carts.isNotEmpty) {
+                      if (_s == 0) {
+                        setState(() {
+                          _changeColor = false;
+                        });
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          duration: Duration(milliseconds: 500),
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            "Add Valid",
+                            textAlign: TextAlign.center,
+                          ),
+                        ));
+                      } else if (_s > 0) {
+                        setState(() {
+                          _changeWarna = true;
+
+                          if (_s < 1) {
+                            setState(() {
+                              _changeWarna = false;
+                            });
+                          }
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: Colors.green,
+                            content: Text(
+                              "Add Success",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                        cartProvider.addCart(widget.cartModel.product);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewMenu()));
+                      }
+                    }
                   },
                   child: Container(
                       margin: const EdgeInsets.all(5),

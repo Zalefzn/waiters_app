@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/bloc/bloc_model_color.dart';
+
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/input_customer_count.dart';
 import 'package:flutter_mobile/validation/change_page_view.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 
@@ -16,12 +16,35 @@ class ChangeSummerPage extends StatefulWidget {
 }
 
 class _StateSummeryPage extends State<ChangeSummerPage> {
+  String _nameTable = "";
+  int _countNum = 0;
+
+  bool isButtonActive = true;
+  bool isButtonActive2 = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getName();
+    getCounts();
+  }
+
+  void getName() async {
+    final SharedPreferences getNameTab = await SharedPreferences.getInstance();
+    setState(() {
+      _nameTable = getNameTab.getString("saveTable") ?? "-";
+    });
+  }
+
+  void getCounts() async {
+    final SharedPreferences getCounts = await SharedPreferences.getInstance();
+    setState(() {
+      _countNum = getCounts.getInt("key") ?? 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _isStatusActive = false;
-    bool isButtonActive = true;
-    bool isButtonActive2 = true;
-
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, oreintation, deviceType) {
@@ -113,8 +136,8 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                       Container(
                         margin: EdgeInsets.only(
                             left: SizeConfig.blockHorizontal * 7),
-                        child: const Text(
-                          "07",
+                        child: Text(
+                          "$_countNum",
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 13,
@@ -126,8 +149,8 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                       Container(
                         margin: EdgeInsets.only(
                             left: SizeConfig.blockHorizontal * 8),
-                        child: const Text(
-                          "T-1",
+                        child: Text(
+                          "$_nameTable",
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 13,
@@ -225,14 +248,16 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                                     const ViewMenu()));
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ViewMenu()));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             const ViewMenu()));
                                       }
                                       setState(() {
                                         isButtonActive = false;
+                                        _countNum = 0;
+                                        _nameTable = "-";
                                       });
                                     }
                                   : null,
@@ -257,25 +282,11 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                               onPressed: isButtonActive2
                                   ? () async {
                                       if (cartProvider.carts.isEmpty) {
-                                        return null;
+                                        setState(() {
+                                          isButtonActive2 = false;
+                                        });
                                       } else if (cartProvider
-                                          .carts.isNotEmpty) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewBarPage()));
-                                        //handleOrder();
-                                        //showDialog(
-                                        //context: context,
-                                        //builder: (BuildContext context) =>
-                                        //_buildPopDialog(context),
-                                        //);
-                                      }
-
-                                      setState(() {
-                                        isButtonActive2 = false;
-                                      });
+                                          .carts.isNotEmpty) {}
                                     }
                                   : null,
                               child: const Text(
@@ -313,6 +324,19 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  String noteMenu = "";
+
+  @override
+  void initState() {
+    getNotes();
+    super.initState();
+  }
+
+  void getNotes() async {
+    final SharedPreferences getNote = await SharedPreferences.getInstance();
+    noteMenu = getNote.getString("Notes") ?? "-";
+  }
+
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -365,6 +389,332 @@ class _CartPageState extends State<CartPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  SizedBox(height: SizeConfig.blockVertical * 3),
+                  Container(
+                    height: SizeConfig.blockVertical * 10,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(" Transfer Menu",
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          )),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockVertical * 7,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Center(
+                      child: Text(
+                        "Selected Menu : " +
+                            "[ " +
+                            widget.cartModel.product.nameProduct +
+                            " ]",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockVertical * 7,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text("Notes : " + "$noteMenu",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          )),
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.blockVertical * 2),
+                  Container(
+                    height: SizeConfig.blockVertical * 0.2,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockVertical * 7,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Destination Table",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockVertical * 0.2,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.blockVertical * 2),
+                  Container(
+                    height: SizeConfig.blockVertical * 10,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 3,
+                                  top: SizeConfig.blockVertical * 3),
+                              child: Text(
+                                'Section/Floor : ',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 1,
+                                  top: SizeConfig.blockVertical * 2.5),
+                              width: SizeConfig.blockHorizontal * 64,
+                              height: SizeConfig.blockVertical * 5,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  hint: Container(
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockVertical * 2),
+                                    child: Text(
+                                      "Indoor",
+                                      style: TextStyle(
+                                        fontFamily: ' Montserrat',
+                                        fontSize: 12.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  elevation: 0,
+                                  items: _dropDownItem(),
+                                  onChanged: (value) {
+                                    switch (value) {
+                                      case 'Indoor':
+                                        // Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ViewBar()));
+                                        break;
+                                      case 'Outdoor':
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             ViewBar2()));
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.blockVertical * 10,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 3,
+                                  top: SizeConfig.blockVertical * 3),
+                              child: Text(
+                                'Table : ',
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 15,
+                                  top: SizeConfig.blockVertical * 2.5),
+                              width: SizeConfig.blockHorizontal * 64,
+                              height: SizeConfig.blockVertical * 5,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  hint: Container(
+                                    margin: EdgeInsets.only(
+                                        left: SizeConfig.blockVertical * 2),
+                                    child: Text(
+                                      "",
+                                      style: TextStyle(
+                                        fontFamily: ' Montserrat',
+                                        fontSize: 12.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  elevation: 0,
+                                  items: _dropDownItem2(),
+                                  onChanged: (value) {
+                                    switch (value) {
+                                      case '':
+                                        // Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ViewBar()));
+                                        break;
+                                      case '':
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             ViewBar2()));
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.blockVertical * 12),
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: SizeConfig.blockHorizontal * 4),
+                    height: SizeConfig.blockVertical * 13.5,
+                    width: SizeConfig.blockHorizontal * 100,
+                    child: Row(
+                      children: [
+                        SizedBox(width: SizeConfig.blockHorizontal * 3),
+                        GestureDetector(
+                          onTap: () async {
+                            setState(() {});
+                          },
+                          child: Container(
+                              margin: EdgeInsets.all(5),
+                              child: Text("+",
+                                  style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.indigoAccent.shade400))),
+                        ),
+                        SizedBox(width: SizeConfig.blockHorizontal * 8),
+                        Text(
+                          "0",
+                          style: const TextStyle(
+                              fontFamily: 'Rubik',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        SizedBox(width: SizeConfig.blockHorizontal * 8),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Text("-",
+                                  style: TextStyle(
+                                      fontFamily: 'Rubik',
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.indigoAccent.shade400))),
+                        ),
+                        SizedBox(width: SizeConfig.blockHorizontal * 8),
+                        Container(
+                          width: SizeConfig.blockHorizontal * 47,
+                          height: SizeConfig.blockVertical * 9,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                if (cartProvider.carts.isEmpty ||
+                                    cartProvider.carts.isNotEmpty) {
+                                  if (_n == 0) {
+                                    setState(() {});
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      duration: Duration(milliseconds: 500),
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        "Add Valid",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ));
+                                  } else if (_n > 0) {
+                                    setState(() {
+                                      if (_n < 1) {
+                                        setState(() {});
+                                      }
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        duration: Duration(milliseconds: 500),
+                                        backgroundColor: Colors.green,
+                                        content: Text(
+                                          "Add Success",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  child: const Text("Transefer Menu",
+                                      style: TextStyle(
+                                          fontFamily: 'Rubik',
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600))),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.indigoAccent.shade400,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
                 ]),
               ),
             );
@@ -414,14 +764,16 @@ class _CartPageState extends State<CartPage> {
                 ),
               ],
             ),
+            SizedBox(height: SizeConfig.blockVertical * 1),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   margin: EdgeInsets.only(
                       left: SizeConfig.blockHorizontal * 11.5,
                       top: SizeConfig.blockVertical * 1),
-                  child: const Text(
-                    "Dimsum isi Cumi dan keju\nrasanya yang lezat kaya akan gizi\ndengan keju yang meleleh di dalamnya\nmembuat dimsum\nini menjadi yang paling favorite",
+                  child: Text(
+                    "$noteMenu",
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 10,
@@ -430,253 +782,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                      left: SizeConfig.blockHorizontal * 10,
-                      bottom: SizeConfig.blockVertical * 0.3),
-                  child: TextButton(
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(45),
-                                    topRight: Radius.circular(45),
-                                  ),
-                                ),
-                                isScrollControlled: true,
-                                enableDrag: true,
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    height: SizeConfig.blockVertical * 87,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(45)),
-                                    child: SingleChildScrollView(
-                                      child: Column(children: [
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.blockVertical * 2,
-                                          ),
-                                          height: SizeConfig.blockVertical * 1,
-                                          width:
-                                              SizeConfig.blockHorizontal * 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                SizeConfig.blockVertical * 3),
-                                        Container(
-                                          height: SizeConfig.blockVertical * 10,
-                                          width:
-                                              SizeConfig.blockHorizontal * 100,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              widget.cartModel.product
-                                                      .nameProduct +
-                                                  "-Void",
-                                              style: const TextStyle(
-                                                fontSize: 19,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: 'Montserrat',
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: SizeConfig.blockVertical * 7,
-                                          width:
-                                              SizeConfig.blockHorizontal * 90,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: Container(
-                                            margin: EdgeInsets.only(
-                                                right:
-                                                    SizeConfig.blockHorizontal *
-                                                        40,
-                                                top: SizeConfig.blockVertical *
-                                                    2),
-                                            child: const Text(
-                                              "Reason :",
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.black,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                SizeConfig.blockVertical * 3),
-                                        Container(
-                                          height: SizeConfig.blockVertical * 35,
-                                          width:
-                                              SizeConfig.blockHorizontal * 90,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              border: Border.all(
-                                                color: Colors.black,
-                                                width: 1,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(6)),
-                                          child: const TextField(
-                                            maxLines: null,
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              hintText: '  Enter Reason',
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: SizeConfig.blockVertical * 8,
-                                          width:
-                                              SizeConfig.blockHorizontal * 90,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              const Text(
-                                                "Decrease Stock :",
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'Montserrat'),
-                                              ),
-                                              Switch(
-                                                  value: _isStatusActive,
-                                                  activeColor: Colors
-                                                      .indigoAccent.shade400,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      _isStatusActive =
-                                                          !_isStatusActive;
-                                                    });
-                                                  })
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          height: SizeConfig.blockVertical * 15,
-                                          width:
-                                              SizeConfig.blockHorizontal * 90,
-                                          margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockHorizontal * 3,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  add();
-                                                },
-                                                child: Container(
-                                                    margin: EdgeInsets.all(5),
-                                                    child: Text("+",
-                                                        style: TextStyle(
-                                                            fontFamily: 'Rubik',
-                                                            fontSize: 35,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: Colors
-                                                                .indigoAccent
-                                                                .shade400))),
-                                              ),
-                                              SizedBox(
-                                                  width: SizeConfig
-                                                          .blockHorizontal *
-                                                      3),
-                                              Text(
-                                                "$_n",
-                                                style: const TextStyle(
-                                                    fontFamily: 'Rubik',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
-                                              ),
-                                              SizedBox(
-                                                  width: SizeConfig
-                                                          .blockHorizontal *
-                                                      3),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  minus();
-                                                },
-                                                child: Container(
-                                                    margin:
-                                                        const EdgeInsets.all(5),
-                                                    child: Text("-",
-                                                        style: TextStyle(
-                                                            fontFamily: 'Rubik',
-                                                            fontSize: 35,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: Colors
-                                                                .indigoAccent
-                                                                .shade400))),
-                                              ),
-                                              Container(
-                                                height:
-                                                    SizeConfig.blockVertical *
-                                                        8,
-                                                width:
-                                                    SizeConfig.blockHorizontal *
-                                                        50,
-                                                decoration: BoxDecoration(
-                                                  color: Colors
-                                                      .indigoAccent.shade400,
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    "Void Product",
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: 'Rubik',
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Icon(Icons.inventory,
-                                color: Colors.red, size: 25)),
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
+                Container(),
               ],
             ),
           ],
@@ -684,4 +790,22 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+}
+
+List<DropdownMenuItem<String>> _dropDownItem() {
+  List<String> dll = ['Indoor', 'Outdoor'];
+  return dll
+      .map(
+        (value) => DropdownMenuItem(value: value, child: Text(value)),
+      )
+      .toList();
+}
+
+List<DropdownMenuItem<String>> _dropDownItem2() {
+  List<String> dll = ['', ''];
+  return dll
+      .map(
+        (value) => DropdownMenuItem(value: value, child: Text(value)),
+      )
+      .toList();
 }
