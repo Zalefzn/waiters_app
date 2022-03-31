@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/validation/menu_navbar.dart';
-import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/widgets/num_pad.dart';
+import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
+import 'package:flutter_mobile/screens/customer%20count/num_pad.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 
 import 'package:sizer/sizer.dart';
 

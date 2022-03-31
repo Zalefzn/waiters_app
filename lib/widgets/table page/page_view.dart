@@ -1,19 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
+import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/input_customer_count.dart';
-import 'package:flutter_mobile/screens/logout.dart';
-import 'package:flutter_mobile/screens/marge_table.dart';
-import 'package:flutter_mobile/screens/move_table.dart';
-import 'package:flutter_mobile/validation/method.dart';
+import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
+import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
-import 'package:flutter_mobile/validation/page_View2.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class ViewPage extends StatefulWidget {
   TextEditingController indoor = TextEditingController();

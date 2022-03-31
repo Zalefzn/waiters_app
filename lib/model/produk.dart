@@ -1,6 +1,3 @@
-import 'package:flutter_mobile/api/api_service.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
-
 class DataProduct {
   late int productId;
   late int idoutlet;

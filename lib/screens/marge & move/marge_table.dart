@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
+import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/outdoor_marge_table.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/validation/method.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -172,11 +171,6 @@ class _MargeTable extends State<MargeTable> {
                                                       MargeTable()));
                                           break;
                                         case 'Outdoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      OutMarge()));
                                       }
                                     },
                                   ),
@@ -336,18 +330,7 @@ class _TableCardState extends State<TableCard> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () async {
-            if (widget.tableProducts.tableName.isNotEmpty) {
-              setState(() {
-                pressed ? null : pressed = !pressed;
-              });
-            } else if (widget.tableProducts.tableName !=
-                widget.tableProducts.tableName.isEmpty) {
-              setState(() {
-                pressed2 ? null : pressed2 = !pressed2;
-              });
-            }
-          },
+          onTap: () {},
 
           // onTap: widget.tableProducts.idTable != null
           //     ? () async {

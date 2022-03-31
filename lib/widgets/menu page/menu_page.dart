@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/logout.dart';
-import 'package:flutter_mobile/validation/menu_navbar.dart';
-import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/widgets/product_page.dart';
-import 'package:item_selector/item_selector.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
-import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'package:flutter_mobile/api/api_service.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key? key}) : super(key: key);
@@ -401,7 +394,7 @@ class _CategoryPageState extends State<CategoryPage> {
         print(widget.category.idDepartement);
         print(widget.category.idOutlet);
         print(widget.category.categoryName);
-       
+
         //   if (widget.category.categoryName.contains("Extra")) {
         //     if (widget.category.idOutlet ==
         //         dataProduct.where((element) => element.idoutlet == 4)) {

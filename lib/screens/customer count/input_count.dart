@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/screens/logout.dart';
-import 'package:flutter_mobile/screens/marge_table.dart';
-import 'package:flutter_mobile/screens/move_table.dart';
-import 'package:flutter_mobile/screens/numpad_page.dart';
-
-import 'package:flutter_mobile/validation/method.dart';
-
-import 'package:flutter_mobile/validation/navbutton_page.dart';
-
+import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
+import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
+import 'package:flutter_mobile/screens/customer%20count/numpad_page.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
 
 class InputCount extends StatefulWidget {

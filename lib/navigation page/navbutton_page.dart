@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_mobile/validation/method.dart';
-
-import 'package:flutter_mobile/widgets/page_view.dart';
-import 'package:flutter_mobile/widgets/summery_page.dart';
-
+import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
+import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 

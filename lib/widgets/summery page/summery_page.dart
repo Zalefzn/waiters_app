@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
+import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/change_page_view.dart';
-import 'package:flutter_mobile/validation/menu_navbar.dart';
-import 'package:flutter_mobile/widgets/update_product_page.dart';
+import 'package:flutter_mobile/widgets/table%20page/change_page_view.dart';
+import 'package:flutter_mobile/widgets/menu%20page/update_product_page.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/screens/input_customer_count.dart';
+import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SummeryPage extends StatefulWidget {

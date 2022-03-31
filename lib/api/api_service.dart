@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/model/tokenModel.dart';

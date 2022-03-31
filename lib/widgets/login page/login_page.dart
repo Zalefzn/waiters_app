@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/screens/setting.dart';
-import 'package:flutter_mobile/validation/login_validation.dart';
-import 'package:flutter_mobile/validation/method.dart';
+import 'package:flutter_mobile/screens/setting%20&%20Logout/setting.dart';
+import 'package:flutter_mobile/validation/login%20validation/login_validation.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {

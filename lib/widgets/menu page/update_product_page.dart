@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobile/validation/method.dart';
-import 'package:flutter_mobile/validation/navbutton_page.dart';
+import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProductPage extends StatefulWidget {
