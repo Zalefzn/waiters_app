@@ -2,8 +2,37 @@ import 'dart:convert';
 
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/model/table.dart';
+import 'package:flutter_mobile/model/tokenModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+class AuthService {
+  Future<ModelToken> login({
+    required int pin,
+  }) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var baseUrl = sharedPreferences.getString("setApi");
+    print(baseUrl);
+    var url = '$baseUrl/pin';
+    var headers = {'Content-type': 'application/json'};
+    var body = jsonEncode({
+      "pin": pin,
+    });
+
+    var response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)["json"];
+      ModelToken pin = ModelToken.fromJson(data['pin']);
+      pin.token = 'bearer ' + data['access_token'];
+
+      return pin;
+    } else {
+      throw Exception('Gagal Login');
+    }
+  }
+}
 
 class TableService {
   Future<List<TableManagement>> getTable() async {
@@ -60,13 +89,6 @@ class DataService {
     } else {
       throw Exception('Gagal Get Product');
     }
-  }
-
-  static List<DataProduct> parseData(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed
-        .map<DataProduct>((json) => DataProduct.fromJson(json))
-        .toList();
   }
 }
 
@@ -127,7 +149,7 @@ class GetSection {
 }
 
 class UserModelApi {
-  Future<List<UserModel>> getUser() async {
+  Future<List<ModelUser>> getUser() async {
     SharedPreferences getUser = await SharedPreferences.getInstance();
     var baseUrl = getUser.getString("setApi");
     print(baseUrl);
@@ -141,12 +163,10 @@ class UserModelApi {
     print(response.body);
 
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)['data'];
-      List<UserModel> getuser = [];
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData["data"];
+      List<ModelUser> getuser = [];
 
-      for (var item in data) {
-        getuser.add(UserModel.fromJson(item));
-      }
       return getuser;
     } else {
       throw Exception('Gagal Get User');
@@ -207,6 +227,70 @@ class OrderService {
       return true;
     } else {
       throw Exception("Gagal Post");
+    }
+  }
+}
+
+class MargeCheck {
+  Future<bool> margeCheck(List<TableManagement> table) async {
+    SharedPreferences getOrder = await SharedPreferences.getInstance();
+    var getIdMarge = getOrder.getInt("saveMainTable");
+    var baseUrl = getOrder.getString("setApi");
+    var getIdChild = getOrder.getInt("saveChild");
+
+    print(getIdMarge);
+    print(baseUrl);
+
+    var url = '$baseUrl/session_table/merge';
+    var auth = getOrder.getString("access_token");
+    print(auth);
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer ${auth}",
+    };
+    var body = jsonEncode({
+      "child_tables": {
+        "0": [getIdChild],
+      },
+      "parent_tables": getIdMarge,
+    });
+    var response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+    print(response.body);
+    print(body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Gagal Marge");
+    }
+  }
+}
+
+class MoveCheck {
+  Future<bool> moveCheck(List<TableManagement> table) async {
+    SharedPreferences getMoveCheck = await SharedPreferences.getInstance();
+    var baseUrl = getMoveCheck.getString("setApi");
+    var url = '$baseUrl/session_table/move';
+    print(baseUrl);
+    var auth = getMoveCheck.getString("access_token");
+    print(auth);
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer ${auth}",
+    };
+    var body = jsonEncode({
+      "dest_table": 302,
+      "origin_table": 303,
+    });
+    var response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+    print(response.body);
+    print(body);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Gagal Move");
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/auth_providers.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
@@ -41,6 +40,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => OrderProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => MargeProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => MoveProvider(),
           ),
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {

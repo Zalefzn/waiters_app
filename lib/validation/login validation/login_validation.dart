@@ -23,8 +23,8 @@ class _ValidationLoginState extends State<ValidationLogin> {
 
   @override
   void initState() {
-    _isLoading = true;
-    Future.delayed(Duration(seconds: 2), () {
+    _isLoading = false;
+    Future.delayed(Duration(seconds: 3), () {
       setState(() {
         _isLoading = false;
       });

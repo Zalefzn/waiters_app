@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/providers/auth_providers.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/change_page_view.dart';
 import 'package:flutter_mobile/validation/menu_navbar.dart';
@@ -40,7 +39,7 @@ class _SummeryPage extends State<SummeryPage> {
   void getStatus() async {
     final SharedPreferences getName = await SharedPreferences.getInstance();
     setState(() {
-      _tableName = getName.getString("saveTable") ?? "noTable";
+      _tableName = getName.getString("saveTable") ?? "-";
     });
   }
 
@@ -234,6 +233,8 @@ class _SummeryPage extends State<SummeryPage> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     const ViewMenu()));
+                                        _tableName = "-";
+                                        _count = 0;
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
                                         showDialog(
@@ -241,6 +242,8 @@ class _SummeryPage extends State<SummeryPage> {
                                           builder: (BuildContext context) =>
                                               _buildPopDialog2(context),
                                         );
+                                        _tableName = "-";
+                                        _count = 0;
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -360,16 +363,28 @@ _buildPopDialog2(BuildContext context) {
             margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 0,
                 bottom: SizeConfig.blockVertical * 5),
-            height: SizeConfig.blockVertical * 15,
+            height: SizeConfig.blockVertical * 8,
             width: SizeConfig.blockHorizontal * 50,
             child: Center(
-              child: Text("Are You Sure Want to Leave ?",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  )),
+              child: Column(
+                children: [
+                  Text("Are You Sure you Want to Leave ?",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      )),
+                  SizedBox(height: SizeConfig.blockVertical * 1),
+                  Text("Your Order Will not be Processed",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      )),
+                ],
+              ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

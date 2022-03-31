@@ -1,35 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:flutter_mobile/widgets/login_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:provider/provider.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class LogOut extends StatefulWidget {
+  const LogOut({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<LogOut> createState() => _LogOutState();
 }
 
-class _SettingsState extends State<Settings> {
+class _LogOutState extends State<LogOut> {
+  String api = "";
+  @override
+  void initState() {
+    getUser();
+    getApiText();
+    super.initState();
+  }
+
+  getApiText() async {
+    final SharedPreferences getApi = await SharedPreferences.getInstance();
+    setState(() {
+      api = getApi.getString("setApi") ?? "-";
+    });
+  }
+
+  getUser() async {
+    await Provider.of<UserProvider>(context, listen: false).getUsers();
+  }
+
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
+  var getData;
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
   var formatedTahun = DateFormat.yMMMEd().format(today);
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+            leading: RaisedButton(
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              color: Colors.white,
+              elevation: 0,
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewBar(),
+                    ));
+              },
+            ),
             elevation: 1,
             backgroundColor: Colors.white,
             title: Container(
@@ -62,68 +99,70 @@ class _SettingsState extends State<Settings> {
                       ),
                       child: Stack(
                         children: [
-                          Center(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 0,
-                                  top: SizeConfig.blockVertical * 5),
-                              height: SizeConfig.blockVertical * 25,
-                              width: SizeConfig.blockHorizontal * 100,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        right:
-                                            SizeConfig.blockHorizontal * 44.5),
-                                    child: Text(
-                                      'Servers Name:      Qoligo Pos',
-                                      style: TextStyle(
-                                        fontFamily: ' Montserrat',
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey.shade400,
-                                      ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 0,
+                                top: SizeConfig.blockVertical * 0),
+                            height: SizeConfig.blockVertical * 25,
+                            width: SizeConfig.blockHorizontal * 100,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockHorizontal * 64),
+                                  child: Text(
+                                    'Servers Name : ',
+                                    style: TextStyle(
+                                      fontFamily: ' Montserrat',
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade400,
                                     ),
                                   ),
-                                  SizedBox(
-                                      height: SizeConfig.blockVertical * 2),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        right:
-                                            SizeConfig.blockHorizontal * 47.5),
-                                    child: Text(
-                                      'Clock in Time: ' +
-                                          '           ' +
-                                          formatedTanggal.toString(),
-                                      style: TextStyle(
-                                        fontFamily: ' Montserrat',
-                                        fontSize: 11.sp,
-                                        color: Colors.grey.shade400,
-                                        fontWeight: FontWeight.w800,
-                                      ),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockHorizontal * 47),
+                                  child: Text(
+                                    'Clock in Time: ' +
+                                        '           ' +
+                                        formatedTanggal.toString(),
+                                    style: TextStyle(
+                                      fontFamily: ' Montserrat',
+                                      fontSize: 10.sp,
+                                      color: Colors.grey.shade400,
+                                      fontWeight: FontWeight.w800,
                                     ),
                                   ),
-                                  SizedBox(
-                                      height: SizeConfig.blockVertical * 2),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        right: SizeConfig.blockHorizontal * 50),
-                                    child: Text(
-                                        '  Date:      ' +
-                                            ' ' +
-                                            formatedTahun.toString(),
-                                        style: TextStyle(
-                                            fontFamily: ' Montserrat',
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.w800,
-                                            color: Colors.grey.shade400)),
-                                  ),
-                                  SizedBox(
-                                      height: SizeConfig.blockVertical * 2),
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockHorizontal * 47),
+                                  child: Text(
+                                      'Date:      ' +
+                                          ' ' +
+                                          formatedTahun.toString(),
+                                      style: TextStyle(
+                                          fontFamily: ' Montserrat',
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.grey.shade400)),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      right: SizeConfig.blockHorizontal * 15),
+                                  child: Text('Local: ' + '  $api',
+                                      style: TextStyle(
+                                          fontFamily: ' Montserrat',
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.grey.shade400)),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -236,14 +275,17 @@ class _SettingsState extends State<Settings> {
                           height: SizeConfig.blockVertical * 10,
                           width: SizeConfig.blockHorizontal * 95,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              SharedPreferences removeAll =
+                                  await SharedPreferences.getInstance();
+                              removeAll.clear();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => LoginPage()));
                             },
                             child: Text(
-                              'Back',
+                              'Log Out',
                               style: TextStyle(
                                   fontFamily: 'Rubik',
                                   color: Colors.indigoAccent.shade400,
@@ -281,24 +323,26 @@ _buildPopDialog(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 0,
+                bottom: SizeConfig.blockVertical * 5),
+            height: SizeConfig.blockVertical * 15,
+            width: SizeConfig.blockHorizontal * 20,
+            child: Icon(
+              Icons.check_rounded,
+              color: Colors.blue.shade900,
+              size: 100,
+            )),
+        Container(
           margin: EdgeInsets.only(
-              left: SizeConfig.blockHorizontal * 0,
-              bottom: SizeConfig.blockVertical * 6),
-          height: SizeConfig.blockVertical * 16,
-          width: SizeConfig.blockHorizontal * 100,
-          color: Colors.white,
-          child: Icon(
-            Icons.check_rounded,
-            color: Colors.indigoAccent.shade400,
-            size: 130,
-          ),
+              left: SizeConfig.blockHorizontal * 5,
+              bottom: SizeConfig.blockVertical * 4),
+          child: Text("Ip Address Confirmed!",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
         ),
-        Text("Ip Address Confirmed!",
-            style: TextStyle(
-                fontFamily: ' Montserrat',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black)),
       ],
     ),
   ));

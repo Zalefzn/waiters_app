@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_mobile/validation/navbutton_page.dart';
 import 'package:flutter_mobile/validation/page_View2.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class ViewPage extends StatefulWidget {
   TextEditingController indoor = TextEditingController();
@@ -21,14 +24,14 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
-  bool _isLoading = true;
+  var loading = false;
 
   @override
   void initState() {
     if (mounted) {
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(Duration(milliseconds: 500), () {
         setState(() {
-          _isLoading = false;
+          loading = true;
         });
       });
     }
@@ -123,7 +126,7 @@ class _ViewPageState extends State<ViewPage> {
                                 margin: EdgeInsets.only(
                                     left: SizeConfig.blockHorizontal * 1,
                                     top: SizeConfig.blockVertical * 2.5),
-                                width: SizeConfig.blockHorizontal * 64,
+                                width: SizeConfig.blockHorizontal * 60,
                                 height: SizeConfig.blockVertical * 5,
                                 decoration: BoxDecoration(
                                     border: Border.all(
@@ -135,7 +138,7 @@ class _ViewPageState extends State<ViewPage> {
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockVertical * 2),
                                       child: Text(
-                                        "Indoor",
+                                        "Base Section",
                                         style: TextStyle(
                                           fontFamily: ' Montserrat',
                                           fontSize: 12.sp,
@@ -148,19 +151,20 @@ class _ViewPageState extends State<ViewPage> {
                                     items: _dropDownItem(),
                                     onChanged: (value) {
                                       switch (value) {
-                                        case 'Indoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar()));
+                                        case 'Base Section':
+
+                                          // Navigator.pushReplacement(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             ViewBar()));
                                           break;
-                                        case 'Outdoor':
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar2()));
+                                        case 'Section 001':
+                                        // Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             ViewBar2()));
                                       }
                                     },
                                   ),
@@ -177,33 +181,26 @@ class _ViewPageState extends State<ViewPage> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-            height: SizeConfig.blockVertical * 65.9,
-            width: SizeConfig.blockHorizontal * 100,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: RefreshIndicator(
-                onRefresh: _refresh,
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 0,
-                  padding: EdgeInsets.all(1),
-                  childAspectRatio: 1,
-                  children: tableProviders.tables
-                      .map((tableProducts) => TableCard(tableProducts))
-                      .toList(),
-                )),
-          )
+              margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
+              height: SizeConfig.blockVertical * 65.9,
+              width: SizeConfig.blockHorizontal * 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: GridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 1,
+                crossAxisSpacing: 0,
+                padding: EdgeInsets.all(1),
+                childAspectRatio: 1,
+                children: tableProviders.tables
+                    .map((tableProducts) => TableCard(tableProducts))
+                    .toList(),
+              )),
         ]),
       );
     });
   }
-}
-
-Future<void> _refresh() {
-  return Future.delayed(Duration(milliseconds: 300));
 }
 
 _buildPopupDialog(BuildContext context) {
@@ -295,7 +292,7 @@ _buildPopupDialog(BuildContext context) {
 }
 
 List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Indoor', 'Outdoor'];
+  List<String> dll = ['Base Section', 'Section 001'];
   return dll
       .map(
         (value) => DropdownMenuItem(value: value, child: Text(value)),
@@ -320,104 +317,23 @@ class _TableCardState extends State<TableCard> {
       children: [
         GestureDetector(
           onTap: () async {
+            widget.tableProducts.tableName != null;
+            SharedPreferences getOutlet = await SharedPreferences.getInstance();
+            getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
+            print(widget.tableProducts.idOutlet);
+            SharedPreferences getId = await SharedPreferences.getInstance();
+            getId.setInt("saveId", widget.tableProducts.idTable);
+            print(widget.tableProducts.idTable);
+            SharedPreferences getTable = await SharedPreferences.getInstance();
+
+            getTable.setString("saveTable", widget.tableProducts.tableName);
+            print(widget.tableProducts.tableName);
+
             setState(() {
               _hasBeenPressed = !_hasBeenPressed;
             });
-            if (widget.tableProducts.tableName.contains("T-1")) {
-              if (widget.tableProducts.tableName.contains("T-1")) {
-                SharedPreferences getOutlet =
-                    await SharedPreferences.getInstance();
-                getOutlet.setInt(
-                    "saveIdOutlete", widget.tableProducts.idOutlet);
-                print(widget.tableProducts.idOutlet);
-                SharedPreferences getId = await SharedPreferences.getInstance();
-                getId.setInt("saveId", widget.tableProducts.idTable);
-                print(widget.tableProducts.idTable);
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("saveTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-              }
-
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InputCustomer()));
-            } else if (widget.tableProducts.tableName.contains("T-2")) {
-              if (widget.tableProducts.tableName.contains("T-2")) {
-                SharedPreferences getOutlet =
-                    await SharedPreferences.getInstance();
-                getOutlet.setInt(
-                    "saveIdOutlete", widget.tableProducts.idOutlet);
-                print(widget.tableProducts.idOutlet);
-                SharedPreferences getId = await SharedPreferences.getInstance();
-
-                getId.setInt("saveId", widget.tableProducts.idTable);
-                print(widget.tableProducts.idTable);
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("saveTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InputCustomer()));
-            } else if (widget.tableProducts.tableName.contains("T-3")) {
-              if (widget.tableProducts.tableName.contains("T-3")) {
-                SharedPreferences getOutlet =
-                    await SharedPreferences.getInstance();
-                getOutlet.setInt(
-                    "saveIdOutlete", widget.tableProducts.idOutlet);
-                print(widget.tableProducts.idOutlet);
-                SharedPreferences getId = await SharedPreferences.getInstance();
-
-                getId.setInt("saveId", widget.tableProducts.idTable);
-                print(widget.tableProducts.idTable);
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("saveTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InputCustomer()));
-            } else if (widget.tableProducts.tableName.contains("T-4")) {
-              if (widget.tableProducts.tableName.contains("T-4")) {
-                SharedPreferences getOutlet =
-                    await SharedPreferences.getInstance();
-                getOutlet.setInt(
-                    "saveIdOutlete", widget.tableProducts.idOutlet);
-                print(widget.tableProducts.idOutlet);
-                SharedPreferences getId = await SharedPreferences.getInstance();
-
-                getId.setInt("saveId", widget.tableProducts.idTable);
-                print(widget.tableProducts.idTable);
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("saveTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InputCustomer()));
-            } else if (widget.tableProducts.tableName.contains("T-5")) {
-              SharedPreferences getOutlet =
-                  await SharedPreferences.getInstance();
-              getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
-              print(widget.tableProducts.idOutlet);
-              SharedPreferences getId = await SharedPreferences.getInstance();
-
-              getId.setInt("saveId", widget.tableProducts.idTable);
-              print(widget.tableProducts.idTable);
-              if (widget.tableProducts.tableName.contains("T-5")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("saveTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InputCustomer()));
-            }
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => InputCustomer()));
           },
           child: Container(
             margin: EdgeInsets.only(

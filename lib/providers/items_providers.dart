@@ -1,8 +1,33 @@
 import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/tokenModel.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AuthProviders with ChangeNotifier {
+  late ModelToken _pin;
+
+  ModelToken get pin => _pin;
+  set pin(ModelToken pin) {
+    pin = _pin;
+    notifyListeners();
+  }
+
+  Future<bool> login({
+    required pin,
+  }) async {
+    try {
+      ModelToken basePin = await AuthService().login(pin: pin);
+      _pin = basePin;
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+}
 
 class TableProviders with ChangeNotifier {
   List<TableManagement> _tables = [];
@@ -24,7 +49,7 @@ class TableProviders with ChangeNotifier {
 
 class ProductProviders with ChangeNotifier {
   List<DataProduct> _barangs = [];
-
+  var product = [];
   List<DataProduct> get products => _barangs;
   set products(List<DataProduct> barangs) {
     notifyListeners();
@@ -116,6 +141,7 @@ class CartProvider with ChangeNotifier {
 
 class ProductCategorys with ChangeNotifier {
   List<ProductCategory> _category = [];
+
   List<ProductCategory> get categorys => _category;
 
   set category(List<ProductCategory> _category) {
@@ -150,18 +176,48 @@ class SectionTable with ChangeNotifier {
 }
 
 class UserProvider with ChangeNotifier {
-  List<UserModel> _user = [];
-  List<UserModel> get users => _user;
+  List<ModelUser> _user = [];
+  List<ModelUser> get users => _user;
 
-  set users(List<UserModel> _user) {
+  set users(List<ModelUser> _user) {
     notifyListeners();
   }
 
   Future<void> getUsers() async {
     try {
-      List<UserModel> getUsers = await UserModelApi().getUser();
+      List<ModelUser> getUsers = await UserModelApi().getUser();
     } catch (e) {
       print(e);
+    }
+  }
+}
+
+class MargeProvider with ChangeNotifier {
+  Future<bool> margeCheck(List<TableManagement> table) async {
+    try {
+      if (await MargeCheck().margeCheck(table)) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (d) {
+      print(d);
+      return false;
+    }
+  }
+}
+
+class MoveProvider with ChangeNotifier {
+  Future<bool> moveCheck(List<TableManagement> table) async {
+    try {
+      if (await MoveCheck().moveCheck(table)) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/logout.dart';
+import 'package:flutter_mobile/validation/menu_navbar.dart';
 import 'package:flutter_mobile/validation/method.dart';
 import 'package:flutter_mobile/widgets/product_page.dart';
+import 'package:item_selector/item_selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:flutter_mobile/api/api_service.dart';
 
 class MenuPage extends StatefulWidget {
@@ -18,8 +22,6 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  // List<DataProduct> dataProduct = [];
-
   TextEditingController searchController = TextEditingController();
   bool isActiveBotton = false;
   bool buttonPressed = false;
@@ -28,6 +30,7 @@ class _MenuPageState extends State<MenuPage> {
   void initState() {
     getCategory();
     getProducts();
+
     // DataService.getDataPro().then((value) {
     //   setState(() {
     //     dataProduct = value;
@@ -274,22 +277,23 @@ class _MenuPageState extends State<MenuPage> {
               height: SizeConfig.blockVertical * 54,
               width: SizeConfig.blockHorizontal * 100,
               color: Colors.white,
-              // child: GridView.builder(
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 2,
-              //       mainAxisSpacing: 2,
-              //       crossAxisSpacing: 1,
-              //       childAspectRatio: 1,
-              //     ),
-              //     // itemCount: //dataProduct.length,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Card(
-              //         child: Column(children: [
-              //           Text(dataProduct[index].nameProduct),
-              //         ]),
-              //       );
-              //     })
-              child: GridView.count(
+              child:
+                  // child: GridView.builder(
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2,
+                  //       mainAxisSpacing: 2,
+                  //       crossAxisSpacing: 1,
+                  //       childAspectRatio: 1,
+                  //     ),
+                  //     // itemCount: //dataProduct.length,
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return Card(
+                  //         child: Column(children: [
+                  //           Text(dataProduct[index].nameProduct),
+                  //         ]),
+                  //       );
+                  //     })
+                  GridView.count(
                 crossAxisCount: 2,
                 mainAxisSpacing: 2,
                 crossAxisSpacing: 1,
@@ -307,18 +311,25 @@ class _MenuPageState extends State<MenuPage> {
   }
 }
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final DataProduct product;
   ProductCard(this.product);
 
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
           onTap: () async {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ProductPage(product)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductPage(widget.product)));
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -332,7 +343,7 @@ class ProductCard extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.blockVertical * 1),
-                Image.network(product.gambarUrl,
+                Image.network(widget.product.gambarUrl,
                     height: 100, width: 130, fit: BoxFit.fill),
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
@@ -340,7 +351,7 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          product.nameProduct,
+                          widget.product.nameProduct,
                           style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -350,7 +361,7 @@ class ProductCard extends StatelessWidget {
                       SizedBox(height: SizeConfig.blockVertical * 1),
                       Center(
                         child: Text(
-                          product.hargaProduct,
+                          widget.product.hargaProduct,
                           style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
@@ -370,7 +381,8 @@ class ProductCard extends StatelessWidget {
 }
 
 class CategoryPage extends StatefulWidget {
-  final ProductCategory category;
+  late ProductCategory category;
+
   CategoryPage(this.category);
 
   @override
@@ -378,50 +390,67 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  List<DataProduct> dataProduct = [];
   bool buttonPressed = false;
 
   @override
   Widget build(BuildContext context) {
+    ProductProviders product = Provider.of<ProductProviders>(context);
     return GestureDetector(
       onTap: () async {
-        if (widget.category.categoryName.contains("Extra")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          //  Navigator.push(
-          //         context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        } else if (widget.category.categoryName.contains("Meal")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          //Navigator.push(
-          //context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        } else if (widget.category.categoryName.contains("Non-Coffe")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          //Navigator.push(
-          //context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        } else if (widget.category.categoryName.contains("Coffe")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        } else if (widget.category.categoryName.contains("Food")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        } else if (widget.category.categoryName.contains("Dessert")) {
-          setState(() {
-            buttonPressed = !buttonPressed;
-          });
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        }
+        print(widget.category.idCategory);
+        print(widget.category.idDepartement);
+        print(widget.category.idOutlet);
+        print(widget.category.categoryName);
+       
+        //   if (widget.category.categoryName.contains("Extra")) {
+        //     if (widget.category.idOutlet ==
+        //         dataProduct.where((element) => element.idoutlet == 4)) {
+        //       setState(() {});
+        //     } else if (widget.category.idDepartement ==
+        //         dataProduct.where((i) => i.idepart == 9)) {
+        //       setState(() {});
+        //     } else if (widget.category.idCategory ==
+        //         dataProduct.where((z) => z.idProCategory == 39)) {
+        //       setState(() {});
+        //     }
+        //     Navigator.push(
+        //         context, MaterialPageRoute(builder: (context) => ViewMenu()));
+
+        //     // kalo tombol extra di klik maka tombol ini akan memfilter data berdasarakan
+        //     //id product, id category , id departement product
+
+        //   } else if (widget.category.categoryName.contains("Meal")) {
+        //     setState(() {
+        //       buttonPressed = !buttonPressed;
+        //     });
+
+        //     //Navigator.push(
+        //     //context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        //   } else if (widget.category.categoryName.contains("Non-Coffe")) {
+        //     setState(() {
+        //       buttonPressed = !buttonPressed;
+        //     });
+        //     //Navigator.push(
+        //     //context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        //   } else if (widget.category.categoryName.contains("Coffe")) {
+        //     setState(() {
+        //       buttonPressed = !buttonPressed;
+        //     });
+        //     // Navigator.push(
+        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        //   } else if (widget.category.categoryName.contains("Food")) {
+        //     setState(() {
+        //       buttonPressed = !buttonPressed;
+        //     });
+        //     // Navigator.push(
+        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        //   } else if (widget.category.categoryName.contains("Dessert")) {
+        //     setState(() {
+        //       buttonPressed = !buttonPressed;
+        //     });
+        //     // Navigator.push(
+        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
+        //   }
       },
       child: Container(
         margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),

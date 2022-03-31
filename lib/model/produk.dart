@@ -1,3 +1,6 @@
+import 'package:flutter_mobile/api/api_service.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
+
 class DataProduct {
   late int productId;
   late int idoutlet;
@@ -91,6 +94,7 @@ class ProductCategory {
   late int idDepartement;
   late int idOutlet;
   late int idCategory;
+  late DataProduct product;
 
   ProductCategory({
     required this.categoryName,
@@ -116,7 +120,7 @@ class ProductCategory {
   }
 }
 
-class UserModel {
+class ModelUser {
   late int idCompany;
   late int idOutlet;
   late int idStaff;
@@ -128,7 +132,7 @@ class UserModel {
   late String staffUsername;
   late String updatedAt;
 
-  UserModel({
+  ModelUser({
     required this.idCompany,
     required this.idOutlet,
     required this.idStaff,
@@ -141,7 +145,7 @@ class UserModel {
     required this.updatedAt,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  ModelUser.fromJson(Map<String, dynamic> json) {
     idCompany = json['id_company'];
     idOutlet = json['id_outlet'];
     idStaff = json['id_staff'];

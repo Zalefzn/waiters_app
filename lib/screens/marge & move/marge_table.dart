@@ -19,6 +19,11 @@ class _MargeTable extends State<MargeTable> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
+    MargeProvider margeProvider = Provider.of<MargeProvider>(context);
+
+    handleMarge() async {
+      if (await margeProvider.margeCheck(tableProviders.tables)) {}
+    }
 
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -74,9 +79,16 @@ class _MargeTable extends State<MargeTable> {
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockHorizontal * 13),
                           child: RaisedButton(
-                            onPressed: () {
-                              _saveName = "";
-                              _saveChild = "";
+                            onPressed: () async {
+                              SharedPreferences removeMainMarge =
+                                  await SharedPreferences.getInstance();
+                              removeMainMarge.remove("nameMainTable");
+                              print(removeMainMarge);
+                              SharedPreferences removeChildMarge =
+                                  await SharedPreferences.getInstance();
+                              removeChildMarge.remove("getNamechild");
+                              _saveMainMarge = "-";
+                              _saveChildMarge = "-";
                             },
                             child: Text(
                               "Clear",
@@ -128,7 +140,7 @@ class _MargeTable extends State<MargeTable> {
                                 margin: EdgeInsets.only(
                                     left: SizeConfig.blockHorizontal * 3,
                                     top: SizeConfig.blockVertical * 3),
-                                width: SizeConfig.blockHorizontal * 64,
+                                width: SizeConfig.blockHorizontal * 60,
                                 height: SizeConfig.blockVertical * 6,
                                 decoration: BoxDecoration(
                                     border: Border.all(
@@ -216,13 +228,14 @@ class _MargeTable extends State<MargeTable> {
                   ),
                 ),
                 onPressed: () async {
+                  handleMarge();
                   SharedPreferences getTabMain =
                       await SharedPreferences.getInstance();
-                  var getTab = getTabMain.getString("MainTable");
+                  var getTab = getTabMain.getString("nameMainTable");
                   print(getTab);
                   SharedPreferences getTabMarge =
                       await SharedPreferences.getInstance();
-                  var getMarge = getTabMarge.getString("ChildTable");
+                  var getMarge = getTabMarge.getString("getNamechild");
                   print(getMarge);
 
                   Navigator.push(context,
@@ -253,14 +266,14 @@ addContent() {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Main Table : " + "$_saveName",
+                Text("Main Table : " + "$_saveMainMarge",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     )),
                 Text(
-                  "Merged Table :" + "$_saveChild",
+                  "Merged Table :" + "$_saveChildMarge",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -276,8 +289,8 @@ addContent() {
   );
 }
 
-String _saveName = "";
-String _saveChild = "";
+String _saveMainMarge = "";
+String _saveChildMarge = "";
 
 List<DropdownMenuItem<String>> _dropDownItem() {
   List<String> dll = ['Indoor', 'Outdoor'];
@@ -297,30 +310,26 @@ class TableCard extends StatefulWidget {
 }
 
 class _TableCardState extends State<TableCard> {
-  bool _hasBeenPressed = false;
-  bool pressed = false;
-  bool pressed2 = false;
-
   @override
   void initState() {
+    getNameMain();
+    getChildName();
     super.initState();
-    getChild();
-    getName();
   }
 
-  void getChild() async {
-    SharedPreferences getChild = await SharedPreferences.getInstance();
-    setState(() {
-      _saveChild = getChild.getString("ChildTable") ?? "-";
-    });
+  void getNameMain() async {
+    SharedPreferences getName = await SharedPreferences.getInstance();
+    _saveMainMarge = getName.getString("nameMainTable") ?? "";
   }
 
-  void getName() async {
-    final SharedPreferences getTable = await SharedPreferences.getInstance();
-    setState(() {
-      _saveName = getTable.getString("MainTable") ?? "-";
-    });
+  void getChildName() async {
+    SharedPreferences getChildName = await SharedPreferences.getInstance();
+    _saveChildMarge = getChildName.getString("getNamechild") ?? "";
   }
+
+  var _hasBeenPressed = false;
+  var pressed = false;
+  var pressed2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -328,132 +337,211 @@ class _TableCardState extends State<TableCard> {
       children: [
         GestureDetector(
           onTap: () async {
-            if (widget.tableProducts.tableName.contains("T-1")) {
-              if (widget.tableProducts.tableName.contains("T-1")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString("MainTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-                pressed
-                    ? null
-                    : setState(() {
-                        pressed = !pressed;
-                        _hasBeenPressed = !_hasBeenPressed;
-                        // if (pressed) {
-                        //   setState(() {
-                        //     pressed == null;
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     pressed = !pressed;
-                        //     _hasBeenPressed = !_hasBeenPressed;
-                        //   });
-                        // }
-                      });
-              }
-            } else if (widget.tableProducts.tableName.contains("T-2")) {
-              if (widget.tableProducts.tableName.contains("T-2")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString(
-                    "ChildTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-                pressed2
-                    ? null
-                    : setState(() {
-                        pressed2 = !pressed2;
-                        _hasBeenPressed = !_hasBeenPressed;
-                        // if (pressed2) {
-                        //   setState(() {
-                        //     pressed2 == null;
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     pressed2 = !pressed2;
-                        //     _hasBeenPressed = !_hasBeenPressed;
-                        //   });
-                        // }
-                      });
-              }
-            } else if (widget.tableProducts.tableName.contains("T-3")) {
-              if (widget.tableProducts.tableName.contains("T-3")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString(
-                    "ChildTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-                pressed2
-                    ? null
-                    : setState(() {
-                        pressed2 = !pressed2;
-                        _hasBeenPressed = !_hasBeenPressed;
-                        // if (pressed2) {
-                        //   setState(() {
-                        //     pressed2 == null;
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     pressed2 = !pressed2;
-                        //     _hasBeenPressed = !_hasBeenPressed;
-                        //   });
-                        // }
-                      });
-              }
-            } else if (widget.tableProducts.tableName.contains("T-4")) {
-              if (widget.tableProducts.tableName.contains("T-4")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString(
-                    "ChildTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-                pressed2
-                    ? null
-                    : setState(() {
-                        pressed2 = !pressed2;
-                        _hasBeenPressed = !_hasBeenPressed;
-                        // if (pressed2) {
-                        //   setState(() {
-                        //     pressed2 == null;
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     pressed2 = !pressed2;
-                        //     _hasBeenPressed = !_hasBeenPressed;
-                        //   });
-                        // }
-                      });
-              }
-            } else if (widget.tableProducts.tableName.contains("T-5")) {
-              if (widget.tableProducts.tableName.contains("T-5")) {
-                SharedPreferences getTable =
-                    await SharedPreferences.getInstance();
-
-                getTable.setString(
-                    "ChildTable", widget.tableProducts.tableName);
-                print(widget.tableProducts.tableName);
-                pressed2
-                    ? null
-                    : setState(() {
-                        pressed2 = !pressed2;
-                        _hasBeenPressed = !_hasBeenPressed;
-                        // if (pressed2) {
-                        //   setState(() {
-                        //     pressed2 == null;
-                        //   });
-                        // } else {
-                        //   setState(() {
-                        //     pressed2 = !pressed2;
-                        //     _hasBeenPressed = !_hasBeenPressed;
-                        //   });
-                        // }
-                      });
-              }
+            if (widget.tableProducts.tableName.isNotEmpty) {
+              setState(() {
+                pressed ? null : pressed = !pressed;
+              });
+            } else if (widget.tableProducts.tableName !=
+                widget.tableProducts.tableName.isEmpty) {
+              setState(() {
+                pressed2 ? null : pressed2 = !pressed2;
+              });
             }
           },
+
+          // onTap: widget.tableProducts.idTable != null
+          //     ? () async {
+          //         SharedPreferences saveNameTable =
+          //             await SharedPreferences.getInstance();
+          //         saveNameTable.setString(
+          //             "nameTable", widget.tableProducts.tableName);
+          //         print(widget.tableProducts.tableName);
+          //         SharedPreferences saveMainTable =
+          //             await SharedPreferences.getInstance();
+          //         saveMainTable.setInt(
+          //             "saveMainTable", widget.tableProducts.idTable);
+          //         print(widget.tableProducts.idTable);
+          //         setState(() {
+          //           pressed ? null : pressed = !pressed;
+          //         });
+          //       }
+          //     : () {},
+
+          // SharedPreferences setChild =
+          //     await SharedPreferences.getInstance();
+          // setChild.setInt("saveIdChild", widget.tableProducts.idTable);
+          // print(widget.tableProducts.idTable);
+          // setState(() {
+          //   pressed2 ? null : pressed2 = !pressed2;
+          // });
+
+          // : () async {
+          //     SharedPreferences setChildTable =
+          //         await SharedPreferences.getInstance();
+          //     setChildTable.setInt(
+          //         "nameChild", widget.tableProducts.idTable);
+          //     print(widget.tableProducts.idTable);
+          //     SharedPreferences setNameTable =
+          //         await SharedPreferences.getInstance();
+          //     setNameTable.setString(
+          //         "saveNameTab", widget.tableProducts.tableName);
+          //     print(widget.tableProducts.tableName);
+          //     setState(() {
+          //       pressed2 ? null : pressed2 = !pressed2;
+          //     });
+          //   },
+          // onTap: widget.tableProducts.tableName.isNotEmpty
+          //     ? null
+          //     : () async {
+          //         if (widget.tableProducts.tableName.isNotEmpty) {
+          //           SharedPreferences saveIdTable =
+          //               await SharedPreferences.getInstance();
+          //           saveIdTable.setInt(
+          //               "saveMarge", widget.tableProducts.idTable);
+          //           print(widget.tableProducts.idTable);
+          //           setState(() {
+          //             pressed ? null : pressed = !pressed;
+          //           });
+          //         }
+          //         widget.tableProducts.tableName.isEmpty
+          //             ? () async {
+          //                 if (widget.tableProducts.tableName.isEmpty) {
+          //                   SharedPreferences saveIdChild =
+          //                       await SharedPreferences.getInstance();
+
+          //                   saveIdChild.setInt(
+          //                       "saveChild", widget.tableProducts.idTable);
+          //                   print(widget.tableProducts.idTable);
+          //                   setState(() {
+          //                     pressed2 ? null : pressed2 = !pressed2;
+          //                   });
+          //                 }
+          //               }
+          //             : null;
+
+          // if (widget.tableProducts.tableName == "T-1") {
+
+          // } else if (widget.tableProducts.tableName != "T-1"
+          //   ) {
+
+          // }
+
+          // if (pressed) {
+          //   setState(() {
+          //     pressed == null;
+          //   });
+          // } else {
+          //   setState(() {
+          //     pressed = !pressed;
+          //     _hasBeenPressed = !_hasBeenPressed;
+          //   });
+          // }
+
+          // if (widget.tableProducts.tableName.contains("T-1")) {
+          //   if (widget.tableProducts.tableName.contains("T-1")) {
+
+          // } else if (widget.tableProducts.tableName.contains("T-2")) {
+          //   if (widget.tableProducts.tableName.contains("T-2")) {
+          //     SharedPreferences getTable =
+          //         await SharedPreferences.getInstance();
+
+          //     getTable.setString(
+          //         "ChildTable", widget.tableProducts.tableName);
+          //     print(widget.tableProducts.tableName);
+          //     pressed2
+          //         ? null
+          //         : setState(() {
+          //             pressed2 = !pressed2;
+          //             _hasBeenPressed = !_hasBeenPressed;
+          //             // if (pressed2) {
+          //             //   setState(() {
+          //             //     pressed2 == null;
+          //             //   });
+          //             // } else {
+          //             //   setState(() {
+          //             //     pressed2 = !pressed2;
+          //             //     _hasBeenPressed = !_hasBeenPressed;
+          //             //   });
+          //             // }
+          //           });
+          //   }
+          // } else if (widget.tableProducts.tableName.contains("T-3")) {
+          //   if (widget.tableProducts.tableName.contains("T-3")) {
+          //     SharedPreferences getTable =
+          //         await SharedPreferences.getInstance();
+
+          //     getTable.setString(
+          //         "ChildTable", widget.tableProducts.tableName);
+          //     print(widget.tableProducts.tableName);
+          //     pressed2
+          //         ? null
+          //         : setState(() {
+          //             pressed2 = !pressed2;
+          //             _hasBeenPressed = !_hasBeenPressed;
+          //             // if (pressed2) {
+          //             //   setState(() {
+          //             //     pressed2 == null;
+          //             //   });
+          //             // } else {
+          //             //   setState(() {
+          //             //     pressed2 = !pressed2;
+          //             //     _hasBeenPressed = !_hasBeenPressed;
+          //             //   });
+          //             // }
+          //           });
+          //   }
+          // } else if (widget.tableProducts.tableName.contains("T-4")) {
+          //   if (widget.tableProducts.tableName.contains("T-4")) {
+          //     SharedPreferences getTable =
+          //         await SharedPreferences.getInstance();
+
+          //     getTable.setString(
+          //         "ChildTable", widget.tableProducts.tableName);
+          //     print(widget.tableProducts.tableName);
+          //     pressed2
+          //         ? null
+          //         : setState(() {
+          //             pressed2 = !pressed2;
+          //             _hasBeenPressed = !_hasBeenPressed;
+          //             // if (pressed2) {
+          //             //   setState(() {
+          //             //     pressed2 == null;
+          //             //   });
+          //             // } else {
+          //             //   setState(() {
+          //             //     pressed2 = !pressed2;
+          //             //     _hasBeenPressed = !_hasBeenPressed;
+          //             //   });
+          //             // }
+          //           });
+          //   }
+          // } else if (widget.tableProducts.tableName.contains("T-5")) {
+          //   if (widget.tableProducts.tableName.contains("T-5")) {
+          //     SharedPreferences getTable =
+          //         await SharedPreferences.getInstance();
+
+          //     getTable.setString(
+          //         "ChildTable", widget.tableProducts.tableName);
+          //     print(widget.tableProducts.tableName);
+          //     pressed2
+          //         ? null
+          //         : setState(() {
+          //             pressed2 = !pressed2;
+          //             _hasBeenPressed = !_hasBeenPressed;
+          //             // if (pressed2) {
+          //             //   setState(() {
+          //             //     pressed2 == null;
+          //             //   });
+          //             // } else {
+          //             //   setState(() {
+          //             //     pressed2 = !pressed2;
+          //             //     _hasBeenPressed = !_hasBeenPressed;
+          //             //   });
+          //             // }
+          //           });
+          //   }
+          // }
+          // }
           child: Container(
             margin: EdgeInsets.only(
                 top: SizeConfig.blockVertical * 2,
