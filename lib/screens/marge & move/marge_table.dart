@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/table.dart';
 import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class MargeTable extends StatefulWidget {
   const MargeTable({Key? key}) : super(key: key);
@@ -17,8 +17,12 @@ class MargeTable extends StatefulWidget {
 class _MargeTable extends State<MargeTable> {
   @override
   Widget build(BuildContext context) {
+    bool buttonPressed = false;
+    var margeTable = "";
+    var childTable = [];
+
     TableProviders tableProviders = Provider.of<TableProviders>(context);
-    MargeProvider margeProvider = Provider.of<MargeProvider>(context);
+    MargeProviders margeProvider = Provider.of<MargeProviders>(context);
 
     handleMarge() async {
       if (await margeProvider.margeCheck(tableProviders.tables)) {}
@@ -26,17 +30,17 @@ class _MargeTable extends State<MargeTable> {
 
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
               height: SizeConfig.blockVertical * 28,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: backgroundClor,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.shade300,
+                    color: buttonNavbar2,
                     spreadRadius: 2,
                     blurRadius: 7,
                     offset: Offset(0, 2), // changes position of shadow
@@ -46,7 +50,7 @@ class _MargeTable extends State<MargeTable> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 5),
+                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 7),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -64,39 +68,29 @@ class _MargeTable extends State<MargeTable> {
                         ),
                         Container(
                             margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 23,
+                              left: SizeConfig.blockHorizontal * 20,
                             ),
                             child: Text(
                               "Marge Table",
-                              style: TextStyle(
+                              style: margeStyle.copyWith(
                                 fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                             )),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 13),
+                              left: SizeConfig.blockHorizontal * 10),
                           child: RaisedButton(
                             onPressed: () async {
-                              SharedPreferences removeMainMarge =
-                                  await SharedPreferences.getInstance();
-                              removeMainMarge.remove("nameMainTable");
-                              print(removeMainMarge);
-                              SharedPreferences removeChildMarge =
-                                  await SharedPreferences.getInstance();
-                              removeChildMarge.remove("getNamechild");
                               _saveMainMarge = "-";
                               _saveChildMarge = "-";
                             },
                             child: Text(
                               "Clear",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blue[600]),
+                              style: clearStyle.copyWith(
+                                fontSize: 12.sp,
+                              ),
                             ),
-                            color: Colors.white,
+                            color: backgroundClor,
                             elevation: 0,
                           ),
                         ),
@@ -108,14 +102,14 @@ class _MargeTable extends State<MargeTable> {
                     height: SizeConfig.blockVertical * 0.1,
                     width: SizeConfig.blockHorizontal * 90,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
+                      color: textColor3,
                     ),
                   ),
                   Container(
                     height: SizeConfig.blockVertical * 10,
                     width: SizeConfig.blockHorizontal * 100,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: backgroundClor,
                     ),
                     child: Stack(
                       children: [
@@ -129,10 +123,7 @@ class _MargeTable extends State<MargeTable> {
                                 ),
                                 child: Text(
                                   'Section/Floor :',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: floor.copyWith(fontSize: 12.sp),
                                 ),
                               ),
                               Container(
@@ -142,8 +133,8 @@ class _MargeTable extends State<MargeTable> {
                                 width: SizeConfig.blockHorizontal * 60,
                                 height: SizeConfig.blockVertical * 6,
                                 decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.black),
+                                    border:
+                                        Border.all(width: 1, color: bordeSide),
                                     borderRadius: BorderRadius.circular(10)),
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
@@ -151,7 +142,7 @@ class _MargeTable extends State<MargeTable> {
                                       margin: EdgeInsets.only(
                                           left: SizeConfig.blockHorizontal * 2),
                                       child: Text(
-                                        'Indoor',
+                                        'Base Section',
                                         style: TextStyle(
                                           fontSize: 12.sp,
                                           color: Colors.black,
@@ -163,14 +154,14 @@ class _MargeTable extends State<MargeTable> {
                                     items: _dropDownItem(),
                                     onChanged: (value) {
                                       switch (value) {
-                                        case 'Indoor':
+                                        case 'Base Section':
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       MargeTable()));
                                           break;
-                                        case 'Outdoor':
+                                        case 'Section 001':
                                       }
                                     },
                                   ),
@@ -188,28 +179,96 @@ class _MargeTable extends State<MargeTable> {
             SizedBox(height: SizeConfig.blockVertical * 2),
             addContent(),
             Container(
-              height: SizeConfig.blockVertical * 50,
-              width: SizeConfig.blockHorizontal * 100,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 0,
-                padding: const EdgeInsets.all(1),
-                childAspectRatio: 1,
-                children: tableProviders.tables
-                    .map((tableProducts) => TableCard(tableProducts))
-                    .toList(),
-              ),
-            ),
+                height: SizeConfig.blockVertical * 50,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(
+                  color: backgroundClor,
+                ),
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 1,
+                      childAspectRatio: 1,
+                    ),
+                    itemCount: tableProviders.tables.length,
+                    itemBuilder: (context, j) {
+                      final b = tableProviders.tables[j];
+
+                      return Row(
+                        children: [
+                          GestureDetector(
+                            //Logik untuk memangil data berupa child dan parent
+                            onTap: () async {
+                              if (margeTable == "") {
+                                margeTable = b.idTable.toString();
+                                SharedPreferences setMargeTable =
+                                    await SharedPreferences.getInstance();
+                                setMargeTable.setInt("MainMarge", b.idTable);
+                                print(margeTable);
+                              } else {
+                                if (margeTable != b.idTable) {
+                                  if (childTable != 0) {
+                                    childTable.add(b.idTable);
+
+                                    var isTableExist = childTable
+                                        .where((data) => data == b.idTable);
+                                    if (isTableExist == 0) {
+                                      childTable.add(b.idTable);
+                                    }
+                                    SharedPreferences setMargeTable =
+                                        await SharedPreferences.getInstance();
+                                    setMargeTable.setInt(
+                                        "ChildTable", b.idTable);
+                                    print(isTableExist);
+                                  }
+                                }
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockVertical * 2,
+                                  left: SizeConfig.blockHorizontal * 2.5),
+                              height: SizeConfig.blockVertical * 25,
+                              width: SizeConfig.blockHorizontal * 46,
+                              decoration: BoxDecoration(
+                                color: buttonPressed ? buttonColor : textColor3,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      b.tableName,
+                                      style:
+                                          textButton.copyWith(fontSize: 20.sp),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    })
+                // child: GridView.count(
+                //   crossAxisCount: 2,
+                //   mainAxisSpacing: 1,
+                //   crossAxisSpacing: 0,
+                //   padding: const EdgeInsets.all(1),
+                //   childAspectRatio: 1,
+                //   children: tableProviders.tables
+                //       .map((tableProducts) => TableCard(tableProducts))
+                //       .toList(),
+                // ),
+                ),
             Container(
               margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
               height: SizeConfig.blockVertical * 10,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: backgroundClor,
               ),
               child: ElevatedButton(
                 child: Text(
@@ -223,20 +282,12 @@ class _MargeTable extends State<MargeTable> {
                 ),
                 onPressed: () async {
                   handleMarge();
-                  SharedPreferences getTabMain =
-                      await SharedPreferences.getInstance();
-                  var getTab = getTabMain.getString("nameMainTable");
-                  print(getTab);
-                  SharedPreferences getTabMarge =
-                      await SharedPreferences.getInstance();
-                  var getMarge = getTabMarge.getString("getNamechild");
-                  print(getMarge);
 
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ViewBar()));
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.indigoAccent.shade400,
+                  primary: buttonNavbar,
                 ),
               ),
             ),
@@ -287,7 +338,7 @@ String _saveMainMarge = "";
 String _saveChildMarge = "";
 
 List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Indoor', 'Outdoor'];
+  List<String> dll = ['Base Section', 'Section 001'];
   return dll
       .map(
         (value) => DropdownMenuItem(value: value, child: Text(value)),
@@ -295,263 +346,81 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       .toList();
 }
 
-class TableCard extends StatefulWidget {
-  final TableManagement tableProducts;
-  TableCard(this.tableProducts);
+// class TableCard extends StatefulWidget {
+//   final TableManagement data;
+//   TableCard(this.data);
 
-  @override
-  State<TableCard> createState() => _TableCardState();
-}
+//   @override
+//   State<TableCard> createState() => _TableCardState();
+// }
 
-class _TableCardState extends State<TableCard> {
-  @override
-  void initState() {
-    getNameMain();
-    getChildName();
-    super.initState();
-  }
+// class _TableCardState extends State<TableCard> {
+//   @override
+  // var _hasBeenPressed = false;
+  // var pressed = false;
+  // var pressed2 = false;
+  // var margeTable = "";
+  // var childTable = [];
 
-  void getNameMain() async {
-    SharedPreferences getName = await SharedPreferences.getInstance();
-    _saveMainMarge = getName.getString("nameMainTable") ?? "";
-  }
-
-  void getChildName() async {
-    SharedPreferences getChildName = await SharedPreferences.getInstance();
-    _saveChildMarge = getChildName.getString("getNamechild") ?? "";
-  }
-
-  var _hasBeenPressed = false;
-  var pressed = false;
-  var pressed2 = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {},
-
-          // onTap: widget.tableProducts.idTable != null
-          //     ? () async {
-          //         SharedPreferences saveNameTable =
-          //             await SharedPreferences.getInstance();
-          //         saveNameTable.setString(
-          //             "nameTable", widget.tableProducts.tableName);
-          //         print(widget.tableProducts.tableName);
-          //         SharedPreferences saveMainTable =
-          //             await SharedPreferences.getInstance();
-          //         saveMainTable.setInt(
-          //             "saveMainTable", widget.tableProducts.idTable);
-          //         print(widget.tableProducts.idTable);
-          //         setState(() {
-          //           pressed ? null : pressed = !pressed;
-          //         });
-          //       }
-          //     : () {},
-
-          // SharedPreferences setChild =
-          //     await SharedPreferences.getInstance();
-          // setChild.setInt("saveIdChild", widget.tableProducts.idTable);
-          // print(widget.tableProducts.idTable);
-          // setState(() {
-          //   pressed2 ? null : pressed2 = !pressed2;
-          // });
-
-          // : () async {
-          //     SharedPreferences setChildTable =
-          //         await SharedPreferences.getInstance();
-          //     setChildTable.setInt(
-          //         "nameChild", widget.tableProducts.idTable);
-          //     print(widget.tableProducts.idTable);
-          //     SharedPreferences setNameTable =
-          //         await SharedPreferences.getInstance();
-          //     setNameTable.setString(
-          //         "saveNameTab", widget.tableProducts.tableName);
-          //     print(widget.tableProducts.tableName);
-          //     setState(() {
-          //       pressed2 ? null : pressed2 = !pressed2;
-          //     });
-          //   },
-          // onTap: widget.tableProducts.tableName.isNotEmpty
-          //     ? null
-          //     : () async {
-          //         if (widget.tableProducts.tableName.isNotEmpty) {
-          //           SharedPreferences saveIdTable =
-          //               await SharedPreferences.getInstance();
-          //           saveIdTable.setInt(
-          //               "saveMarge", widget.tableProducts.idTable);
-          //           print(widget.tableProducts.idTable);
-          //           setState(() {
-          //             pressed ? null : pressed = !pressed;
-          //           });
-          //         }
-          //         widget.tableProducts.tableName.isEmpty
-          //             ? () async {
-          //                 if (widget.tableProducts.tableName.isEmpty) {
-          //                   SharedPreferences saveIdChild =
-          //                       await SharedPreferences.getInstance();
-
-          //                   saveIdChild.setInt(
-          //                       "saveChild", widget.tableProducts.idTable);
-          //                   print(widget.tableProducts.idTable);
-          //                   setState(() {
-          //                     pressed2 ? null : pressed2 = !pressed2;
-          //                   });
-          //                 }
-          //               }
-          //             : null;
-
-          // if (widget.tableProducts.tableName == "T-1") {
-
-          // } else if (widget.tableProducts.tableName != "T-1"
-          //   ) {
-
-          // }
-
-          // if (pressed) {
-          //   setState(() {
-          //     pressed == null;
-          //   });
-          // } else {
-          //   setState(() {
-          //     pressed = !pressed;
-          //     _hasBeenPressed = !_hasBeenPressed;
-          //   });
-          // }
-
-          // if (widget.tableProducts.tableName.contains("T-1")) {
-          //   if (widget.tableProducts.tableName.contains("T-1")) {
-
-          // } else if (widget.tableProducts.tableName.contains("T-2")) {
-          //   if (widget.tableProducts.tableName.contains("T-2")) {
-          //     SharedPreferences getTable =
-          //         await SharedPreferences.getInstance();
-
-          //     getTable.setString(
-          //         "ChildTable", widget.tableProducts.tableName);
-          //     print(widget.tableProducts.tableName);
-          //     pressed2
-          //         ? null
-          //         : setState(() {
-          //             pressed2 = !pressed2;
-          //             _hasBeenPressed = !_hasBeenPressed;
-          //             // if (pressed2) {
-          //             //   setState(() {
-          //             //     pressed2 == null;
-          //             //   });
-          //             // } else {
-          //             //   setState(() {
-          //             //     pressed2 = !pressed2;
-          //             //     _hasBeenPressed = !_hasBeenPressed;
-          //             //   });
-          //             // }
-          //           });
-          //   }
-          // } else if (widget.tableProducts.tableName.contains("T-3")) {
-          //   if (widget.tableProducts.tableName.contains("T-3")) {
-          //     SharedPreferences getTable =
-          //         await SharedPreferences.getInstance();
-
-          //     getTable.setString(
-          //         "ChildTable", widget.tableProducts.tableName);
-          //     print(widget.tableProducts.tableName);
-          //     pressed2
-          //         ? null
-          //         : setState(() {
-          //             pressed2 = !pressed2;
-          //             _hasBeenPressed = !_hasBeenPressed;
-          //             // if (pressed2) {
-          //             //   setState(() {
-          //             //     pressed2 == null;
-          //             //   });
-          //             // } else {
-          //             //   setState(() {
-          //             //     pressed2 = !pressed2;
-          //             //     _hasBeenPressed = !_hasBeenPressed;
-          //             //   });
-          //             // }
-          //           });
-          //   }
-          // } else if (widget.tableProducts.tableName.contains("T-4")) {
-          //   if (widget.tableProducts.tableName.contains("T-4")) {
-          //     SharedPreferences getTable =
-          //         await SharedPreferences.getInstance();
-
-          //     getTable.setString(
-          //         "ChildTable", widget.tableProducts.tableName);
-          //     print(widget.tableProducts.tableName);
-          //     pressed2
-          //         ? null
-          //         : setState(() {
-          //             pressed2 = !pressed2;
-          //             _hasBeenPressed = !_hasBeenPressed;
-          //             // if (pressed2) {
-          //             //   setState(() {
-          //             //     pressed2 == null;
-          //             //   });
-          //             // } else {
-          //             //   setState(() {
-          //             //     pressed2 = !pressed2;
-          //             //     _hasBeenPressed = !_hasBeenPressed;
-          //             //   });
-          //             // }
-          //           });
-          //   }
-          // } else if (widget.tableProducts.tableName.contains("T-5")) {
-          //   if (widget.tableProducts.tableName.contains("T-5")) {
-          //     SharedPreferences getTable =
-          //         await SharedPreferences.getInstance();
-
-          //     getTable.setString(
-          //         "ChildTable", widget.tableProducts.tableName);
-          //     print(widget.tableProducts.tableName);
-          //     pressed2
-          //         ? null
-          //         : setState(() {
-          //             pressed2 = !pressed2;
-          //             _hasBeenPressed = !_hasBeenPressed;
-          //             // if (pressed2) {
-          //             //   setState(() {
-          //             //     pressed2 == null;
-          //             //   });
-          //             // } else {
-          //             //   setState(() {
-          //             //     pressed2 = !pressed2;
-          //             //     _hasBeenPressed = !_hasBeenPressed;
-          //             //   });
-          //             // }
-          //           });
-          //   }
-          // }
-          // }
-          child: Container(
-            margin: EdgeInsets.only(
-                top: SizeConfig.blockVertical * 2,
-                left: SizeConfig.blockHorizontal * 2.5),
-            height: SizeConfig.blockVertical * 25,
-            width: SizeConfig.blockHorizontal * 46,
-            decoration: BoxDecoration(
-              color:
-                  _hasBeenPressed ? Colors.grey.shade200 : Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.tableProducts.tableName,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  pressed ? Text("Main Table") : Container(),
-                  pressed2 ? Text("Child Table") : Container(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+    // return Row(
+    //   children: [
+    //     GestureDetector(
+    //       //Logik untuk memangil data berupa child dan parent
+    //       onTap: () async {
+    //         if (margeTable == "") {
+    //           margeTable = widget.data.idTable.toString();
+              // SharedPreferences setMargeTable =
+              //     await SharedPreferences.getInstance();
+              // setMargeTable.setInt("saveMainTable", widget.data.idTable);
+    //           setState(() {
+    //             _hasBeenPressed ? null : _hasBeenPressed = !_hasBeenPressed;
+    //             pressed ? null : pressed = !pressed;
+    //           });
+    //           print(margeTable);
+    //         } else {
+    //           if (margeTable != widget.data.idTable) {
+    //             childTable.add(widget.data.idTable);
+    //             var isTableExist = childTable
+    //                 .where((element) => element == widget.data.idTable);
+                // SharedPreferences setMargeTable =
+                //     await SharedPreferences.getInstance();
+                // setMargeTable.setInt("saveChild", widget.data.idTable);
+    //             setState(() {
+    //               _hasBeenPressed ? null : _hasBeenPressed = !_hasBeenPressed;
+    //               pressed2 ? null : pressed2 = !pressed2;
+    //             });
+    //             print(isTableExist);
+    //           }
+    //         }
+    //       },
+    //       child: Container(
+    //         margin: EdgeInsets.only(
+    //             top: SizeConfig.blockVertical * 2,
+    //             left: SizeConfig.blockHorizontal * 2.5),
+    //         height: SizeConfig.blockVertical * 25,
+    //         width: SizeConfig.blockHorizontal * 46,
+    //         decoration: BoxDecoration(
+    //           color: _hasBeenPressed ? buttonNavbar2 : textColor3,
+    //           borderRadius: BorderRadius.circular(15),
+    //         ),
+    //         child: Center(
+    //           child: Column(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               Text(
+    //                 widget.data.tableName,
+    //                 style: textButton.copyWith(fontSize: 20.sp),
+    //               ),
+    //               pressed ? Text("Main Table") : Container(),
+    //               pressed2 ? Text("Child Table") : Container(),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
+//   }
+// }

@@ -3,6 +3,7 @@ import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +25,7 @@ class _ProductPageState extends State<ProductPage> {
   bool _changeColor = false;
   int _n = 0;
 
-  add() {
+  add() async {
     setState(() {
       _n++;
     });
@@ -166,7 +167,7 @@ class _ProductPageState extends State<ProductPage> {
               onTap: () async {
                 SharedPreferences setAdd =
                     await SharedPreferences.getInstance();
-                setAdd.setInt("getCount", _n);
+                setAdd.setInt("getCounter", _n);
                 print(_n);
                 setState(() {
                   add();
@@ -179,7 +180,7 @@ class _ProductPageState extends State<ProductPage> {
                           fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.indigoAccent.shade400))),
+                          color: buttonNavbar))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Text(
@@ -202,7 +203,7 @@ class _ProductPageState extends State<ProductPage> {
                           fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.indigoAccent.shade400))),
+                          color: buttonNavbar))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Container(
@@ -253,7 +254,7 @@ class _ProductPageState extends State<ProductPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ViewMenu()));
+                                builder: (context) => ViewMenu()));
                       }
                     }
                   },
@@ -268,7 +269,7 @@ class _ProductPageState extends State<ProductPage> {
                   style: TextButton.styleFrom(
                     backgroundColor: _changeColor == _changeWarna
                         ? Colors.grey.shade300
-                        : Colors.indigoAccent.shade400,
+                        : buttonNavbar,
                   )),
             ),
           ],

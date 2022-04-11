@@ -47,10 +47,25 @@ class TableProviders with ChangeNotifier {
 
 class ProductProviders with ChangeNotifier {
   List<DataProduct> _barangs = [];
-  var product = [];
+  List<DataProduct> _searchBarang = [];
+
+  List<DataProduct> get search => _searchBarang;
+  set search(List<DataProduct> search) {
+    notifyListeners();
+  }
+
   List<DataProduct> get products => _barangs;
   set products(List<DataProduct> barangs) {
     notifyListeners();
+  }
+
+  Future<void> getSeacrh() async {
+    try {
+      List<DataProduct> search = await DataService.getDataPro();
+      _searchBarang = search;
+    } catch (i) {
+      print(i);
+    }
   }
 
   Future<void> getData() async {
@@ -120,10 +135,11 @@ class CartProvider with ChangeNotifier {
   }
 
   totalPrice() {
-    int total = 0;
+    double total = 0;
     for (var item in carts) {
-      total += item.id;
+      total += (item.quantity);
     }
+    return total;
   }
 
   productExist(DataProduct product) {
@@ -190,7 +206,7 @@ class UserProvider with ChangeNotifier {
   }
 }
 
-class MargeProvider with ChangeNotifier {
+class MargeProviders with ChangeNotifier {
   Future<bool> margeCheck(List<TableManagement> table) async {
     try {
       if (await MargeCheck().margeCheck(table)) {

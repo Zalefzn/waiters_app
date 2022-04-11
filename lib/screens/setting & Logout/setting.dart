@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +6,8 @@ import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -39,25 +40,21 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
             elevation: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundClor,
             title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 24,
               ),
               child: Text(
                 'Settings',
-                style: TextStyle(
-                  fontFamily: ' Montserrat',
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: settings,
               ),
             )),
         body: Center(
@@ -73,7 +70,7 @@ class _SettingsState extends State<Settings> {
                       height: SizeConfig.blockVertical * 25,
                       width: SizeConfig.blockHorizontal * 100,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: backgroundClor,
                       ),
                       child: Stack(
                         children: [
@@ -91,12 +88,7 @@ class _SettingsState extends State<Settings> {
                                       right: SizeConfig.blockHorizontal * 64),
                                   child: Text(
                                     'Servers Name : ',
-                                    style: TextStyle(
-                                      fontFamily: ' Montserrat',
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade400,
-                                    ),
+                                    style: nameServer.copyWith(fontSize: 10.sp),
                                   ),
                                 ),
                                 SizedBox(height: SizeConfig.blockVertical * 2),

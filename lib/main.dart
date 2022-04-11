@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             create: (context) => OrderProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => MargeProvider(),
+            create: (context) => MargeProviders(),
           ),
           ChangeNotifierProvider(
             create: (context) => MoveProvider(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
@@ -175,7 +176,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                           fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.blue.shade900))),
+                          color: buttonNavbar))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Text(
@@ -200,7 +201,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                           fontFamily: 'Rubik',
                           fontSize: 35,
                           fontWeight: FontWeight.w600,
-                          color: Colors.blue.shade900))),
+                          color: buttonNavbar))),
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Container(
@@ -251,7 +252,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ViewMenu()));
+                                builder: (context) => ViewMenu()));
                       }
                     }
                   },
@@ -266,7 +267,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                   style: TextButton.styleFrom(
                     backgroundColor: _changeColor == _changeWarna
                         ? Colors.grey.shade300
-                        : Colors.indigoAccent.shade400,
+                        : buttonNavbar,
                   )),
             ),
           ],

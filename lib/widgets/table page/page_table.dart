@@ -6,6 +6,7 @@ import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class ViewTable extends StatefulWidget {
   @override
@@ -50,9 +51,9 @@ class _PageTableState extends State<ViewTable> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900,
+          backgroundColor: appBarColor,
           title: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 23),
             child: Image.asset('images/qoligo_white.png',
@@ -147,7 +148,7 @@ class _PageTableState extends State<ViewTable> {
             ),
             Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-                height: SizeConfig.blockVertical * 67,
+                height: SizeConfig.blockVertical * 65.9,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: Colors.white,

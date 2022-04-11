@@ -6,6 +6,7 @@ import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:http/http.dart' as http;
 import 'package:sizer/sizer.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class ValidationLogin extends StatefulWidget {
   ValidationLogin({Key? key}) : super(key: key);
@@ -74,103 +75,86 @@ class _ValidationLoginState extends State<ValidationLogin> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Container(
-                  child: Form(
-                    key: _fromKey,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 1.5,
-                              top: SizeConfig.blockVertical * 1),
-                          height: SizeConfig.blockVertical * 7,
-                          width: SizeConfig.blockHorizontal * 85,
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            controller: _pin,
-                            obscureText: true,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintStyle: TextStyle(
-                                  color: Colors.grey.shade400,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                  borderSide: BorderSide(
-                                    width: SizeConfig.blockHorizontal * 1,
-                                    color: Colors.black,
+        backgroundColor: backgroundClor,
+        body: SafeArea(
+          child: Center(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Container(
+                    child: Form(
+                      key: _fromKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 1.5,
+                                top: SizeConfig.blockVertical * 1),
+                            height: SizeConfig.blockVertical * 7,
+                            width: SizeConfig.blockHorizontal * 85,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              controller: _pin,
+                              obscureText: true,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                  hintStyle: hintStyle,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                    borderSide: BorderSide(
+                                      width: SizeConfig.blockHorizontal * 1,
+                                      color: bordeSide,
+                                    ),
                                   ),
-                                ),
-                                hintText: 'Enter Your Pin'),
-                            validator: Validators.compose([
-                              Validators.required('Your Pin Required'),
-                              Validators.maxLength(5, 'Your Pin cant access'),
-                            ]),
+                                  hintText: 'Enter Your Pin'),
+                              validator: Validators.compose([
+                                Validators.required('Your Pin Required'),
+                                Validators.maxLength(5, 'Your Pin cant access'),
+                              ]),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: SizeConfig.blockVertical * 2),
-              Container(
-                margin: EdgeInsets.only(
-                    left: SizeConfig.blockHorizontal * 1.5,
-                    top: SizeConfig.blockVertical * 10),
-                height: SizeConfig.blockVertical * 7,
-                width: SizeConfig.blockHorizontal * 85,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_pin.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            "Login Valid",
-                            textAlign: TextAlign.center,
-                          )));
-                    } else if (_pin.text.isNotEmpty) {
-                      loginPin(_pin.text);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          backgroundColor: Colors.green,
-                          content: Text(
-                            "Login Success",
-                            textAlign: TextAlign.center,
-                          )));
-                    }
-                  }, //_pin.text == ""
-                  //? null
-                  //: () {
-                  //setState(() {});
-                  //ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //duration: Duration(milliseconds: 500),
-                  //backgroundColor: Colors.green,
-                  //content: Text("Login Success",
-                  //textAlign: TextAlign.center),
-                  // ));
-                  //loginPin(_pin.text);
-                  //},
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                        fontFamily: 'Rubik',
-                        fontSize: 30.sp,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.indigoAccent[400],
+                SizedBox(height: SizeConfig.blockVertical * 2),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: SizeConfig.blockHorizontal * 1.5,
+                      top: SizeConfig.blockVertical * 10),
+                  height: SizeConfig.blockVertical * 7,
+                  width: SizeConfig.blockHorizontal * 85,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_pin.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: messageColor,
+                            content: Text(
+                              "Login Valid",
+                              textAlign: TextAlign.center,
+                            )));
+                      } else if (_pin.text.isNotEmpty) {
+                        loginPin(_pin.text);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(milliseconds: 500),
+                            backgroundColor: messageColor2,
+                            content: Text(
+                              "Login Success",
+                              textAlign: TextAlign.center,
+                            )));
+                      }
+                    },
+                    child: Text('Login',
+                        style: buttonLogin.copyWith(fontSize: 30.sp)),
+                    style: ElevatedButton.styleFrom(
+                      primary: buttonColor,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

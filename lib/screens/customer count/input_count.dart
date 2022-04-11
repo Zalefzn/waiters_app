@@ -6,6 +6,7 @@ import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/screens/customer%20count/numpad_page.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class InputCount extends StatefulWidget {
   const InputCount({Key? key}) : super(key: key);
@@ -15,15 +16,16 @@ class InputCount extends StatefulWidget {
 }
 
 class _InputCount extends State<InputCount> {
+  int selectedIndex = 0;
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900,
+          backgroundColor: appBarColor,
           title: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 23),
             child: Image.asset('images/qoligo_white.png',
@@ -133,7 +135,7 @@ _buildPopupDialog(BuildContext context) {
             height: SizeConfig.blockVertical * 5,
             width: SizeConfig.blockHorizontal * 15,
             child: RaisedButton(
-                color: Colors.white,
+                color: backgroundClor,
                 elevation: 0,
                 child: Icon(Icons.close),
                 onPressed: () {
@@ -157,7 +159,7 @@ _buildPopupDialog(BuildContext context) {
                   MaterialPageRoute(builder: (context) => MargeTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: buttonNavbar,
             ),
           ),
         ),
@@ -172,7 +174,7 @@ _buildPopupDialog(BuildContext context) {
                   MaterialPageRoute(builder: (context) => MoveTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.blue.shade900,
+              primary: buttonNavbar,
             ),
           ),
         ),

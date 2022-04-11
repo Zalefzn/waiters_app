@@ -91,7 +91,6 @@ class ProductCategory {
   late int idDepartement;
   late int idOutlet;
   late int idCategory;
-  late DataProduct product;
 
   ProductCategory({
     required this.categoryName,

@@ -12,6 +12,7 @@ class TableManagement {
   TableManagement.fromJson(Map<String, dynamic> json) {
     idOutlet = json["id_outlet"];
     idTable = json["id_table_management"];
+
     tableName = json["table_name"];
   }
 
@@ -80,6 +81,32 @@ class Section {
       'id_outlet': idOutlet,
       'id_section': idSection,
       'section_name': nameSection,
+    };
+  }
+}
+
+class SessionTable {
+  late int idOrder;
+  late int sessionTable;
+  late int isAccessed;
+
+  SessionTable({
+    required this.idOrder,
+    required this.isAccessed,
+    required this.sessionTable,
+  });
+
+  SessionTable.fromJson(Map<String, dynamic> json) {
+    idOrder = json["id_order"];
+    sessionTable = json["id_session_table"];
+    isAccessed = json["is_accessed"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id_order": idOrder,
+      "id_session_table": sessionTable,
+      "is_accessed": isAccessed,
     };
   }
 }

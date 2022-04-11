@@ -36,8 +36,8 @@ class AuthService {
 class TableService {
   Future<List<TableManagement>> getTable() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     var baseUrl = sharedPreferences.getString("setApi");
-    print(baseUrl);
 
     var url = '$baseUrl/table_management';
     var apiSet = sharedPreferences.getString("setApi");
@@ -67,7 +67,6 @@ class DataService {
   static Future<List<DataProduct>> getDataPro() async {
     SharedPreferences qoligoPos = await SharedPreferences.getInstance();
     var baseUrl = qoligoPos.getString("setApi");
-    print(baseUrl);
 
     var url = '$baseUrl/product?_deep=0';
     var auth = qoligoPos.getString("access_token");
@@ -123,15 +122,13 @@ class GetSection {
   Future<List<Section>> getSection() async {
     SharedPreferences section = await SharedPreferences.getInstance();
     var baseUrl = section.getString("setApi");
-    print(baseUrl);
 
     var url = '$baseUrl/section';
     var auth = section.getString("access_token");
-    print(auth);
+
     var headers = {"Authorization": "Bearer ${auth}"};
 
     var response = await http.get(Uri.parse(url), headers: headers);
-    print(response.body);
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data'];
@@ -233,30 +230,30 @@ class OrderService {
 class MargeCheck {
   Future<bool> margeCheck(List<TableManagement> table) async {
     SharedPreferences getOrder = await SharedPreferences.getInstance();
-    var getIdMarge = getOrder.getInt("saveMainTable");
+    var getMainMarge = getOrder.getInt("MainMarge");
     var baseUrl = getOrder.getString("setApi");
-    var getIdChild = getOrder.getInt("saveChild");
+    var getChildMarge = getOrder.getInt("ChildTable");
 
-    print(getIdMarge);
+    print(getMainMarge);
+    print(getChildMarge);
     print(baseUrl);
 
-    var url = '$baseUrl/session_table/merge';
+    var urlData = '$baseUrl/session_table/merge';
     var auth = getOrder.getString("access_token");
     print(auth);
-    var headers = {
+    var headerProduct = {
       'Content-Type': 'application/json',
       'Authorization': "Bearer ${auth}",
     };
-    var body = jsonEncode({
-      "child_tables": {
-        "0": [getIdChild],
-      },
-      "parent_tables": getIdMarge,
+    var bodyProduct = jsonEncode({
+      "child_tables": getChildMarge,
+      "parent_tables": getMainMarge,
     });
-    var response =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+    var response = await http.post(Uri.parse(urlData),
+        headers: headerProduct, body: bodyProduct);
+
+    print(bodyProduct);
     print(response.body);
-    print(body);
 
     if (response.statusCode == 200) {
       return true;
@@ -269,23 +266,28 @@ class MargeCheck {
 class MoveCheck {
   Future<bool> moveCheck(List<TableManagement> table) async {
     SharedPreferences getMoveCheck = await SharedPreferences.getInstance();
+    var moveTable = getMoveCheck.getInt("getMoveTable");
     var baseUrl = getMoveCheck.getString("setApi");
     var url = '$baseUrl/session_table/move';
-    print(baseUrl);
     var auth = getMoveCheck.getString("access_token");
-    print(auth);
+    print(moveTable);
+
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': "Bearer ${auth}",
     };
+    print(auth);
+
     var body = jsonEncode({
       "dest_table": 302,
-      "origin_table": 303,
+      "origin_table": moveTable,
     });
+    print(body);
+
     var response =
         await http.post(Uri.parse(url), headers: headers, body: body);
     print(response.body);
-    print(body);
+
     if (response.statusCode == 200) {
       return true;
     } else {

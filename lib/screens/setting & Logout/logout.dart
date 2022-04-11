@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -10,8 +11,6 @@ import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:provider/provider.dart';
 
 class LogOut extends StatefulWidget {
-  const LogOut({Key? key}) : super(key: key);
-
   @override
   State<LogOut> createState() => _LogOutState();
 }
@@ -39,18 +38,16 @@ class _LogOutState extends State<LogOut> {
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
-  var getData;
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
   var formatedTahun = DateFormat.yMMMEd().format(today);
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
             leading: RaisedButton(
               child: Icon(
@@ -233,15 +230,15 @@ class _LogOutState extends State<LogOut> {
                                 style: TextStyle(
                                   fontFamily: 'Rubik',
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  color: backgroundClor,
                                   fontSize: 13.sp,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.indigoAccent.shade400,
+                                  primary: buttonColor,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
-                                      color: Colors.indigoAccent.shade400,
+                                      color: buttonNavbar,
                                       width: 3,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -288,7 +285,7 @@ class _LogOutState extends State<LogOut> {
                               'Log Out',
                               style: TextStyle(
                                   fontFamily: 'Rubik',
-                                  color: Colors.indigoAccent.shade400,
+                                  color: buttonColor,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.bold),
                             ),

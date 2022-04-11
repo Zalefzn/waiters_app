@@ -4,6 +4,7 @@ import 'package:flutter_mobile/screens/customer%20count/input_count.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class InputCustomer extends StatefulWidget {
   const InputCustomer({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class InputCustomer extends StatefulWidget {
 
 class _InputCustomer extends State<InputCustomer> {
   int _currentIndex = 0;
+  int selectedIndex = 0;
   List options = [
     InputCount(),
     SummeryPage(),
@@ -31,16 +33,17 @@ class _InputCustomer extends State<InputCustomer> {
           items: [
             Icon(
               Icons.shopping_bag_outlined,
-              color: Colors.black,
+              color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
             ),
             Icon(
               Icons.summarize_outlined,
-              color: Colors.black,
+              color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
             ),
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
+              selectedIndex = index;
             });
           },
         ),

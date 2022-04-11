@@ -5,16 +5,17 @@ import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
-  MenuPage({Key? key}) : super(key: key);
-
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
 
 class _MenuPageState extends State<MenuPage> {
+  var loading = false;
+
   TextEditingController searchController = TextEditingController();
   bool isActiveBotton = false;
   bool buttonPressed = false;
@@ -23,13 +24,6 @@ class _MenuPageState extends State<MenuPage> {
   void initState() {
     getCategory();
     getProducts();
-
-    // DataService.getDataPro().then((value) {
-    //   setState(() {
-    //     dataProduct = value;
-    //   });
-    // });
-
     super.initState();
   }
 
@@ -43,14 +37,32 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
-    ProductProviders productProviders = Provider.of<ProductProviders>(context);
     ProductCategorys category = Provider.of<ProductCategorys>(context);
+    ProductProviders productProviders = Provider.of<ProductProviders>(context);
+
+    // ignore: unused_element
+    onSearchTextChanged(String text) async {
+      productProviders.search.clear();
+      if (text.isEmpty) {
+        setState(() {});
+        return;
+      }
+
+      productProviders.products.forEach((data) {
+        if (data.nameProduct.contains(text) ||
+            data.idoutlet.toString().contains(text))
+          productProviders.search.add(data);
+      });
+
+      setState(() {});
+    }
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900,
+          backgroundColor: appBarColor,
           title: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 23),
             child: Image.asset('images/qoligo_white.png',
@@ -91,7 +103,7 @@ class _MenuPageState extends State<MenuPage> {
                                   width: SizeConfig.blockHorizontal * 95,
                                   child: ElevatedButton(
                                     child: Text(
-                                      'List Menu                                                                   >',
+                                      'All Items                                                             >',
                                       style: TextStyle(
                                         fontFamily: 'Rubik',
                                         fontSize: 11.sp,
@@ -113,7 +125,7 @@ class _MenuPageState extends State<MenuPage> {
                                           builder: (context) {
                                             return Container(
                                               height:
-                                                  SizeConfig.blockVertical * 90,
+                                                  SizeConfig.blockVertical * 87,
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
@@ -200,18 +212,7 @@ class _MenuPageState extends State<MenuPage> {
                                                                 ),
                                                               );
                                                             }) //GridView.count(
-                                                        //crossAxisCount: 2,
-                                                        //mainAxisSpacing: 2,
-                                                        //crossAxisSpacing: 3,
-                                                        //padding:
-                                                        //EdgeInsets.all(6),
-                                                        //childAspectRatio: 1,
-                                                        //children: categorys
-                                                        //.categorys
-                                                        //.map((category) =>
-                                                        //CategoryPage(
-                                                        //category))
-                                                        //.toList(),
+
                                                         ),
                                                   ],
                                                 ),
@@ -248,18 +249,15 @@ class _MenuPageState extends State<MenuPage> {
                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
                   height: SizeConfig.blockVertical * 10,
                   width: SizeConfig.blockHorizontal * 95,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
                   child: Stack(
                     children: [
                       TextField(
                         controller: searchController,
-                        onChanged: (value) {},
                         decoration: const InputDecoration(
                           hintText: 'Search Product ...',
                           icon: Icon(Icons.search),
                         ),
+                        onChanged: onSearchTextChanged,
                       ),
                     ],
                   ),
@@ -267,36 +265,157 @@ class _MenuPageState extends State<MenuPage> {
               ],
             ),
             Container(
-              height: SizeConfig.blockVertical * 54,
-              width: SizeConfig.blockHorizontal * 100,
-              color: Colors.white,
-              child:
-                  // child: GridView.builder(
-                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //       crossAxisCount: 2,
-                  //       mainAxisSpacing: 2,
-                  //       crossAxisSpacing: 1,
-                  //       childAspectRatio: 1,
-                  //     ),
-                  //     // itemCount: //dataProduct.length,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return Card(
-                  //         child: Column(children: [
-                  //           Text(dataProduct[index].nameProduct),
-                  //         ]),
-                  //       );
-                  //     })
-                  GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 2,
-                crossAxisSpacing: 1,
-                padding: const EdgeInsets.all(6),
-                childAspectRatio: 1,
-                children: productProviders.products
-                    .map((product) => ProductCard(product))
-                    .toList(),
-              ),
-            ),
+                height: SizeConfig.blockVertical * 54,
+                width: SizeConfig.blockHorizontal * 100,
+                color: Colors.white,
+                child: productProviders.search.length != 0 ||
+                        searchController.text.isNotEmpty
+                    ? GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 3,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: productProviders.search.length,
+                        itemBuilder: (context, i) {
+                          final e = productProviders.search[i];
+                          return GestureDetector(
+                            onTap: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductPage(
+                                          productProviders.products.first)));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockVertical * 2),
+                              height: SizeConfig.blockVertical * 34,
+                              width: SizeConfig.blockHorizontal * 45,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 1),
+                                  Image.network(e.gambarUrl,
+                                      height: 110,
+                                      width: 170,
+                                      fit: BoxFit.fill),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockVertical * 3),
+                                    child: Column(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            e.nameProduct,
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'Montserrat'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.blockVertical * 1),
+                                        Center(
+                                          child: Text(
+                                            e.hargaProduct,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Montserrat'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })
+                    : GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 3,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: productProviders.products.length,
+                        itemBuilder: (context, k) {
+                          final j = productProviders.products[k];
+                          return GestureDetector(
+                            onTap: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProductPage(
+                                          productProviders.products.first)));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockVertical * 2),
+                              height: SizeConfig.blockVertical * 34,
+                              width: SizeConfig.blockHorizontal * 45,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: SizeConfig.blockVertical * 1),
+                                  Image.network(j.gambarUrl,
+                                      height: 110,
+                                      width: 170,
+                                      fit: BoxFit.fill),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockVertical * 3),
+                                    child: Column(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            j.nameProduct,
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'Montserrat'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.blockVertical * 1),
+                                        Center(
+                                          child: Text(
+                                            j.hargaProduct,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Montserrat'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        })),
+            // child: GridView.count(
+            //   crossAxisCount: 2,
+            //   mainAxisSpacing: 2,
+            //   crossAxisSpacing: 1,
+            //   padding: const EdgeInsets.all(6),
+            //   childAspectRatio: 1,
+            //   children: productProviders.products
+            //       .map((product) => ProductCard(product))
+            //       .toList(),
+            // )),
           ]),
         ),
       );
@@ -304,78 +423,77 @@ class _MenuPageState extends State<MenuPage> {
   }
 }
 
-class ProductCard extends StatefulWidget {
-  final DataProduct product;
-  ProductCard(this.product);
+// class ProductCard extends StatefulWidget {
+//   final DataProduct product;
+//   ProductCard(this.product);
 
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
+//   @override
+//   State<ProductCard> createState() => _ProductCardState();
+// }
 
-class _ProductCardState extends State<ProductCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProductPage(widget.product)));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 3,
-                top: SizeConfig.blockVertical * 2),
-            height: SizeConfig.blockVertical * 34,
-            width: SizeConfig.blockHorizontal * 45,
-            decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              children: [
-                SizedBox(height: SizeConfig.blockVertical * 1),
-                Image.network(widget.product.gambarUrl,
-                    height: 100, width: 130, fit: BoxFit.fill),
-                Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(
-                          widget.product.nameProduct,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'Montserrat'),
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.blockVertical * 1),
-                      Center(
-                        child: Text(
-                          widget.product.hargaProduct,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+// class _ProductCardState extends State<ProductCard> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         GestureDetector(
+//           onTap: () async {
+//             Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                     builder: (context) => ProductPage(widget.product)));
+//           },
+//           child: Container(
+//             margin: EdgeInsets.only(
+//                 left: SizeConfig.blockHorizontal * 3,
+//                 top: SizeConfig.blockVertical * 2),
+//             height: SizeConfig.blockVertical * 34,
+//             width: SizeConfig.blockHorizontal * 45,
+//             decoration: BoxDecoration(
+//                 color: Colors.grey.shade100,
+//                 borderRadius: BorderRadius.circular(20)),
+//             child: Column(
+//               children: [
+//                 SizedBox(height: SizeConfig.blockVertical * 1),
+//                 Image.network(widget.product.gambarUrl,
+//                     height: 110, width: 170, fit: BoxFit.fill),
+//                 Container(
+//                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
+//                   child: Column(
+//                     children: [
+//                       Center(
+//                         child: Text(
+//                           widget.product.nameProduct,
+//                           style: const TextStyle(
+//                               fontSize: 12,
+//                               fontWeight: FontWeight.w500,
+//                               fontFamily: 'Montserrat'),
+//                         ),
+//                       ),
+//                       SizedBox(height: SizeConfig.blockVertical * 1),
+//                       Center(
+//                         child: Text(
+//                           widget.product.hargaProduct,
+//                           style: const TextStyle(
+//                               fontSize: 15,
+//                               fontWeight: FontWeight.w700,
+//                               fontFamily: 'Montserrat'),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class CategoryPage extends StatefulWidget {
-  late ProductCategory category;
-
+  ProductCategory category;
   CategoryPage(this.category);
 
   @override
@@ -383,86 +501,40 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  List<DataProduct> dataProduct = [];
   bool buttonPressed = false;
 
   @override
   Widget build(BuildContext context) {
     ProductProviders product = Provider.of<ProductProviders>(context);
-    return GestureDetector(
-      onTap: () async {
-        print(widget.category.idCategory);
-        print(widget.category.idDepartement);
-        print(widget.category.idOutlet);
-        print(widget.category.categoryName);
 
-        //   if (widget.category.categoryName.contains("Extra")) {
-        //     if (widget.category.idOutlet ==
-        //         dataProduct.where((element) => element.idoutlet == 4)) {
-        //       setState(() {});
-        //     } else if (widget.category.idDepartement ==
-        //         dataProduct.where((i) => i.idepart == 9)) {
-        //       setState(() {});
-        //     } else if (widget.category.idCategory ==
-        //         dataProduct.where((z) => z.idProCategory == 39)) {
-        //       setState(() {});
-        //     }
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (context) => ViewMenu()));
-
-        //     // kalo tombol extra di klik maka tombol ini akan memfilter data berdasarakan
-        //     //id product, id category , id departement product
-
-        //   } else if (widget.category.categoryName.contains("Meal")) {
-        //     setState(() {
-        //       buttonPressed = !buttonPressed;
-        //     });
-
-        //     //Navigator.push(
-        //     //context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        //   } else if (widget.category.categoryName.contains("Non-Coffe")) {
-        //     setState(() {
-        //       buttonPressed = !buttonPressed;
-        //     });
-        //     //Navigator.push(
-        //     //context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        //   } else if (widget.category.categoryName.contains("Coffe")) {
-        //     setState(() {
-        //       buttonPressed = !buttonPressed;
-        //     });
-        //     // Navigator.push(
-        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        //   } else if (widget.category.categoryName.contains("Food")) {
-        //     setState(() {
-        //       buttonPressed = !buttonPressed;
-        //     });
-        //     // Navigator.push(
-        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        //   } else if (widget.category.categoryName.contains("Dessert")) {
-        //     setState(() {
-        //       buttonPressed = !buttonPressed;
-        //     });
-        //     // Navigator.push(
-        //     //     context, MaterialPageRoute(builder: (context) => ViewMenu()));
-        //   }
-      },
-      child: Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),
-        height: SizeConfig.blockVertical * 10,
-        width: SizeConfig.blockHorizontal * 96,
-        decoration: BoxDecoration(
-            color: buttonPressed ? Colors.blueAccent[700] : Colors.white,
-            border: Border.all(
-              width: 1,
-              color: Colors.black,
-            ),
-            borderRadius: BorderRadius.circular(5)),
-        child: Center(
-          child: Text(
-            widget.category.categoryName,
-            style: TextStyle(
-              color: buttonPressed ? Colors.white : Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+    return ChangeNotifierProvider<ProductProviders>(
+      create: (context) => ProductProviders(),
+      child: GestureDetector(
+        onTap: () async {
+          setState(() {
+            buttonPressed ? null : buttonPressed = !buttonPressed;
+          });
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),
+          height: SizeConfig.blockVertical * 10,
+          width: SizeConfig.blockHorizontal * 96,
+          decoration: BoxDecoration(
+              color: buttonPressed ? buttonColor : textColor2,
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: Text(
+              widget.category.categoryName,
+              style: TextStyle(
+                color: buttonPressed ? Colors.white : Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),

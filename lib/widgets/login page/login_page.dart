@@ -3,6 +3,7 @@ import 'package:flutter_mobile/screens/setting%20&%20Logout/setting.dart';
 import 'package:flutter_mobile/validation/login%20validation/login_validation.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_mobile/validation/method%20style/theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundClor,
           elevation: 0,
           title: Container(
             margin: EdgeInsets.only(
@@ -28,20 +29,22 @@ class _LoginPageState extends State<LoginPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Settings()));
                 },
-                icon: Icon(Icons.settings),
-                color: Colors.black),
+                icon: const Icon(Icons.settings),
+                color: iconColor2),
           ],
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         body: Center(
           child: Container(
             margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
             height: SizeConfig.blockVertical * 80,
             width: SizeConfig.blockHorizontal * 95,
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: BoxDecoration(color: backgroundClor),
             child: Stack(
               children: [
                 Container(
@@ -51,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: SizeConfig.blockVertical * 30,
                   width: SizeConfig.blockHorizontal * 50,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: backgroundClor,
                   ),
                   child: Stack(
                     children: [
@@ -72,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: SizeConfig.blockVertical * 0.8,
                         width: SizeConfig.blockHorizontal * 22,
                         decoration: BoxDecoration(
-                          color: Colors.indigoAccent[400],
+                          color: buttonNavbar,
                           borderRadius: BorderRadius.circular(0),
                         ),
                       ),
@@ -86,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: SizeConfig.blockVertical * 6,
                   width: SizeConfig.blockHorizontal * 85,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: backgroundClor,
                   ),
                   child: Stack(
                     children: [
@@ -98,15 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                           margin: EdgeInsets.only(
                               right: SizeConfig.blockHorizontal * 3.5),
                           child: Center(
-                            child: Text(
-                              'Hello, Armor Kopi Leuwit!',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 14.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            child: Text('Hello, Armor Kopi Leuwit!',
+                                style: textWelcome.copyWith(fontSize: 14.sp)),
                           ),
                         ),
                       ),
@@ -122,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: SizeConfig.blockVertical * 25,
                       width: SizeConfig.blockHorizontal * 95,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: backgroundClor,
                       ),
                       child: Container(
                         child: ValidationLogin(),
@@ -134,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: SizeConfig.blockHorizontal * 20,
                       width: SizeConfig.blockHorizontal * 95,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: backgroundClor,
                       ),
                       child: Stack(
                         children: [
@@ -143,15 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                               margin: EdgeInsets.only(
                                   left: SizeConfig.blockHorizontal * 2,
                                   bottom: SizeConfig.blockVertical * 5),
-                              child: Text(
-                                'Qoligo© Mobile Waiter Ver.01',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 11.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child: Text('Qoligo© Mobile Waiter Ver.01',
+                                  style: footerText.copyWith(fontSize: 10.sp)),
                             ),
                           ),
                         ],

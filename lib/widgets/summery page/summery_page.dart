@@ -10,6 +10,7 @@ import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class SummeryPage extends StatefulWidget {
   @override
@@ -60,10 +61,10 @@ class _SummeryPage extends State<SummeryPage> {
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           elevation: 1,
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundClor,
           leading: RaisedButton(
             child: const Icon(Icons.arrow_back),
-            color: Colors.white,
+            color: backgroundClor,
             elevation: 0,
             onPressed: () {
               Navigator.pushReplacement(
@@ -96,8 +97,8 @@ class _SummeryPage extends State<SummeryPage> {
             Container(
               height: SizeConfig.blockVertical * 12,
               width: SizeConfig.blockHorizontal * 100,
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: backgroundClor,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -203,10 +204,10 @@ class _SummeryPage extends State<SummeryPage> {
                           ),
                           Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 64,
+                                left: SizeConfig.blockHorizontal * 60,
                                 top: SizeConfig.blockVertical * 3),
                             child: Text(
-                              cartProvider.totalItems().toString(),
+                              cartProvider.totalPrice().toString(),
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 20,
@@ -226,13 +227,21 @@ class _SummeryPage extends State<SummeryPage> {
                             width: SizeConfig.blockHorizontal * 42,
                             child: ElevatedButton(
                               onPressed: isButtonActive
-                                  ? () {
+                                  ? () async {
                                       if (cartProvider.carts.isEmpty) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const ViewMenu()));
+                                                    ViewMenu()));
+                                        SharedPreferences removeTableName =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        removeTableName.remove("saveTable");
+                                        SharedPreferences removeCount =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        removeCount.remove("key");
                                         _tableName = "-";
                                         _count = 0;
                                       } else if (cartProvider
@@ -242,6 +251,14 @@ class _SummeryPage extends State<SummeryPage> {
                                           builder: (BuildContext context) =>
                                               _buildPopDialog2(context),
                                         );
+                                        SharedPreferences removeTableName =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        removeTableName.remove("saveTable");
+                                        SharedPreferences removeCount =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        removeCount.remove("key");
                                         _tableName = "-";
                                         _count = 0;
                                       }
@@ -256,8 +273,8 @@ class _SummeryPage extends State<SummeryPage> {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.red[400],
-                                onSurface: Colors.grey.shade900,
+                                primary: buttonColor3,
+                                onSurface: buttonNavbar2,
                                 elevation: 0,
                               ),
                             ),
@@ -300,8 +317,8 @@ class _SummeryPage extends State<SummeryPage> {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.red[400],
-                                onSurface: Colors.grey.shade900,
+                                primary: buttonColor3,
+                                onSurface: buttonNavbar2,
                                 elevation: 0,
                               ),
                             ),

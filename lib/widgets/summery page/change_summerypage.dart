@@ -244,7 +244,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const ViewMenu()));
+                                                    ViewMenu()));
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
                                         // Navigator.push(
@@ -754,7 +754,7 @@ class _CartPageState extends State<CartPage> {
                 Container(
                   margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
                   child: Text(
-                    widget.cartModel.product.hargaProduct,
+                    widget.cartModel.product.hargaProduct.toString(),
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

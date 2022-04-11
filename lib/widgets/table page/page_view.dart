@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/table.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
@@ -20,18 +20,19 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
+  bool _hasBeenPressed = false;
   var loading = false;
 
   @override
   void initState() {
-    if (mounted) {
+    setState(() {
       Future.delayed(Duration(milliseconds: 500), () {
         setState(() {
-          loading = true;
+          loading = false;
         });
       });
-    }
-
+      loading = true;
+    });
     getProducts();
     getTab();
     getSection();
@@ -54,14 +55,13 @@ class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
-    SectionTable sectionTable = Provider.of<SectionTable>(context);
 
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundClor,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade900,
+          backgroundColor: appBarColor,
           title: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 23),
             child: Image.asset('images/qoligo_white.png',
@@ -73,7 +73,7 @@ class _ViewPageState extends State<ViewPage> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => LogOut()));
             },
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
           ),
           actions: [
             IconButton(
@@ -84,7 +84,7 @@ class _ViewPageState extends State<ViewPage> {
                         _buildPopupDialog(context),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.table_chart,
                 )),
           ],
@@ -100,7 +100,7 @@ class _ViewPageState extends State<ViewPage> {
                       height: SizeConfig.blockVertical * 10,
                       width: SizeConfig.blockHorizontal * 100,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: backgroundClor,
                       ),
                       child: Stack(
                         children: [
@@ -148,19 +148,8 @@ class _ViewPageState extends State<ViewPage> {
                                     onChanged: (value) {
                                       switch (value) {
                                         case 'Base Section':
-
-                                          // Navigator.pushReplacement(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             ViewBar()));
                                           break;
                                         case 'Section 001':
-                                        // Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             ViewBar2()));
                                       }
                                     },
                                   ),
@@ -181,18 +170,81 @@ class _ViewPageState extends State<ViewPage> {
               height: SizeConfig.blockVertical * 65.9,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: backgroundClor,
               ),
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 0,
-                padding: EdgeInsets.all(1),
-                childAspectRatio: 1,
-                children: tableProviders.tables
-                    .map((tableProducts) => TableCard(tableProducts))
-                    .toList(),
-              )),
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 1,
+                    childAspectRatio: 1,
+                  ),
+                  itemCount: tableProviders.tables.length,
+                  itemBuilder: (context, i) {
+                    final a = tableProviders.tables[i];
+                    return Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            a.tableName != null;
+                            SharedPreferences getOutlet =
+                                await SharedPreferences.getInstance();
+                            getOutlet.setInt("saveIdOutlete", a.idOutlet);
+                            print(a.idOutlet);
+                            SharedPreferences getId =
+                                await SharedPreferences.getInstance();
+                            getId.setInt("saveId", a.idTable);
+                            print(a.idTable);
+                            SharedPreferences getTable =
+                                await SharedPreferences.getInstance();
+                            getTable.setString("saveTable", a.tableName);
+                            print(a.tableName);
+
+                            setState(() {
+                              _hasBeenPressed = !_hasBeenPressed;
+                            });
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const InputCustomer()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockVertical * 2,
+                                left: SizeConfig.blockHorizontal * 2.5),
+                            height: SizeConfig.blockVertical * 25,
+                            width: SizeConfig.blockHorizontal * 46,
+                            decoration: BoxDecoration(
+                              color: _hasBeenPressed
+                                  ? buttonColor2
+                                  : buttonNavbar2,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Center(
+                              child: Text(
+                                a.tableName,
+                                style: textButton.copyWith(
+                                  fontSize: 20.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  })
+              // child: GridView.count(
+              //   crossAxisCount: 2,
+              //   mainAxisSpacing: 1,
+              //   crossAxisSpacing: 0,
+              //   padding: const EdgeInsets.all(1),
+              //   childAspectRatio: 1,
+              //   children: tableProviders.tables
+              //       .map((tableProducts) => TableCard(tableProducts))
+              //       .toList(),
+              // )),
+              )
         ]),
       );
     });
@@ -223,12 +275,12 @@ _buildPopupDialog(BuildContext context) {
             height: SizeConfig.blockVertical * 5,
             width: SizeConfig.blockHorizontal * 15,
             child: RaisedButton(
-                color: Colors.white,
+                color: backgroundClor,
                 elevation: 0,
-                child: Icon(Icons.close),
+                child: const Icon(Icons.close),
                 onPressed: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ViewBar()));
+                      MaterialPageRoute(builder: (context) => const ViewBar()));
                 }),
           ),
         ],
@@ -238,47 +290,41 @@ _buildPopupDialog(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
             child: Text(
               'Marge Table',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              style: titleTable.copyWith(
                 fontSize: 12.sp,
-                color: Colors.white,
-                fontFamily: 'Rubik',
               ),
             ),
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MargeTable()));
+                  MaterialPageRoute(builder: (context) => const MargeTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.indigoAccent.shade400,
+              primary: buttonColor,
             ),
           ),
         ),
         SizedBox(height: SizeConfig.blockVertical * 1),
         Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
           height: SizeConfig.blockVertical * 8,
           width: SizeConfig.blockHorizontal * 95,
           child: ElevatedButton(
-            child: Text(
-              'Move Table',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12.sp,
-                color: Colors.white,
-                fontFamily: 'Rubik',
-              ),
-            ),
+            child: Text('Move Table',
+                style: titleTable.copyWith(
+                  fontSize: 12.sp,
+                )),
             onPressed: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MoveTable()));
+                  MaterialPageRoute(builder: (context) => const MoveTable()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.indigoAccent.shade400,
+              primary: buttonColor,
             ),
           ),
         ),
@@ -296,71 +342,61 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       .toList();
 }
 
-class TableCard extends StatefulWidget {
-  final TableManagement tableProducts;
-  TableCard(this.tableProducts);
+// class TableCard extends StatefulWidget {
+//   final TableManagement tableProducts;
+//   TableCard(this.tableProducts);
 
-  @override
-  State<TableCard> createState() => _TableCardState();
-}
+//   @override
+//   State<TableCard> createState() => _TableCardState();
+// }
 
-class _TableCardState extends State<TableCard> {
-  bool _hasBeenPressed = false;
+// class _TableCardState extends State<TableCard> {
+ 
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () async {
-            widget.tableProducts.tableName != null;
-            SharedPreferences getOutlet = await SharedPreferences.getInstance();
-            getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
-            print(widget.tableProducts.idOutlet);
-            SharedPreferences getId = await SharedPreferences.getInstance();
-            getId.setInt("saveId", widget.tableProducts.idTable);
-            print(widget.tableProducts.idTable);
-            SharedPreferences getTable = await SharedPreferences.getInstance();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         GestureDetector(
+//           onTap: () async {
+//             widget.tableProducts.tableName != null;
+//             SharedPreferences getOutlet = await SharedPreferences.getInstance();
+//             getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
+//             print(widget.tableProducts.idOutlet);
+//             SharedPreferences getId = await SharedPreferences.getInstance();
+//             getId.setInt("saveId", widget.tableProducts.idTable);
+//             print(widget.tableProducts.idTable);
+//             SharedPreferences getTable = await SharedPreferences.getInstance();
+//             getTable.setString("saveTable", widget.tableProducts.tableName);
+//             print(widget.tableProducts.tableName);
 
-            getTable.setString("saveTable", widget.tableProducts.tableName);
-            print(widget.tableProducts.tableName);
-
-            setState(() {
-              _hasBeenPressed = !_hasBeenPressed;
-            });
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InputCustomer()));
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                top: SizeConfig.blockVertical * 2,
-                left: SizeConfig.blockHorizontal * 2.5),
-            height: SizeConfig.blockVertical * 25,
-            width: SizeConfig.blockHorizontal * 46,
-            decoration: BoxDecoration(
-              color:
-                  _hasBeenPressed ? Colors.grey.shade200 : Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Text(
-                widget.tableProducts.tableName,
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: ' Rubik',
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-Future<Null> refreshList() async {
-  await Future.delayed(Duration(seconds: 1));
-
-  return null;
-}
+//             setState(() {
+//               _hasBeenPressed = !_hasBeenPressed;
+//             });
+//             Navigator.push(context,
+//                 MaterialPageRoute(builder: (context) => const InputCustomer()));
+//           },
+//           child: Container(
+//             margin: EdgeInsets.only(
+//                 top: SizeConfig.blockVertical * 2,
+//                 left: SizeConfig.blockHorizontal * 2.5),
+//             height: SizeConfig.blockVertical * 25,
+//             width: SizeConfig.blockHorizontal * 46,
+//             decoration: BoxDecoration(
+//               color: _hasBeenPressed ? buttonColor2 : buttonNavbar2,
+//               borderRadius: BorderRadius.circular(15),
+//             ),
+//             child: Center(
+//               child: Text(
+//                 widget.tableProducts.tableName,
+//                 style: textButton.copyWith(
+//                   fontSize: 20.sp,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

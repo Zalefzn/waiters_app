@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/produk.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_page.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class ViewMenu extends StatefulWidget {
-  const ViewMenu({Key? key}) : super(key: key);
-
   @override
   State<ViewMenu> createState() => _ViewMenuState();
 }
 
 class _ViewMenuState extends State<ViewMenu> {
+  @override
+  void initState() {
+    getCount();
+    super.initState();
+  }
+
+  void getCount() {}
+  int _count = 0;
   int _currentIndex = 0;
+  int selectedIndex = 0;
   List options = [
     MenuPage(),
     SummeryPage(),
   ];
   @override
   Widget build(BuildContext context) {
+    CartProvider cartprovider = Provider.of<CartProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -32,16 +44,16 @@ class _ViewMenuState extends State<ViewMenu> {
           items: [
             Icon(
               Icons.shopping_bag_outlined,
-              color: Colors.black,
+              color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
             ),
             Badge(
-              badgeContent: Text("0",
+              badgeContent: Text(cartprovider.totalItems().toString(),
                   style: TextStyle(
                     color: Colors.white,
                   )),
               child: Icon(
                 Icons.summarize_outlined,
-                color: Colors.black,
+                color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
               ),
               badgeColor: Colors.orangeAccent,
             ),
@@ -49,6 +61,7 @@ class _ViewMenuState extends State<ViewMenu> {
           onTap: (index) {
             setState(() {
               _currentIndex = index;
+              selectedIndex = index;
             });
           },
         ),
