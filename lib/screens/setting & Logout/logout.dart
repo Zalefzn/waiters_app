@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +17,7 @@ class LogOut extends StatefulWidget {
 
 class _LogOutState extends State<LogOut> {
   String api = "";
+
   @override
   void initState() {
     getUser();
@@ -44,6 +45,7 @@ class _LogOutState extends State<LogOut> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -65,7 +67,7 @@ class _LogOutState extends State<LogOut> {
               },
             ),
             elevation: 1,
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundClor,
             title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 24,
@@ -92,7 +94,7 @@ class _LogOutState extends State<LogOut> {
                       height: SizeConfig.blockVertical * 25,
                       width: SizeConfig.blockHorizontal * 100,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: backgroundClor,
                       ),
                       child: Stack(
                         children: [
@@ -107,7 +109,7 @@ class _LogOutState extends State<LogOut> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 64),
+                                      right: SizeConfig.marginDefault),
                                   child: Text(
                                     'Servers Name : ',
                                     style: TextStyle(
@@ -121,7 +123,7 @@ class _LogOutState extends State<LogOut> {
                                 SizedBox(height: SizeConfig.blockVertical * 2),
                                 Container(
                                   margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 47),
+                                      right: SizeConfig.blockHorizontal * 52),
                                   child: Text(
                                     'Clock in Time: ' +
                                         '           ' +
@@ -137,7 +139,7 @@ class _LogOutState extends State<LogOut> {
                                 SizedBox(height: SizeConfig.blockVertical * 2),
                                 Container(
                                   margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 47),
+                                      right: SizeConfig.blockHorizontal * 52),
                                   child: Text(
                                       'Date:      ' +
                                           ' ' +
@@ -151,7 +153,7 @@ class _LogOutState extends State<LogOut> {
                                 SizedBox(height: SizeConfig.blockVertical * 2),
                                 Container(
                                   margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 15),
+                                      right: SizeConfig.blockHorizontal * 20),
                                   child: Text('Local: ' + '  $api',
                                       style: TextStyle(
                                           fontFamily: ' Montserrat',
@@ -223,7 +225,6 @@ class _LogOutState extends State<LogOut> {
                                   builder: (BuildContext context) =>
                                       _buildPopDialog(context),
                                 );
-                                setState(() {});
                               },
                               child: Text(
                                 'Confirm IP Address',

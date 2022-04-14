@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/model/table.dart';
-import 'package:flutter_mobile/model/tokenModel.dart';
+import 'package:flutter_mobile/model/class_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+//api AuthService
 class AuthService {
   Future<ModelToken> login({
     required int pin,
@@ -33,6 +32,7 @@ class AuthService {
   }
 }
 
+//api tableService
 class TableService {
   Future<List<TableManagement>> getTable() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -63,6 +63,7 @@ class TableService {
   }
 }
 
+//api dataService Product
 class DataService {
   static Future<List<DataProduct>> getDataPro() async {
     SharedPreferences qoligoPos = await SharedPreferences.getInstance();
@@ -90,6 +91,7 @@ class DataService {
   }
 }
 
+//api category product
 class GetCategory {
   Future<List<ProductCategory>> getCategoryProduct() async {
     SharedPreferences getCategory = await SharedPreferences.getInstance();
@@ -118,6 +120,7 @@ class GetCategory {
   }
 }
 
+//api section table
 class GetSection {
   Future<List<Section>> getSection() async {
     SharedPreferences section = await SharedPreferences.getInstance();
@@ -144,6 +147,7 @@ class GetSection {
   }
 }
 
+//api user server
 class UserModelApi {
   Future<List<ModelUser>> getUser() async {
     SharedPreferences getUser = await SharedPreferences.getInstance();
@@ -170,6 +174,7 @@ class UserModelApi {
   }
 }
 
+//api order data
 class OrderService {
   Future<bool> orderCheck(
       List<CartModel> carts, List<TableManagement> tables) async {
@@ -227,12 +232,13 @@ class OrderService {
   }
 }
 
+//api marge table
 class MargeCheck {
   Future<bool> margeCheck(List<TableManagement> table) async {
     SharedPreferences getOrder = await SharedPreferences.getInstance();
     var getMainMarge = getOrder.getInt("MainMarge");
     var baseUrl = getOrder.getString("setApi");
-    var getChildMarge = getOrder.getInt("ChildTable");
+    var getChildMarge = getOrder.getString("ChildTable");
 
     print(getMainMarge);
     print(getChildMarge);
@@ -245,8 +251,9 @@ class MargeCheck {
       'Content-Type': 'application/json',
       'Authorization': "Bearer ${auth}",
     };
+    var dataChild = [];
     var bodyProduct = jsonEncode({
-      "child_tables": getChildMarge,
+      "child_tables": dataChild = jsonDecode(getChildMarge.toString()),
       "parent_tables": getMainMarge,
     });
     var response = await http.post(Uri.parse(urlData),
@@ -263,6 +270,7 @@ class MargeCheck {
   }
 }
 
+//api move table
 class MoveCheck {
   Future<bool> moveCheck(List<TableManagement> table) async {
     SharedPreferences getMoveCheck = await SharedPreferences.getInstance();

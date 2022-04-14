@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -17,9 +18,8 @@ class MargeTable extends StatefulWidget {
 class _MargeTable extends State<MargeTable> {
   @override
   Widget build(BuildContext context) {
-    bool buttonPressed = false;
     var margeTable = "";
-    var childTable = [];
+    List childTable = [];
 
     TableProviders tableProviders = Provider.of<TableProviders>(context);
     MargeProviders margeProvider = Provider.of<MargeProviders>(context);
@@ -78,7 +78,7 @@ class _MargeTable extends State<MargeTable> {
                             )),
                         Container(
                           margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 10),
+                              left: SizeConfig.blockHorizontal * 6),
                           child: RaisedButton(
                             onPressed: () async {
                               _saveMainMarge = "-";
@@ -202,25 +202,27 @@ class _MargeTable extends State<MargeTable> {
                             onTap: () async {
                               if (margeTable == "") {
                                 margeTable = b.idTable.toString();
+
                                 SharedPreferences setMargeTable =
                                     await SharedPreferences.getInstance();
                                 setMargeTable.setInt("MainMarge", b.idTable);
+
                                 print(margeTable);
                               } else {
                                 if (margeTable != b.idTable) {
                                   if (childTable != 0) {
-                                    childTable.add(b.idTable);
+                                    childTable.addAll({b.idTable});
 
                                     var isTableExist = childTable
                                         .where((data) => data == b.idTable);
                                     if (isTableExist == 0) {
-                                      childTable.add(b.idTable);
+                                      childTable.addAll({b.idTable});
                                     }
                                     SharedPreferences setMargeTable =
                                         await SharedPreferences.getInstance();
-                                    setMargeTable.setInt(
-                                        "ChildTable", b.idTable);
-                                    print(isTableExist);
+                                    setMargeTable.setString(
+                                        "ChildTable", json.encode(childTable));
+                                    print(childTable);
                                   }
                                 }
                               }
@@ -232,7 +234,7 @@ class _MargeTable extends State<MargeTable> {
                               height: SizeConfig.blockVertical * 25,
                               width: SizeConfig.blockHorizontal * 46,
                               decoration: BoxDecoration(
-                                color: buttonPressed ? buttonColor : textColor3,
+                                color: textColor3,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Center(

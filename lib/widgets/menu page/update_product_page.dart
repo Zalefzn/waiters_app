@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
+import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';

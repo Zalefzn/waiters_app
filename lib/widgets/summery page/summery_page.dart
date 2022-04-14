@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/produk.dart';
-import 'package:flutter_mobile/navigation%20page/menu_navbar.dart';
-import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
+import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/table%20page/change_page_view.dart';
 import 'package:flutter_mobile/widgets/menu%20page/update_product_page.dart';
@@ -22,9 +21,18 @@ class _SummeryPage extends State<SummeryPage> {
   bool isButtonActive2 = true;
   String _tableName = "";
   int _count = 0;
+  var loading = false;
 
   @override
   void initState() {
+    setState(() {
+      Future.delayed(Duration(milliseconds: 500), () {
+        setState(() {
+          loading = false;
+        });
+      });
+      loading = true;
+    });
     super.initState();
     getStatus();
     getCount();
@@ -91,246 +99,253 @@ class _SummeryPage extends State<SummeryPage> {
             ),
           ],
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: SizeConfig.blockVertical * 12,
-              width: SizeConfig.blockHorizontal * 100,
-              decoration: BoxDecoration(
-                color: backgroundClor,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('No.of Customers',
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: SizeConfig.blockVertical * 9,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(
+                  color: backgroundClor,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text('No.of Customers',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Colors.grey.shade300,
+                                fontWeight: FontWeight.w500)),
+                        Text(
+                          "Table No",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16,
-                              color: Colors.grey.shade300,
-                              fontWeight: FontWeight.w500)),
-                      Text(
-                        "Table No",
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey.shade300),
-                      ),
-                      Text("Served By",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 16,
-                              color: Colors.grey.shade300,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: SizeConfig.blockHorizontal * 7),
-                        child: Text("$_count",
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade300),
+                        ),
+                        Text("Served By",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 16,
+                                color: Colors.grey.shade300,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockHorizontal * 7),
+                          child: Text("$_count",
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 8),
+                            child: Text(
+                              "$_tableName",
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )),
+                        const Text("Rizal",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 13,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: SizeConfig.blockVertical * 0.2),
+              Container(
+                height: SizeConfig.blockVertical * 47,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(color: Colors.grey.shade200),
+                child: loading
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView(
+                        children: cartProvider.carts
+                            .map((cart) => CartCard(cart))
+                            .toList(),
                       ),
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 8),
-                          child: Text(
-                            "$_tableName",
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          )),
-                      const Text("Rizal",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
-                    ],
+              ),
+              Stack(
+                children: [
+                  Container(
+                    height: SizeConfig.blockVertical * 18,
+                    width: SizeConfig.blockHorizontal * 100,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 5,
+                                  top: SizeConfig.blockVertical * 3),
+                              child: const Text(
+                                "Subtotal ",
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 55,
+                                  top: SizeConfig.blockVertical * 3),
+                              child: Text(
+                                cartProvider.totalPrice().toString(),
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.blockVertical * 1),
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 5),
+                              height: SizeConfig.blockVertical * 7,
+                              width: SizeConfig.blockHorizontal * 42,
+                              child: ElevatedButton(
+                                onPressed: isButtonActive
+                                    ? () async {
+                                        if (cartProvider.carts.isEmpty) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewMenu()));
+                                          SharedPreferences removeTableName =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          removeTableName.remove("saveTable");
+                                          SharedPreferences removeCount =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          removeCount.remove("key");
+                                          _tableName = "-";
+                                          _count = 0;
+                                        } else if (cartProvider
+                                            .carts.isNotEmpty) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildPopDialog2(context),
+                                          );
+                                          SharedPreferences removeTableName =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          removeTableName.remove("saveTable");
+                                          SharedPreferences removeCount =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          removeCount.remove("key");
+                                          _tableName = "-";
+                                          _count = 0;
+                                        }
+                                        setState(() {
+                                          isButtonActive = false;
+                                        });
+                                      }
+                                    : null,
+                                child: const Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: buttonColor3,
+                                  onSurface: buttonNavbar2,
+                                  elevation: 0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockHorizontal * 6),
+                              height: SizeConfig.blockVertical * 7,
+                              width: SizeConfig.blockHorizontal * 42,
+                              child: ElevatedButton(
+                                onPressed: isButtonActive2
+                                    ? () async {
+                                        if (cartProvider.carts.isEmpty) {
+                                          return null;
+                                        } else if (cartProvider
+                                            .carts.isNotEmpty) {
+                                          cartProvider.carts = [];
+
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewBarPage()));
+                                          handleOrder();
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                _buildPopDialog(context),
+                                          );
+                                        }
+
+                                        setState(() {
+                                          isButtonActive2 = false;
+                                        });
+                                      }
+                                    : null,
+                                child: const Text(
+                                  "Order",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: buttonColor3,
+                                  onSurface: buttonNavbar2,
+                                  elevation: 0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: SizeConfig.blockVertical * 0.2),
-            Container(
-              height: SizeConfig.blockVertical * 47,
-              width: SizeConfig.blockHorizontal * 100,
-              decoration: BoxDecoration(color: Colors.grey.shade200),
-              child: ListView(
-                children:
-                    cartProvider.carts.map((cart) => CartCard(cart)).toList(),
-              ),
-            ),
-            Stack(
-              children: [
-                Container(
-                  height: SizeConfig.blockVertical * 18,
-                  width: SizeConfig.blockHorizontal * 100,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      )),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 5,
-                                top: SizeConfig.blockVertical * 3),
-                            child: const Text(
-                              "Subtotal ",
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 60,
-                                top: SizeConfig.blockVertical * 3),
-                            child: Text(
-                              cartProvider.totalPrice().toString(),
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: SizeConfig.blockVertical * 1),
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 5),
-                            height: SizeConfig.blockVertical * 7,
-                            width: SizeConfig.blockHorizontal * 42,
-                            child: ElevatedButton(
-                              onPressed: isButtonActive
-                                  ? () async {
-                                      if (cartProvider.carts.isEmpty) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewMenu()));
-                                        SharedPreferences removeTableName =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        removeTableName.remove("saveTable");
-                                        SharedPreferences removeCount =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        removeCount.remove("key");
-                                        _tableName = "-";
-                                        _count = 0;
-                                      } else if (cartProvider
-                                          .carts.isNotEmpty) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              _buildPopDialog2(context),
-                                        );
-                                        SharedPreferences removeTableName =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        removeTableName.remove("saveTable");
-                                        SharedPreferences removeCount =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        removeCount.remove("key");
-                                        _tableName = "-";
-                                        _count = 0;
-                                      }
-                                      setState(() {
-                                        isButtonActive = false;
-                                      });
-                                    }
-                                  : null,
-                              child: const Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: buttonColor3,
-                                onSurface: buttonNavbar2,
-                                elevation: 0,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 6),
-                            height: SizeConfig.blockVertical * 7,
-                            width: SizeConfig.blockHorizontal * 42,
-                            child: ElevatedButton(
-                              onPressed: isButtonActive2
-                                  ? () async {
-                                      if (cartProvider.carts.isEmpty) {
-                                        return null;
-                                      } else if (cartProvider
-                                          .carts.isNotEmpty) {
-                                        cartProvider.carts = [];
-
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewBarPage()));
-                                        handleOrder();
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              _buildPopDialog(context),
-                                        );
-                                      }
-
-                                      setState(() {
-                                        isButtonActive2 = false;
-                                      });
-                                    }
-                                  : null,
-                              child: const Text(
-                                "Order",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: buttonColor3,
-                                onSurface: buttonNavbar2,
-                                elevation: 0,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });
@@ -387,7 +402,7 @@ _buildPopDialog2(BuildContext context) {
                 children: [
                   Text("Are You Sure you Want to Leave ?",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 15,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.bold,
                         color: Colors.black,

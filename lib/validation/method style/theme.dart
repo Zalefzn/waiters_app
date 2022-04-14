@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+double defaultMargin = 30;
+
 Color backgroundClor = const Color(0xffffffff);
 Color backgroundColor = const Color(0xffDCDCDC);
 Color textColor1 = const Color(0xff000000);

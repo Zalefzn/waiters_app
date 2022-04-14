@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
-import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
@@ -33,6 +34,7 @@ class _ViewPageState extends State<ViewPage> {
       });
       loading = true;
     });
+
     getProducts();
     getTab();
     getSection();
@@ -55,6 +57,7 @@ class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
+    SectionTable section = Provider.of<SectionTable>(context);
 
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
@@ -89,163 +92,153 @@ class _ViewPageState extends State<ViewPage> {
                 )),
           ],
         ),
-        body: Column(children: [
-          Stack(
-            children: [
-              Material(
-                elevation: 4,
-                child: Stack(
-                  children: [
-                    Container(
-                      height: SizeConfig.blockVertical * 10,
-                      width: SizeConfig.blockHorizontal * 100,
-                      decoration: BoxDecoration(
-                        color: backgroundClor,
-                      ),
-                      child: Stack(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 3,
-                                    top: SizeConfig.blockVertical * 3),
-                                child: Text(
-                                  'Section/Floor : ',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Stack(
+              children: [
+                Material(
+                  elevation: 4,
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: SizeConfig.blockVertical * 10,
+                        width: SizeConfig.blockHorizontal * 100,
+                        decoration: BoxDecoration(
+                          color: backgroundClor,
+                        ),
+                        child: Stack(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockHorizontal * 3,
+                                      top: SizeConfig.blockVertical * 3),
+                                  child: Text(
+                                    'Section/Floor : ',
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: SizeConfig.blockHorizontal * 1,
-                                    top: SizeConfig.blockVertical * 2.5),
-                                width: SizeConfig.blockHorizontal * 60,
-                                height: SizeConfig.blockVertical * 5,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.black),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    hint: Container(
-                                      margin: EdgeInsets.only(
-                                          left: SizeConfig.blockVertical * 2),
-                                      child: Text(
-                                        "Base Section",
-                                        style: TextStyle(
-                                          fontFamily: ' Montserrat',
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600,
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockHorizontal * 1,
+                                      top: SizeConfig.blockVertical * 2.5),
+                                  width: SizeConfig.blockHorizontal * 60,
+                                  height: SizeConfig.blockVertical * 5,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: Colors.black),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                      hint: Container(
+                                        margin: EdgeInsets.only(
+                                            left: SizeConfig.blockVertical * 2),
+                                        child: Text(
+                                          "Base Section",
+                                          style: TextStyle(
+                                            fontFamily: ' Montserrat',
+                                            fontSize: 12.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
+                                      elevation: 0,
+                                      items: _dropDownItem(),
+                                      onChanged: (value) {
+                                        switch (value) {
+                                          case 'Base Section':
+                                            break;
+                                          case 'Section 001':
+                                        }
+                                      },
                                     ),
-                                    elevation: 0,
-                                    items: _dropDownItem(),
-                                    onChanged: (value) {
-                                      switch (value) {
-                                        case 'Base Section':
-                                          break;
-                                        case 'Section 001':
-                                      }
-                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Container(
+                margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
+                height: SizeConfig.blockVertical * 65,
+                width: SizeConfig.blockHorizontal * 100,
+                decoration: BoxDecoration(
+                  color: backgroundClor,
+                ),
+                child: loading
+                    ? Center(child: CircularProgressIndicator())
+                    : GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 2,
+                          mainAxisSpacing: 1,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: tableProviders.tables.length,
+                        itemBuilder: (context, i) {
+                          final a = tableProviders.tables[i];
+                          return Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  a.tableName != null;
+                                  SharedPreferences getOutlet =
+                                      await SharedPreferences.getInstance();
+                                  getOutlet.setInt("saveIdOutlete", a.idOutlet);
+                                  print(a.idOutlet);
+                                  SharedPreferences getId =
+                                      await SharedPreferences.getInstance();
+                                  getId.setInt("saveId", a.idTable);
+                                  print(a.idTable);
+                                  SharedPreferences getTable =
+                                      await SharedPreferences.getInstance();
+                                  getTable.setString("saveTable", a.tableName);
+                                  print(a.tableName);
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const InputCustomer()));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockVertical * 2,
+                                      left: SizeConfig.blockHorizontal * 2.5),
+                                  height: SizeConfig.blockVertical * 25,
+                                  width: SizeConfig.blockHorizontal * 46,
+                                  decoration: BoxDecoration(
+                                    color: _hasBeenPressed
+                                        ? buttonColor2
+                                        : buttonNavbar2,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      a.tableName,
+                                      style: textButton.copyWith(
+                                        fontSize: 20.sp,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-              height: SizeConfig.blockVertical * 65.9,
-              width: SizeConfig.blockHorizontal * 100,
-              decoration: BoxDecoration(
-                color: backgroundClor,
-              ),
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 1,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: tableProviders.tables.length,
-                  itemBuilder: (context, i) {
-                    final a = tableProviders.tables[i];
-                    return Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            a.tableName != null;
-                            SharedPreferences getOutlet =
-                                await SharedPreferences.getInstance();
-                            getOutlet.setInt("saveIdOutlete", a.idOutlet);
-                            print(a.idOutlet);
-                            SharedPreferences getId =
-                                await SharedPreferences.getInstance();
-                            getId.setInt("saveId", a.idTable);
-                            print(a.idTable);
-                            SharedPreferences getTable =
-                                await SharedPreferences.getInstance();
-                            getTable.setString("saveTable", a.tableName);
-                            print(a.tableName);
-
-                            setState(() {
-                              _hasBeenPressed = !_hasBeenPressed;
-                            });
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const InputCustomer()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                top: SizeConfig.blockVertical * 2,
-                                left: SizeConfig.blockHorizontal * 2.5),
-                            height: SizeConfig.blockVertical * 25,
-                            width: SizeConfig.blockHorizontal * 46,
-                            decoration: BoxDecoration(
-                              color: _hasBeenPressed
-                                  ? buttonColor2
-                                  : buttonNavbar2,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child: Text(
-                                a.tableName,
-                                style: textButton.copyWith(
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  })
-              // child: GridView.count(
-              //   crossAxisCount: 2,
-              //   mainAxisSpacing: 1,
-              //   crossAxisSpacing: 0,
-              //   padding: const EdgeInsets.all(1),
-              //   childAspectRatio: 1,
-              //   children: tableProviders.tables
-              //       .map((tableProducts) => TableCard(tableProducts))
-              //       .toList(),
-              // )),
-              )
-        ]),
+                          );
+                        }))
+          ]),
+        ),
       );
     });
   }
@@ -270,7 +263,7 @@ _buildPopupDialog(BuildContext context) {
           ),
           Container(
             margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 2,
+                left: SizeConfig.blockHorizontal * 0,
                 bottom: SizeConfig.blockVertical * 0),
             height: SizeConfig.blockVertical * 5,
             width: SizeConfig.blockHorizontal * 15,
@@ -341,62 +334,3 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       )
       .toList();
 }
-
-// class TableCard extends StatefulWidget {
-//   final TableManagement tableProducts;
-//   TableCard(this.tableProducts);
-
-//   @override
-//   State<TableCard> createState() => _TableCardState();
-// }
-
-// class _TableCardState extends State<TableCard> {
- 
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         GestureDetector(
-//           onTap: () async {
-//             widget.tableProducts.tableName != null;
-//             SharedPreferences getOutlet = await SharedPreferences.getInstance();
-//             getOutlet.setInt("saveIdOutlete", widget.tableProducts.idOutlet);
-//             print(widget.tableProducts.idOutlet);
-//             SharedPreferences getId = await SharedPreferences.getInstance();
-//             getId.setInt("saveId", widget.tableProducts.idTable);
-//             print(widget.tableProducts.idTable);
-//             SharedPreferences getTable = await SharedPreferences.getInstance();
-//             getTable.setString("saveTable", widget.tableProducts.tableName);
-//             print(widget.tableProducts.tableName);
-
-//             setState(() {
-//               _hasBeenPressed = !_hasBeenPressed;
-//             });
-//             Navigator.push(context,
-//                 MaterialPageRoute(builder: (context) => const InputCustomer()));
-//           },
-//           child: Container(
-//             margin: EdgeInsets.only(
-//                 top: SizeConfig.blockVertical * 2,
-//                 left: SizeConfig.blockHorizontal * 2.5),
-//             height: SizeConfig.blockVertical * 25,
-//             width: SizeConfig.blockHorizontal * 46,
-//             decoration: BoxDecoration(
-//               color: _hasBeenPressed ? buttonColor2 : buttonNavbar2,
-//               borderRadius: BorderRadius.circular(15),
-//             ),
-//             child: Center(
-//               child: Text(
-//                 widget.tableProducts.tableName,
-//                 style: textButton.copyWith(
-//                   fontSize: 20.sp,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/table.dart';
-import 'package:flutter_mobile/navigation%20page/navbutton_page.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MoveTable extends StatefulWidget {
   const MoveTable({Key? key}) : super(key: key);

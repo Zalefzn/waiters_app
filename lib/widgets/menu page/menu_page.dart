@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -14,14 +14,22 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  var loading = false;
-
   TextEditingController searchController = TextEditingController();
+  List<DataProduct> productData = [];
   bool isActiveBotton = false;
   bool buttonPressed = false;
+  var loading = false;
 
   @override
   void initState() {
+    setState(() {
+      Future.delayed(Duration(milliseconds: 500), () {
+        setState(() {
+          loading = false;
+        });
+      });
+      loading = true;
+    });
     getCategory();
     getProducts();
     super.initState();
@@ -49,7 +57,7 @@ class _MenuPageState extends State<MenuPage> {
       }
 
       productProviders.products.forEach((data) {
-        if (data.nameProduct.contains(text) ||
+        if (data.nameProduct.toLowerCase().contains(text) ||
             data.idoutlet.toString().contains(text))
           productProviders.search.add(data);
       });
@@ -112,6 +120,7 @@ class _MenuPageState extends State<MenuPage> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      //category product
                                       showModalBottomSheet(
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.only(
@@ -180,35 +189,86 @@ class _MenuPageState extends State<MenuPage> {
                                                                 0),
                                                         height: SizeConfig
                                                                 .blockVertical *
-                                                            80,
+                                                            75,
                                                         width: SizeConfig
                                                                 .blockHorizontal *
-                                                            100,
+                                                            90,
                                                         decoration:
                                                             const BoxDecoration(
                                                           color: Colors.white,
                                                         ),
                                                         child: ListView.builder(
-                                                            itemCount: 1,
+                                                            itemCount: category
+                                                                .categorys
+                                                                .length,
                                                             itemBuilder:
                                                                 (context,
                                                                     int index) {
-                                                              return Container(
-                                                                height: SizeConfig
-                                                                        .blockVertical *
-                                                                    80,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                                child: Column(
-                                                                  children: category
-                                                                      .categorys
-                                                                      .map((category) =>
-                                                                          CategoryPage(
-                                                                              category))
-                                                                      .toList(),
+                                                              final a = category
+                                                                      .categorys[
+                                                                  index];
+                                                              return GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  if (productProviders
+                                                                          .products[
+                                                                              index]
+                                                                          .idProCategory ==
+                                                                      null) {
+                                                                    print("");
+                                                                  } else {
+                                                                    print(category
+                                                                        .categorys[
+                                                                            index]
+                                                                        .idCategory);
+                                                                    print(productProviders
+                                                                        .products
+                                                                        .where((product) =>
+                                                                            ProductCard(product).product.idProCategory ==
+                                                                            category.categorys[index].idCategory)
+                                                                        .toList());
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin: EdgeInsets.only(
+                                                                      top: SizeConfig
+                                                                              .blockVertical *
+                                                                          2),
+                                                                  height: SizeConfig
+                                                                          .blockVertical *
+                                                                      10,
+                                                                  width: SizeConfig
+                                                                          .blockHorizontal *
+                                                                      80,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                          color: buttonPressed
+                                                                              ? buttonColor
+                                                                              : textColor2,
+                                                                          border: Border
+                                                                              .all(
+                                                                            width:
+                                                                                1,
+                                                                            color:
+                                                                                Colors.black,
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(5)),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      a.categoryName,
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               );
                                                             }) //GridView.count(
@@ -265,157 +325,33 @@ class _MenuPageState extends State<MenuPage> {
               ],
             ),
             Container(
-                height: SizeConfig.blockVertical * 54,
+                height: 63.h,
                 width: SizeConfig.blockHorizontal * 100,
                 color: Colors.white,
                 child: productProviders.search.length != 0 ||
-                        searchController.text.isNotEmpty
-                    ? GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 3,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: productProviders.search.length,
-                        itemBuilder: (context, i) {
-                          final e = productProviders.search[i];
-                          return GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                          productProviders.products.first)));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockVertical * 2),
-                              height: SizeConfig.blockVertical * 34,
-                              width: SizeConfig.blockHorizontal * 45,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                      height: SizeConfig.blockVertical * 1),
-                                  Image.network(e.gambarUrl,
-                                      height: 110,
-                                      width: 170,
-                                      fit: BoxFit.fill),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockVertical * 3),
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            e.nameProduct,
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Montserrat'),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                SizeConfig.blockVertical * 1),
-                                        Center(
-                                          child: Text(
-                                            e.hargaProduct,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: 'Montserrat'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        })
-                    : GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 3,
-                          childAspectRatio: 1,
-                        ),
-                        itemCount: productProviders.products.length,
-                        itemBuilder: (context, k) {
-                          final j = productProviders.products[k];
-                          return GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage(
-                                          productProviders.products.first)));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockVertical * 2),
-                              height: SizeConfig.blockVertical * 34,
-                              width: SizeConfig.blockHorizontal * 45,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                      height: SizeConfig.blockVertical * 1),
-                                  Image.network(j.gambarUrl,
-                                      height: 110,
-                                      width: 170,
-                                      fit: BoxFit.fill),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockVertical * 3),
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            j.nameProduct,
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Montserrat'),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                            height:
-                                                SizeConfig.blockVertical * 1),
-                                        Center(
-                                          child: Text(
-                                            j.hargaProduct,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: 'Montserrat'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        })),
-            // child: GridView.count(
-            //   crossAxisCount: 2,
-            //   mainAxisSpacing: 2,
-            //   crossAxisSpacing: 1,
-            //   padding: const EdgeInsets.all(6),
-            //   childAspectRatio: 1,
-            //   children: productProviders.products
-            //       .map((product) => ProductCard(product))
-            //       .toList(),
-            // )),
+                        searchController.text.toLowerCase().isNotEmpty
+                    ? GridView.count(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 1,
+                        padding: const EdgeInsets.all(6),
+                        childAspectRatio: 1,
+                        children: productProviders.search
+                            .map((product) => ProductCard(product))
+                            .toList(),
+                      )
+                    : loading
+                        ? Center(child: CircularProgressIndicator())
+                        : GridView.count(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 1,
+                            padding: const EdgeInsets.all(6),
+                            childAspectRatio: 1,
+                            children: productProviders.products
+                                .map((product) => ProductCard(product))
+                                .toList(),
+                          )),
           ]),
         ),
       );
@@ -423,122 +359,73 @@ class _MenuPageState extends State<MenuPage> {
   }
 }
 
-// class ProductCard extends StatefulWidget {
-//   final DataProduct product;
-//   ProductCard(this.product);
-
-//   @override
-//   State<ProductCard> createState() => _ProductCardState();
-// }
-
-// class _ProductCardState extends State<ProductCard> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         GestureDetector(
-//           onTap: () async {
-//             Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) => ProductPage(widget.product)));
-//           },
-//           child: Container(
-//             margin: EdgeInsets.only(
-//                 left: SizeConfig.blockHorizontal * 3,
-//                 top: SizeConfig.blockVertical * 2),
-//             height: SizeConfig.blockVertical * 34,
-//             width: SizeConfig.blockHorizontal * 45,
-//             decoration: BoxDecoration(
-//                 color: Colors.grey.shade100,
-//                 borderRadius: BorderRadius.circular(20)),
-//             child: Column(
-//               children: [
-//                 SizedBox(height: SizeConfig.blockVertical * 1),
-//                 Image.network(widget.product.gambarUrl,
-//                     height: 110, width: 170, fit: BoxFit.fill),
-//                 Container(
-//                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-//                   child: Column(
-//                     children: [
-//                       Center(
-//                         child: Text(
-//                           widget.product.nameProduct,
-//                           style: const TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.w500,
-//                               fontFamily: 'Montserrat'),
-//                         ),
-//                       ),
-//                       SizedBox(height: SizeConfig.blockVertical * 1),
-//                       Center(
-//                         child: Text(
-//                           widget.product.hargaProduct,
-//                           style: const TextStyle(
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.w700,
-//                               fontFamily: 'Montserrat'),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-class CategoryPage extends StatefulWidget {
-  ProductCategory category;
-  CategoryPage(this.category);
+class ProductCard extends StatefulWidget {
+  DataProduct product;
+  ProductCard(this.product);
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<ProductCard> createState() => _ProductCardState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
-  List<DataProduct> dataProduct = [];
-  bool buttonPressed = false;
-
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    ProductProviders product = Provider.of<ProductProviders>(context);
-
-    return ChangeNotifierProvider<ProductProviders>(
-      create: (context) => ProductProviders(),
-      child: GestureDetector(
-        onTap: () async {
-          setState(() {
-            buttonPressed ? null : buttonPressed = !buttonPressed;
-          });
-        },
-        child: Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),
-          height: SizeConfig.blockVertical * 10,
-          width: SizeConfig.blockHorizontal * 96,
-          decoration: BoxDecoration(
-              color: buttonPressed ? buttonColor : textColor2,
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
-              ),
-              borderRadius: BorderRadius.circular(5)),
-          child: Center(
-            child: Text(
-              widget.category.categoryName,
-              style: TextStyle(
-                color: buttonPressed ? Colors.white : Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductPage(widget.product)));
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 3,
+                top: SizeConfig.blockVertical * 2),
+            height: 30.h,
+            width: SizeConfig.blockHorizontal * 45,
+            decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(20)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: SizeConfig.blockVertical * 1),
+                  Image.network(widget.product.gambarUrl,
+                      height: 80, width: 110, fit: BoxFit.fill),
+                  Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            widget.product.nameProduct,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Montserrat'),
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.blockVertical * 1),
+                        Center(
+                          child: Text(
+                            widget.product.hargaProduct,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Montserrat'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

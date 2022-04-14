@@ -1,9 +1,8 @@
 import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/tokenModel.dart';
-import 'package:flutter_mobile/model/table.dart';
-import 'package:flutter_mobile/model/produk.dart';
+import 'package:flutter_mobile/model/class_model.dart';
 
+//provider Auth service
 class AuthProviders with ChangeNotifier {
   late ModelToken _pin;
 
@@ -27,6 +26,7 @@ class AuthProviders with ChangeNotifier {
   }
 }
 
+//provider table management
 class TableProviders with ChangeNotifier {
   List<TableManagement> _tables = [];
   List<TableManagement> get tables => _tables;
@@ -45,6 +45,7 @@ class TableProviders with ChangeNotifier {
   }
 }
 
+//provider product data
 class ProductProviders with ChangeNotifier {
   List<DataProduct> _barangs = [];
   List<DataProduct> _searchBarang = [];
@@ -78,6 +79,7 @@ class ProductProviders with ChangeNotifier {
   }
 }
 
+//provider cart model
 class CartProvider with ChangeNotifier {
   List<CartModel> _carts = [];
 
@@ -153,6 +155,7 @@ class CartProvider with ChangeNotifier {
   }
 }
 
+//provider category product
 class ProductCategorys with ChangeNotifier {
   List<ProductCategory> _category = [];
 
@@ -172,6 +175,7 @@ class ProductCategorys with ChangeNotifier {
   }
 }
 
+//provider section table
 class SectionTable with ChangeNotifier {
   List<Section> _section = [];
   List<Section> get sections => _section;
@@ -189,6 +193,7 @@ class SectionTable with ChangeNotifier {
   }
 }
 
+//provider user
 class UserProvider with ChangeNotifier {
   List<ModelUser> _user = [];
   List<ModelUser> get users => _user;
@@ -206,6 +211,7 @@ class UserProvider with ChangeNotifier {
   }
 }
 
+//provider marge table
 class MargeProviders with ChangeNotifier {
   Future<bool> margeCheck(List<TableManagement> table) async {
     try {
@@ -221,6 +227,7 @@ class MargeProviders with ChangeNotifier {
   }
 }
 
+//provider move table
 class MoveProvider with ChangeNotifier {
   Future<bool> moveCheck(List<TableManagement> table) async {
     try {
@@ -236,6 +243,7 @@ class MoveProvider with ChangeNotifier {
   }
 }
 
+//provider order data
 class OrderProvider with ChangeNotifier {
   Future<bool> orderCheck(
       List<CartModel> carts, List<TableManagement> tables) async {

@@ -1,3 +1,24 @@
+//model token
+class ModelToken {
+  late int pin;
+  late String token;
+
+  ModelToken({required this.pin, required this.token});
+
+  ModelToken.fromJson(Map<String, dynamic> json) {
+    pin = json["pin"];
+    token = json["access_token"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "pin": pin,
+      "access_token": token,
+    };
+  }
+}
+
+//model product data
 class DataProduct {
   late int productId;
   late int idoutlet;
@@ -57,6 +78,7 @@ class DataProduct {
   }
 }
 
+//model cart product
 class CartModel {
   late int id;
   late DataProduct product;
@@ -86,6 +108,7 @@ class CartModel {
   }
 }
 
+//model category product
 class ProductCategory {
   late String categoryName;
   late int idDepartement;
@@ -116,6 +139,7 @@ class ProductCategory {
   }
 }
 
+//model user
 class ModelUser {
   late int idCompany;
   late int idOutlet;
@@ -170,21 +194,163 @@ class ModelUser {
   }
 }
 
-class Customer {
-  late String name;
-  late String count;
+//model table managamenet
+class TableManagement {
+  late int idOutlet;
+  late int idTable;
+  late SessionTable session;
+  late bool isParentMarge;
+  late String tableName;
 
-  Customer({required this.name, required this.count});
+  TableManagement({
+    required this.idOutlet,
+    required this.idTable,
+    required this.session,
+    required this.isParentMarge,
+    required this.tableName,
+  });
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    name = json["name"];
-    count = json["count"];
+  TableManagement.fromJson(Map<String, dynamic> json) {
+    idOutlet = json["id_outlet"];
+    idTable = json["id_table_management"];
+    var session;
+    if (json["session_table"] != null) {
+      session = SessionTable.fromJson(json["session_table"]);
+    }
+    var isParentMarge;
+    if (json["is_parent_table"] != null) {
+      isParentMarge = json["is_parent_table"];
+    }
+
+    tableName = json["table_name"];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
-      "count": count,
+      "id_outlet": idOutlet,
+      "id_table_management": idTable,
+      "session_table": session.toJson(),
+      "is_parent_table": isParentMarge,
+      "table_name": tableName,
+    };
+  }
+}
+
+//model section table
+class TableSection {
+  late String createdAt;
+  late int idOutlet;
+  late int idSection;
+  late String sectionName;
+  late String updatedAt;
+
+  TableSection({
+    required this.createdAt,
+    required this.idOutlet,
+    required this.idSection,
+    required this.sectionName,
+    required this.updatedAt,
+  });
+
+  TableSection.fromJson(Map<String, dynamic> json) {
+    createdAt = json["created_at"];
+    idOutlet = json["id_outlet"];
+    idSection = json["id_section"];
+    sectionName = json["section_name"];
+    updatedAt = json["updated_at"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "created_at": createdAt,
+      "id_outlet": idOutlet,
+      "id_section": idSection,
+      "section_name": sectionName,
+      "updated_at": updatedAt,
+    };
+  }
+}
+
+//model section
+class Section {
+  late int idOutlet;
+  late int idSection;
+  late String nameSection;
+
+  Section({
+    required this.idOutlet,
+    required this.idSection,
+    required this.nameSection,
+  });
+
+  Section.fromJson(Map<String, dynamic> json) {
+    idOutlet = json['id_outlet'];
+    idSection = json['id_section'];
+    nameSection = json['section_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id_outlet': idOutlet,
+      'id_section': idSection,
+      'section_name': nameSection,
+    };
+  }
+}
+
+//model session table
+class SessionTable {
+  late int sessionTable;
+  late bool isAccessed;
+  late MargedTable margeTable;
+
+  SessionTable({
+    required this.isAccessed,
+    required this.sessionTable,
+    required this.margeTable,
+  });
+
+  SessionTable.fromJson(Map<String, dynamic> json) {
+    sessionTable = json["id_session_table"];
+    isAccessed = json["is_accessed"];
+    var margedData;
+    if (json["marged_table"] != null) {
+      margedData = MargedTable.fromJson(json["marged_table"]);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id_session_table": sessionTable,
+      "is_accessed": isAccessed,
+      'marged_table': margeTable.toJson(),
+    };
+  }
+}
+
+//model margeTable
+class MargedTable {
+  late int idOutlet;
+  late int idTableManage;
+  late bool isParentTable;
+
+  MargedTable({
+    required this.idOutlet,
+    required this.idTableManage,
+    required this.isParentTable,
+  });
+
+  MargedTable.fromJson(Map<String, dynamic> json) {
+    idOutlet = json["id_outlet"];
+    idTableManage = json["id_table_management"];
+    isParentTable = json["is_parent_table"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id_outlet": idOutlet,
+      "id_table_management": idTableManage,
+      "is_parent-table": isParentTable,
     };
   }
 }
