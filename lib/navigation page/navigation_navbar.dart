@@ -10,6 +10,7 @@ import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 
+//navigation navbar menu view
 class ViewMenu extends StatefulWidget {
   @override
   State<ViewMenu> createState() => _ViewMenuState();
@@ -74,6 +75,7 @@ class _ViewMenuState extends State<ViewMenu> {
   }
 }
 
+//navigation navbar view table
 class ViewBar extends StatefulWidget {
   const ViewBar({Key? key}) : super(key: key);
 

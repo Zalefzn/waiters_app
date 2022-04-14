@@ -15,7 +15,6 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   TextEditingController searchController = TextEditingController();
-  List<DataProduct> productData = [];
   bool isActiveBotton = false;
   bool buttonPressed = false;
   var loading = false;
