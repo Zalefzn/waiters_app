@@ -45,6 +45,25 @@ class TableProviders with ChangeNotifier {
   }
 }
 
+//provider pos setting
+class PosProviders with ChangeNotifier {
+  List<PosSetting> _pos = [];
+  List<PosSetting> get pos => _pos;
+
+  set pos(List<PosSetting> poses) {
+    notifyListeners();
+  }
+
+  Future<void> getPos() async {
+    try {
+      List<PosSetting> poses = await PosSettingServ().posSettings();
+      _pos = poses;
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
 //provider product data
 class ProductProviders with ChangeNotifier {
   List<DataProduct> _barangs = [];
@@ -177,16 +196,16 @@ class ProductCategorys with ChangeNotifier {
 
 //provider section table
 class SectionTable with ChangeNotifier {
-  List<Section> _section = [];
-  List<Section> get sections => _section;
+  List<TableSection> _section = [];
+  List<TableSection> get sections => _section;
 
-  set sections(List<Section> _section) {
+  set sections(List<TableSection> _section) {
     notifyListeners();
   }
 
   Future<void> getSection() async {
     try {
-      List<Section> sectionTab = await GetSection().getSection();
+      List<TableSection> sectionTab = await GetSection().getSection();
     } catch (e) {
       print(e);
     }
@@ -194,17 +213,17 @@ class SectionTable with ChangeNotifier {
 }
 
 //provider user
-class UserProvider with ChangeNotifier {
-  List<ModelUser> _user = [];
-  List<ModelUser> get users => _user;
+class ProviderUser with ChangeNotifier {
+  List<UserServer> _user = [];
+  List<UserServer> get users => _user;
 
-  set users(List<ModelUser> _user) {
+  set users(List<UserServer> _user) {
     notifyListeners();
   }
 
   Future<void> getUsers() async {
     try {
-      List<ModelUser> getUsers = await UserModelApi().getUser();
+      List<UserServer> getUsers = await UserModelApi().getUser();
     } catch (e) {
       print(e);
     }

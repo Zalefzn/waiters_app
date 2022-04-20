@@ -102,10 +102,6 @@ class CartModel {
       'product': product.toJson(),
     };
   }
-
-  totalPrice() {
-    return product.hargaProduct * quantity;
-  }
 }
 
 //model category product
@@ -139,8 +135,35 @@ class ProductCategory {
   }
 }
 
+//pos setting
+class PosSetting {
+  late String outletName;
+  late String privateKey;
+  late int productSearchName;
+
+  PosSetting({
+    required this.outletName,
+    required this.privateKey,
+    required this.productSearchName,
+  });
+
+  PosSetting.fromJson(Map<String, dynamic> json) {
+    outletName = json["outlet_name"];
+    privateKey = json["private_key"];
+    productSearchName = json["product_searchbyname"];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "outlet_name": outletName,
+      "private_key": privateKey,
+      "product_searchbyname": productSearchName,
+    };
+  }
+}
+
 //model user
-class ModelUser {
+class UserServer {
   late int idCompany;
   late int idOutlet;
   late int idStaff;
@@ -152,7 +175,7 @@ class ModelUser {
   late String staffUsername;
   late String updatedAt;
 
-  ModelUser({
+  UserServer({
     required this.idCompany,
     required this.idOutlet,
     required this.idStaff,
@@ -165,7 +188,7 @@ class ModelUser {
     required this.updatedAt,
   });
 
-  ModelUser.fromJson(Map<String, dynamic> json) {
+  UserServer.fromJson(Map<String, dynamic> json) {
     idCompany = json['id_company'];
     idOutlet = json['id_outlet'];
     idStaff = json['id_staff'];
@@ -217,6 +240,7 @@ class TableManagement {
     if (json["session_table"] != null) {
       session = SessionTable.fromJson(json["session_table"]);
     }
+
     var isParentMarge;
     if (json["is_parent_table"] != null) {
       isParentMarge = json["is_parent_table"];
@@ -271,33 +295,6 @@ class TableSection {
   }
 }
 
-//model section
-class Section {
-  late int idOutlet;
-  late int idSection;
-  late String nameSection;
-
-  Section({
-    required this.idOutlet,
-    required this.idSection,
-    required this.nameSection,
-  });
-
-  Section.fromJson(Map<String, dynamic> json) {
-    idOutlet = json['id_outlet'];
-    idSection = json['id_section'];
-    nameSection = json['section_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id_outlet': idOutlet,
-      'id_section': idSection,
-      'section_name': nameSection,
-    };
-  }
-}
-
 //model session table
 class SessionTable {
   late int sessionTable;
@@ -313,9 +310,9 @@ class SessionTable {
   SessionTable.fromJson(Map<String, dynamic> json) {
     sessionTable = json["id_session_table"];
     isAccessed = json["is_accessed"];
-    var margedData;
+    var margeTable;
     if (json["marged_table"] != null) {
-      margedData = MargedTable.fromJson(json["marged_table"]);
+      margeTable = MargedTable.fromJson(json["marged_table"]);
     }
   }
 

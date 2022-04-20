@@ -209,24 +209,21 @@ class _MenuPageState extends State<MenuPage> {
                                                               return GestureDetector(
                                                                 onTap:
                                                                     () async {
-                                                                  if (productProviders
-                                                                          .products[
-                                                                              index]
-                                                                          .idProCategory ==
-                                                                      null) {
-                                                                    print("");
-                                                                  } else {
-                                                                    print(category
-                                                                        .categorys[
-                                                                            index]
-                                                                        .idCategory);
-                                                                    print(productProviders
-                                                                        .products
-                                                                        .where((product) =>
-                                                                            ProductCard(product).product.idProCategory ==
-                                                                            category.categorys[index].idCategory)
-                                                                        .toList());
-                                                                  }
+                                                                  Navigator.pushReplacement(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              MenuPage()));
+                                                                  productProviders
+                                                                      .products
+                                                                      .where((product) =>
+                                                                          ProductCard(product)
+                                                                              .product
+                                                                              .idProCategory ==
+                                                                          category
+                                                                              .categorys[index]
+                                                                              .idCategory)
+                                                                      .toList();
                                                                 },
                                                                 child:
                                                                     Container(
@@ -409,7 +406,7 @@ class _ProductCardState extends State<ProductCard> {
                         SizedBox(height: SizeConfig.blockVertical * 1),
                         Center(
                           child: Text(
-                            widget.product.hargaProduct,
+                            widget.product.hargaProduct.toString(),
                             style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,

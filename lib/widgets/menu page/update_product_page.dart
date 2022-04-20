@@ -95,7 +95,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                   margin:
                       EdgeInsets.only(left: SizeConfig.blockHorizontal * 20),
                   child: Text(
-                    widget.cartModel.product.hargaProduct,
+                    widget.cartModel.product.hargaProduct.toString(),
                     style: const TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 17,

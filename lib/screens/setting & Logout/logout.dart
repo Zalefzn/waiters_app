@@ -20,7 +20,6 @@ class _LogOutState extends State<LogOut> {
 
   @override
   void initState() {
-    getUser();
     getApiText();
     super.initState();
   }
@@ -32,10 +31,6 @@ class _LogOutState extends State<LogOut> {
     });
   }
 
-  getUser() async {
-    await Provider.of<UserProvider>(context, listen: false).getUsers();
-  }
-
   TextEditingController dataApi = TextEditingController();
 
   final _fromKey = GlobalKey<FormState>();
@@ -45,7 +40,7 @@ class _LogOutState extends State<LogOut> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
+    ProviderUser userProvider = Provider.of<ProviderUser>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -106,61 +101,33 @@ class _LogOutState extends State<LogOut> {
                             width: SizeConfig.blockHorizontal * 100,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.marginDefault),
-                                  child: Text(
-                                    'Servers Name : ',
+                                Text(
+                                  'Servers Name : ',
+                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Text(
+                                  'Clock in Time: ' +
+                                      '           ' +
+                                      formatedTanggal.toString(),
+                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Text(
+                                  'Date:      ' +
+                                      ' ' +
+                                      formatedTahun.toString(),
+                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                ),
+                                SizedBox(height: SizeConfig.blockVertical * 2),
+                                Text('Local: ' + '  $api',
                                     style: TextStyle(
-                                      fontFamily: ' Montserrat',
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 52),
-                                  child: Text(
-                                    'Clock in Time: ' +
-                                        '           ' +
-                                        formatedTanggal.toString(),
-                                    style: TextStyle(
-                                      fontFamily: ' Montserrat',
-                                      fontSize: 10.sp,
-                                      color: Colors.grey.shade400,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 52),
-                                  child: Text(
-                                      'Date:      ' +
-                                          ' ' +
-                                          formatedTahun.toString(),
-                                      style: TextStyle(
-                                          fontFamily: ' Montserrat',
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
-                                ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 20),
-                                  child: Text('Local: ' + '  $api',
-                                      style: TextStyle(
-                                          fontFamily: ' Montserrat',
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
-                                ),
+                                        fontFamily: ' Montserrat',
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.grey.shade400)),
                               ],
                             ),
                           ),
@@ -254,7 +221,7 @@ class _LogOutState extends State<LogOut> {
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockVertical * 22,
-                              left: SizeConfig.blockVertical * 16),
+                              left: SizeConfig.blockVertical * 13),
                           child: Text(
                             formatedTanggal.toString() +
                                 ", " +

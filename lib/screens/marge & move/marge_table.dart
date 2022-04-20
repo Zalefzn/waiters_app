@@ -18,6 +18,8 @@ class MargeTable extends StatefulWidget {
 class _MargeTable extends State<MargeTable> {
   @override
   Widget build(BuildContext context) {
+    var pressed = false;
+    var pressed2 = false;
     var margeTable = "";
     List childTable = [];
 
@@ -26,6 +28,15 @@ class _MargeTable extends State<MargeTable> {
 
     handleMarge() async {
       if (await margeProvider.margeCheck(tableProviders.tables)) {}
+    }
+
+    void getTableNameMarge() async {
+      final SharedPreferences getNameTable =
+          await SharedPreferences.getInstance();
+
+      setState(() {
+        _saveMainMarge = getNameTable.getString("nameMargeTable") ?? "-";
+      });
     }
 
     return Sizer(builder: (context, orientation, deviceType) {
@@ -83,6 +94,12 @@ class _MargeTable extends State<MargeTable> {
                             onPressed: () async {
                               _saveMainMarge = "-";
                               _saveChildMarge = "-";
+                              SharedPreferences remove =
+                                  await SharedPreferences.getInstance();
+                              remove.remove("MainMarge");
+                              SharedPreferences remove2 =
+                                  await SharedPreferences.getInstance();
+                              remove2.remove("ChildTable");
                             },
                             child: Text(
                               "Clear",
@@ -202,11 +219,13 @@ class _MargeTable extends State<MargeTable> {
                             onTap: () async {
                               if (margeTable == "") {
                                 margeTable = b.idTable.toString();
-
+                                SharedPreferences getNameTable1 =
+                                    await SharedPreferences.getInstance();
+                                getNameTable1.setString(
+                                    "nameMargeTable", b.tableName);
                                 SharedPreferences setMargeTable =
                                     await SharedPreferences.getInstance();
                                 setMargeTable.setInt("MainMarge", b.idTable);
-
                                 print(margeTable);
                               } else {
                                 if (margeTable != b.idTable) {
@@ -218,6 +237,7 @@ class _MargeTable extends State<MargeTable> {
                                     if (isTableExist == 0) {
                                       childTable.addAll({b.idTable});
                                     }
+
                                     SharedPreferences setMargeTable =
                                         await SharedPreferences.getInstance();
                                     setMargeTable.setString(
@@ -246,6 +266,10 @@ class _MargeTable extends State<MargeTable> {
                                       style:
                                           textButton.copyWith(fontSize: 20.sp),
                                     ),
+                                    pressed ? Text("Main Table") : Container(),
+                                    pressed2
+                                        ? Text("Child Table")
+                                        : Container(),
                                   ],
                                 ),
                               ),
@@ -415,8 +439,8 @@ List<DropdownMenuItem<String>> _dropDownItem() {
     //                 widget.data.tableName,
     //                 style: textButton.copyWith(fontSize: 20.sp),
     //               ),
-    //               pressed ? Text("Main Table") : Container(),
-    //               pressed2 ? Text("Child Table") : Container(),
+                  // pressed ? Text("Main Table") : Container(),
+                  // pressed2 ? Text("Child Table") : Container(),
     //             ],
     //           ),
     //         ),

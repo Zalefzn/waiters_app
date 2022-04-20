@@ -174,7 +174,7 @@ class _SummeryPage extends State<SummeryPage> {
               ),
               SizedBox(height: SizeConfig.blockVertical * 0.2),
               Container(
-                height: SizeConfig.blockVertical * 47,
+                height: SizeConfig.blockVertical * 52,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(color: Colors.grey.shade200),
                 child: loading
@@ -188,7 +188,7 @@ class _SummeryPage extends State<SummeryPage> {
               Stack(
                 children: [
                   Container(
-                    height: SizeConfig.blockVertical * 18,
+                    height: SizeConfig.blockVertical * 20,
                     width: SizeConfig.blockHorizontal * 100,
                     decoration: const BoxDecoration(
                         color: Colors.white,
@@ -216,7 +216,7 @@ class _SummeryPage extends State<SummeryPage> {
                             ),
                             Container(
                               margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 55,
+                                  left: SizeConfig.blockHorizontal * 45,
                                   top: SizeConfig.blockVertical * 3),
                               child: Text(
                                 cartProvider.totalPrice().toString(),
@@ -255,7 +255,6 @@ class _SummeryPage extends State<SummeryPage> {
                                                   .getInstance();
                                           removeCount.remove("key");
                                           _tableName = "-";
-                                          _count = 0;
                                         } else if (cartProvider
                                             .carts.isNotEmpty) {
                                           showDialog(
@@ -472,11 +471,19 @@ class CartCard extends StatefulWidget {
 
 class _CartCardState extends State<CartCard> {
   String _notes = "";
+  int _countProduct = 0;
 
   @override
   void initState() {
     getNotes();
     super.initState();
+  }
+
+  void getCount() async {
+    final SharedPreferences getCounter = await SharedPreferences.getInstance();
+    setState(() {
+      _countProduct = getCounter.getInt("getCounterData") ?? 0;
+    });
   }
 
   void getNotes() async {
@@ -515,7 +522,7 @@ class _CartCardState extends State<CartCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "2x",
+                    "$_countProduct" + "X",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,

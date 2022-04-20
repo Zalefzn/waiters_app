@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -13,6 +16,22 @@ class NumpadPage extends StatefulWidget {
 }
 
 class _NumpadState extends State<NumpadPage> {
+  var loading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      Future.delayed(Duration(milliseconds: 500), () {
+        setState(() {
+          loading = false;
+        });
+      });
+      loading = true;
+    });
+
+    super.initState();
+  }
+
   final TextEditingController _myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -51,7 +70,7 @@ class _NumpadState extends State<NumpadPage> {
             ),
             NumPad(
               buttonSize: 15.h,
-              buttonColor: Colors.amber,
+              colorButton: Colors.white,
               delete: () {
                 _myController.text = _myController.text
                     .substring(0, _myController.text.length - 1);
@@ -73,7 +92,7 @@ class _NumpadState extends State<NumpadPage> {
 
 class NumPad extends StatelessWidget {
   final double buttonSize;
-  final Color buttonColor;
+  final Color colorButton;
   final Color iconColor;
   final TextEditingController controller;
   final Function delete;
@@ -82,7 +101,7 @@ class NumPad extends StatelessWidget {
   const NumPad({
     Key? key,
     this.buttonSize = 80,
-    this.buttonColor = Colors.amber,
+    this.colorButton = Colors.grey,
     this.iconColor = Colors.black,
     required this.delete,
     required this.onSubmit,
@@ -91,6 +110,7 @@ class NumPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var numpadColor = 0;
     List number = [
       "1",
       "2",
@@ -118,7 +138,7 @@ class NumPad extends StatelessWidget {
                 NumberButton(
                   number: 1,
                   size: buttonSize,
-                  color: buttonColor,
+                  color: numpadColor == 1 ? buttonNavbar : buttonColor,
                   controller: controller,
                 ),
                 NumberButton(
@@ -249,14 +269,17 @@ class NumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var numpadColor = false;
     return SizedBox(
       width: size,
       height: size,
       child: GestureDetector(
-        onTap: () async {},
+        onTap: () async {
+          numpadColor ? null : numpadColor = !numpadColor;
+        },
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Colors.grey.shade300,
+            primary: numpadColor ? buttonNavbar : textColor3,
           ),
           child: Center(
             child: Text(

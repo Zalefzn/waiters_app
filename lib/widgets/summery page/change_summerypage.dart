@@ -173,7 +173,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
             ),
             SizedBox(height: SizeConfig.blockVertical * 0.2),
             Container(
-              height: SizeConfig.blockVertical * 47,
+              height: SizeConfig.blockVertical * 50,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,

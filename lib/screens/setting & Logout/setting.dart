@@ -18,10 +18,31 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   String api = "";
+  var loading = false;
   @override
   void initState() {
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        loading = false;
+      });
+    });
+    loading = true;
     getApiText();
+
+    // getPosSetting();
     super.initState();
+  }
+
+  getUserServer() async {
+    await Provider.of<ProviderUser>(context, listen: false).getUsers();
+  }
+
+  getTab() async {
+    await Provider.of<TableProviders>(context, listen: false).getTable();
+  }
+
+  getProducts() async {
+    await Provider.of<ProductProviders>(context, listen: false).getData();
   }
 
   getApiText() async {
@@ -32,7 +53,7 @@ class _SettingsState extends State<Settings> {
   }
 
   TextEditingController dataApi = TextEditingController();
-
+  var buttonChange = false;
   final _fromKey = GlobalKey<FormState>();
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
@@ -40,7 +61,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    var userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<ProviderUser>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -82,55 +103,30 @@ class _SettingsState extends State<Settings> {
                             width: SizeConfig.blockHorizontal * 100,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 64),
-                                  child: Text(
-                                    'Servers Name : ',
-                                    style: nameServer.copyWith(fontSize: 10.sp),
-                                  ),
+                                Text(
+                                  'Servers Name : ',
+                                  style: nameServer.copyWith(fontSize: 10.sp),
                                 ),
                                 SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 47),
-                                  child: Text(
-                                    'Clock in Time: ' +
-                                        '           ' +
-                                        formatedTanggal.toString(),
-                                    style: TextStyle(
-                                      fontFamily: ' Montserrat',
-                                      fontSize: 10.sp,
-                                      color: Colors.grey.shade400,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
+                                Text(
+                                  'Clock in Time: ' +
+                                      '           ' +
+                                      formatedTanggal.toString(),
+                                  style: nameServer.copyWith(fontSize: 10.sp),
                                 ),
                                 SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 47),
-                                  child: Text(
-                                      'Date:      ' +
-                                          ' ' +
-                                          formatedTahun.toString(),
-                                      style: TextStyle(
-                                          fontFamily: ' Montserrat',
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
+                                Text(
+                                  'Date:      ' +
+                                      ' ' +
+                                      formatedTahun.toString(),
+                                  style: nameServer.copyWith(fontSize: 10.sp),
                                 ),
                                 SizedBox(height: SizeConfig.blockVertical * 2),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      right: SizeConfig.blockHorizontal * 15),
-                                  child: Text('Local: ' + '  $api',
-                                      style: TextStyle(
-                                          fontFamily: ' Montserrat',
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.grey.shade400)),
+                                Text(
+                                  'Local: ' + '  $api',
+                                  style: nameServer.copyWith(fontSize: 10.sp),
                                 ),
                               ],
                             ),
@@ -196,7 +192,11 @@ class _SettingsState extends State<Settings> {
                                   builder: (BuildContext context) =>
                                       _buildPopDialog(context),
                                 );
-                                setState(() {});
+
+                                setState(() {
+                                  // getUser();
+                                  getTab();
+                                });
                               },
                               child: Text(
                                 'Confirm IP Address',
@@ -208,10 +208,10 @@ class _SettingsState extends State<Settings> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.indigoAccent.shade400,
+                                  primary: buttonNavbar,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
-                                      color: Colors.indigoAccent.shade400,
+                                      color: buttonNavbar,
                                       width: 3,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -226,7 +226,7 @@ class _SettingsState extends State<Settings> {
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockVertical * 22,
-                              left: SizeConfig.blockVertical * 16),
+                              left: SizeConfig.blockVertical * 13),
                           child: Text(
                             formatedTanggal.toString() +
                                 ", " +

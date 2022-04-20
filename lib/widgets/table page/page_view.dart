@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -13,37 +14,30 @@ import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewPage extends StatefulWidget {
-  TextEditingController indoor = TextEditingController();
-  TextEditingController outdoor = TextEditingController();
-
   @override
   State<ViewPage> createState() => _ViewPageState();
 }
 
 class _ViewPageState extends State<ViewPage> {
-  bool _hasBeenPressed = false;
+  List<TableSection> sectionTable = [];
+  var section;
   var loading = false;
+  TextEditingController indoor = TextEditingController();
+  TextEditingController outdoor = TextEditingController();
 
   @override
   void initState() {
     setState(() {
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
           loading = false;
         });
       });
       loading = true;
     });
-
-    getProducts();
     getTab();
-    getSection();
-
+    getProducts();
     super.initState();
-  }
-
-  getSection() async {
-    await Provider.of<SectionTable>(context, listen: false).getSection();
   }
 
   getProducts() async {
@@ -57,7 +51,7 @@ class _ViewPageState extends State<ViewPage> {
   @override
   Widget build(BuildContext context) {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
-    SectionTable section = Provider.of<SectionTable>(context);
+    SectionTable sectionProviders = Provider.of<SectionTable>(context);
 
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
@@ -136,11 +130,11 @@ class _ViewPageState extends State<ViewPage> {
                                     child: DropdownButton<String>(
                                       hint: Container(
                                         margin: EdgeInsets.only(
-                                            left: SizeConfig.blockVertical * 2),
+                                            left:
+                                                SizeConfig.blockHorizontal * 2),
                                         child: Text(
-                                          "Base Section",
+                                          'Base Section',
                                           style: TextStyle(
-                                            fontFamily: ' Montserrat',
                                             fontSize: 12.sp,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,
@@ -152,8 +146,19 @@ class _ViewPageState extends State<ViewPage> {
                                       onChanged: (value) {
                                         switch (value) {
                                           case 'Base Section':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar()));
                                             break;
                                           case 'Section 001':
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewBar()));
+                                            break;
                                         }
                                       },
                                     ),
@@ -171,15 +176,16 @@ class _ViewPageState extends State<ViewPage> {
             ),
             Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-                height: SizeConfig.blockVertical * 65,
+                height: SizeConfig.blockVertical * 69,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: backgroundClor,
                 ),
                 child: loading
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 2,
                           mainAxisSpacing: 1,
@@ -219,9 +225,7 @@ class _ViewPageState extends State<ViewPage> {
                                   height: SizeConfig.blockVertical * 25,
                                   width: SizeConfig.blockHorizontal * 46,
                                   decoration: BoxDecoration(
-                                    color: _hasBeenPressed
-                                        ? buttonColor2
-                                        : buttonNavbar2,
+                                    color: buttonNavbar2,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Center(
@@ -244,13 +248,23 @@ class _ViewPageState extends State<ViewPage> {
   }
 }
 
+List<DropdownMenuItem<String>> _dropDownItem() {
+  List<String> dll = ['Base Section', 'Section 001'];
+  return dll
+      .map(
+        (value) => DropdownMenuItem(value: value, child: Text(value)),
+      )
+      .toList();
+}
+
 _buildPopupDialog(BuildContext context) {
   return AlertDialog(
     title: Center(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 9),
+            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 7),
             child: Text(
               'Table Management',
               style: TextStyle(
@@ -297,9 +311,7 @@ _buildPopupDialog(BuildContext context) {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const MargeTable()));
             },
-            style: ElevatedButton.styleFrom(
-              primary: buttonColor,
-            ),
+            style: ElevatedButton.styleFrom(primary: buttonColor),
           ),
         ),
         SizedBox(height: SizeConfig.blockVertical * 1),
@@ -324,13 +336,4 @@ _buildPopupDialog(BuildContext context) {
       ],
     ),
   );
-}
-
-List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Base Section', 'Section 001'];
-  return dll
-      .map(
-        (value) => DropdownMenuItem(value: value, child: Text(value)),
-      )
-      .toList();
 }

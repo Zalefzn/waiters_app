@@ -95,7 +95,7 @@ class _ProductPageState extends State<ProductPage> {
                   margin:
                       EdgeInsets.only(right: SizeConfig.blockHorizontal * 3),
                   child: Text(
-                    widget.product.hargaProduct,
+                    widget.product.hargaProduct.toString(),
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 17,
@@ -167,8 +167,8 @@ class _ProductPageState extends State<ProductPage> {
               onTap: () async {
                 SharedPreferences setAdd =
                     await SharedPreferences.getInstance();
-                setAdd.setInt("getCounter", _n);
-                print(_n);
+                setAdd.setInt("getCounterData", _n + 1);
+                print(_n + 1);
                 setState(() {
                   add();
                 });

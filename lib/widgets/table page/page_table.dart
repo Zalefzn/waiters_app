@@ -103,7 +103,7 @@ class _PageTableState extends State<ViewTable> {
                                   margin: EdgeInsets.only(
                                       left: SizeConfig.blockHorizontal * 1,
                                       top: SizeConfig.blockVertical * 2.5),
-                                  width: SizeConfig.blockHorizontal * 64,
+                                  width: SizeConfig.blockHorizontal * 60,
                                   height: SizeConfig.blockVertical * 5,
                                   decoration: BoxDecoration(
                                       border: Border.all(
@@ -115,7 +115,7 @@ class _PageTableState extends State<ViewTable> {
                                         margin: EdgeInsets.only(
                                             left: SizeConfig.blockVertical * 2),
                                         child: Text(
-                                          "Indoor",
+                                          "Base Section",
                                           style: TextStyle(
                                             fontFamily: ' Montserrat',
                                             fontSize: 12.sp,
@@ -128,9 +128,9 @@ class _PageTableState extends State<ViewTable> {
                                       items: _dropDownItem(),
                                       onChanged: (value) {
                                         switch (value) {
-                                          case 'Indoor':
+                                          case 'Base Section':
                                             break;
-                                          case 'Outdoor':
+                                          case 'Section 001':
                                         }
                                       },
                                     ),
@@ -148,7 +148,7 @@ class _PageTableState extends State<ViewTable> {
             ),
             Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-                height: SizeConfig.blockVertical * 65.9,
+                height: SizeConfig.blockVertical * 69,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: Colors.white,

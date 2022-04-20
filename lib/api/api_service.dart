@@ -11,7 +11,7 @@ class AuthService {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var baseUrl = sharedPreferences.getString("setApi");
     print(baseUrl);
-    var url = '$baseUrl/pin';
+    var url = '$baseUrl/auth/pin';
     var headers = {'Content-type': 'application/json'};
     var body = jsonEncode({
       "pin": pin,
@@ -62,6 +62,37 @@ class TableService {
     }
   }
 }
+
+// //api tableServiceMarge
+// class TableServiceMarge {
+//   Future<List<TableManagementMarge>> getDataMargeTable() async {
+//     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+//     var baseUrl = sharedPreferences.getString("setApi");
+
+//     var url = '$baseUrl/table_management';
+//     var apiSet = sharedPreferences.getString("setApi");
+
+//     var auth = sharedPreferences.getString("access_token");
+//     print(auth);
+//     var headers = {"Authorization": "Bearer ${auth}"};
+
+//     var response = await http.get(Uri.parse(url), headers: headers);
+//     print(response.body);
+
+//     if (response.statusCode == 200) {
+//       List data = jsonDecode(response.body)['data'];
+//       List<TableManagementMarge> tablesMarge = [];
+
+//       for (var item in data) {
+//         tablesMarge.add(TableManagementMarge.fromJson(item));
+//       }
+//       return tablesMarge;
+//     } else {
+//       throw Exception('Gagal Get Table');
+//     }
+//   }
+// }
 
 //api dataService Product
 class DataService {
@@ -122,7 +153,7 @@ class GetCategory {
 
 //api section table
 class GetSection {
-  Future<List<Section>> getSection() async {
+  Future<List<TableSection>> getSection() async {
     SharedPreferences section = await SharedPreferences.getInstance();
     var baseUrl = section.getString("setApi");
 
@@ -135,10 +166,10 @@ class GetSection {
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data'];
-      List<Section> getSection = [];
+      List<TableSection> getSection = [];
 
       for (var item in data) {
-        getSection.add(Section.fromJson(item));
+        getSection.add(TableSection.fromJson(item));
       }
       return getSection;
     } else {
@@ -147,9 +178,38 @@ class GetSection {
   }
 }
 
+//api pos setting
+class PosSettingServ {
+  Future<List<PosSetting>> posSettings() async {
+    SharedPreferences getServ = await SharedPreferences.getInstance();
+    var baseUrl = getServ.getString("setApi");
+    print(baseUrl);
+
+    var url = '$baseUrl/pos_setting';
+    var auth = getServ.getString("access_token");
+    print(auth);
+    var headers = {"Authorization": "Bearer ${auth}"};
+
+    var response = await http.get(Uri.parse(url), headers: headers);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['data'];
+      List<PosSetting> serv = [];
+
+      for (var item in data) {
+        serv.add(PosSetting.fromJson(item));
+      }
+      return serv;
+    } else {
+      throw Exception('Gagal Get Outlet');
+    }
+  }
+}
+
 //api user server
 class UserModelApi {
-  Future<List<ModelUser>> getUser() async {
+  Future<List<UserServer>> getUser() async {
     SharedPreferences getUser = await SharedPreferences.getInstance();
     var baseUrl = getUser.getString("setApi");
     print(baseUrl);
@@ -165,7 +225,8 @@ class UserModelApi {
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
       var data = jsonData["data"];
-      List<ModelUser> getuser = [];
+      List<UserServer> getuser = [];
+      print(data);
 
       return getuser;
     } else {

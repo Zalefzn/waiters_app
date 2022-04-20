@@ -109,7 +109,8 @@ class _ValidationLoginState extends State<ValidationLogin> {
                                   hintText: 'Enter Your Pin'),
                               validator: Validators.compose([
                                 Validators.required('Your Pin Required'),
-                                Validators.maxLength(5, 'Your Pin cant access'),
+                                Validators.maxLength(
+                                    10, 'Your Pin cant access'),
                               ]),
                             ),
                           ),

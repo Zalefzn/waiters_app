@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             create: (context) => SectionTable(),
           ),
           ChangeNotifierProvider(
-            create: (context) => UserProvider(),
+            create: (context) => ProviderUser(),
           ),
           ChangeNotifierProvider(
             create: (context) => OrderProvider(),
@@ -46,6 +46,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => MoveProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PosProviders(),
           ),
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
