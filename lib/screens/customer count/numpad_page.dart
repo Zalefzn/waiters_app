@@ -3,6 +3,7 @@ import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
+import 'package:flutter_mobile/widgets/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -220,8 +221,7 @@ class NumPad extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey.shade300,
-                      )),
+                          primary: textColor3, onPrimary: buttonNavbar)),
                 ),
                 NumberButton(
                   number: 0,
@@ -240,8 +240,7 @@ class NumPad extends StatelessWidget {
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey.shade300,
-                    ),
+                        primary: textColor3, onPrimary: buttonNavbar),
                   ),
                 ),
               ],
@@ -269,18 +268,14 @@ class NumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var numpadColor = false;
     return SizedBox(
       width: size,
       height: size,
       child: GestureDetector(
-        onTap: () async {
-          numpadColor ? null : numpadColor = !numpadColor;
-        },
+        onTap: () {},
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: numpadColor ? buttonNavbar : textColor3,
-          ),
+              primary: textColor3, onPrimary: buttonNavbar),
           child: Center(
             child: Text(
               number.toString(),

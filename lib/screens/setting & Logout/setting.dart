@@ -29,7 +29,6 @@ class _SettingsState extends State<Settings> {
     loading = true;
     getApiText();
 
-    // getPosSetting();
     super.initState();
   }
 
@@ -53,7 +52,10 @@ class _SettingsState extends State<Settings> {
   }
 
   TextEditingController dataApi = TextEditingController();
+  var buttonOutline = false;
   var buttonChange = false;
+  var buttonBack = false;
+  var buttonBackText = false;
   final _fromKey = GlobalKey<FormState>();
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
@@ -87,7 +89,7 @@ class _SettingsState extends State<Settings> {
                   children: [
                     Container(
                       margin:
-                          EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+                          EdgeInsets.only(left: SizeConfig.blockHorizontal * 3),
                       height: SizeConfig.blockVertical * 25,
                       width: SizeConfig.blockHorizontal * 100,
                       decoration: BoxDecoration(
@@ -107,26 +109,21 @@ class _SettingsState extends State<Settings> {
                               children: [
                                 Text(
                                   'Servers Name : ',
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
                                 Text(
                                   'Clock in Time: ' +
-                                      '           ' +
+                                      '  ' +
                                       formatedTanggal.toString(),
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
                                 Text(
-                                  'Date:      ' +
-                                      ' ' +
-                                      formatedTahun.toString(),
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  'Date:  ' + ' ' + formatedTahun.toString(),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
                                 Text(
                                   'Local: ' + '  $api',
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
                               ],
                             ),
@@ -149,7 +146,7 @@ class _SettingsState extends State<Settings> {
                           Container(
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockVertical * 0.2),
-                            height: SizeConfig.blockVertical * 10,
+                            height: SizeConfig.blockVertical * 9,
                             width: SizeConfig.blockHorizontal * 95,
                             child: TextFormField(
                               controller: dataApi,
@@ -157,7 +154,7 @@ class _SettingsState extends State<Settings> {
                                 border: OutlineInputBorder(
                                   borderSide:
                                       BorderSide(width: 3, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 labelText: "Outlet IP Address",
                               ),
@@ -177,13 +174,12 @@ class _SettingsState extends State<Settings> {
                           Container(
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockVertical * 0.5),
-                            height: SizeConfig.blockVertical * 10,
+                            height: SizeConfig.blockVertical * 9,
                             width: SizeConfig.blockHorizontal * 95,
                             child: ElevatedButton(
                               onPressed: () async {
                                 SharedPreferences sharedPreferences =
                                     await SharedPreferences.getInstance();
-
                                 sharedPreferences.setString(
                                     'setApi', dataApi.text);
 
@@ -194,8 +190,15 @@ class _SettingsState extends State<Settings> {
                                 );
 
                                 setState(() {
+                                  buttonChange
+                                      ? null
+                                      : buttonChange = !buttonChange;
+                                  buttonOutline
+                                      ? null
+                                      : buttonOutline = !buttonOutline;
                                   // getUser();
                                   getTab();
+                                  // getUserServer();
                                 });
                               },
                               child: Text(
@@ -203,18 +206,22 @@ class _SettingsState extends State<Settings> {
                                 style: TextStyle(
                                   fontFamily: 'Rubik',
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  color: buttonOutline
+                                      ? buttonNavbar
+                                      : Colors.white,
                                   fontSize: 13.sp,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: buttonNavbar,
+                                  primary: buttonChange
+                                      ? backgroundClor
+                                      : buttonNavbar,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
                                       color: buttonNavbar,
                                       width: 3,
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(8),
                                   )),
                             ),
                           ),
@@ -242,10 +249,16 @@ class _SettingsState extends State<Settings> {
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockVertical * 26),
-                          height: SizeConfig.blockVertical * 10,
+                          height: SizeConfig.blockVertical * 9,
                           width: SizeConfig.blockHorizontal * 95,
                           child: ElevatedButton(
                             onPressed: () {
+                              setState(() {
+                                buttonBack ? null : buttonBack = !buttonBack;
+                                buttonBackText
+                                    ? null
+                                    : buttonBackText = !buttonBackText;
+                              });
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -255,18 +268,22 @@ class _SettingsState extends State<Settings> {
                               'Back',
                               style: TextStyle(
                                   fontFamily: 'Rubik',
-                                  color: Colors.indigoAccent.shade400,
+                                  color: buttonBackText
+                                      ? backgroundClor
+                                      : buttonNavbar,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
+                              primary:
+                                  buttonBack ? buttonNavbar : backgroundClor,
+                              onPrimary: buttonNavbar,
                               shape: RoundedRectangleBorder(
                                   side: BorderSide(
-                                    color: Colors.indigoAccent.shade400,
+                                    color: buttonNavbar,
                                     width: 3,
                                   ),
-                                  borderRadius: BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(8)),
                             ),
                           ),
                         ),

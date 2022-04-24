@@ -12,6 +12,7 @@ Color iconColor = const Color(0xffffffff);
 Color buttonColor4 = const Color(0xffffffff);
 Color iconColor2 = const Color(0xff000000);
 Color buttonColor = const Color(0xff3742F9);
+Color AccesedTable = const Color(0xff262626);
 Color buttonColor2 = const Color(0xffEDEDED);
 Color buttonColor3 = const Color(0xffFF6B6B);
 Color buttonNavbar = const Color(0xff3742F9);
@@ -27,6 +28,8 @@ FontWeight light = FontWeight.w300;
 FontWeight reguler = FontWeight.w400;
 FontWeight medium = FontWeight.w500;
 FontWeight bold = FontWeight.w800;
+FontWeight bold2 = FontWeight.w900;
+FontWeight bold3 = FontWeight.w900;
 
 //Login page Style
 TextStyle textWelcome =
@@ -34,7 +37,7 @@ TextStyle textWelcome =
 
 TextStyle buttonLogin = TextStyle(
   color: textColor2,
-  fontWeight: medium,
+  fontWeight: bold2,
   fontFamily: 'Rubik',
 );
 

@@ -32,7 +32,10 @@ class _LogOutState extends State<LogOut> {
   }
 
   TextEditingController dataApi = TextEditingController();
-
+  var buttonOutline = false;
+  var buttonChange = false;
+  var buttonBack = false;
+  var buttonBackText = false;
   final _fromKey = GlobalKey<FormState>();
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
@@ -46,21 +49,12 @@ class _LogOutState extends State<LogOut> {
       return Scaffold(
         backgroundColor: backgroundClor,
         appBar: AppBar(
-            leading: RaisedButton(
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              color: Colors.white,
-              elevation: 0,
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewBar(),
-                    ));
-              },
-            ),
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ViewBar()));
+                },
+                icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
             elevation: 1,
             backgroundColor: backgroundClor,
             title: Container(
@@ -85,7 +79,7 @@ class _LogOutState extends State<LogOut> {
                   children: [
                     Container(
                       margin:
-                          EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+                          EdgeInsets.only(left: SizeConfig.blockHorizontal * 3),
                       height: SizeConfig.blockVertical * 25,
                       width: SizeConfig.blockHorizontal * 100,
                       decoration: BoxDecoration(
@@ -105,29 +99,22 @@ class _LogOutState extends State<LogOut> {
                               children: [
                                 Text(
                                   'Servers Name : ',
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
                                 Text(
                                   'Clock in Time: ' +
-                                      '           ' +
+                                      '  ' +
                                       formatedTanggal.toString(),
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
                                 Text(
-                                  'Date:      ' +
-                                      ' ' +
-                                      formatedTahun.toString(),
-                                  style: nameServer.copyWith(fontSize: 10.sp),
+                                  'Date:  ' + ' ' + formatedTahun.toString(),
+                                  style: nameServer.copyWith(fontSize: 11.sp),
                                 ),
-                                SizedBox(height: SizeConfig.blockVertical * 2),
-                                Text('Local: ' + '  $api',
-                                    style: TextStyle(
-                                        fontFamily: ' Montserrat',
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w800,
-                                        color: Colors.grey.shade400)),
+                                Text(
+                                  'Local: ' + '  $api',
+                                  style: nameServer.copyWith(fontSize: 11.sp),
+                                ),
                               ],
                             ),
                           ),
@@ -157,7 +144,7 @@ class _LogOutState extends State<LogOut> {
                                 border: OutlineInputBorder(
                                   borderSide:
                                       BorderSide(width: 3, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(9),
                                 ),
                                 labelText: "Outlet IP Address",
                               ),
@@ -177,7 +164,7 @@ class _LogOutState extends State<LogOut> {
                           Container(
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockVertical * 0.5),
-                            height: SizeConfig.blockVertical * 10,
+                            height: SizeConfig.blockVertical * 9,
                             width: SizeConfig.blockHorizontal * 95,
                             child: ElevatedButton(
                               onPressed: () async {
@@ -192,6 +179,14 @@ class _LogOutState extends State<LogOut> {
                                   builder: (BuildContext context) =>
                                       _buildPopDialog(context),
                                 );
+                                setState(() {
+                                  buttonChange
+                                      ? null
+                                      : buttonChange = !buttonChange;
+                                  buttonOutline
+                                      ? null
+                                      : buttonOutline = !buttonOutline;
+                                });
                               },
                               child: Text(
                                 'Confirm IP Address',
@@ -203,16 +198,41 @@ class _LogOutState extends State<LogOut> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: buttonColor,
+                                  primary:
+                                      buttonChange ? textColor3 : buttonNavbar,
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
-                                      color: buttonNavbar,
+                                      color: buttonOutline
+                                          ? textColor3
+                                          : buttonNavbar,
                                       width: 3,
                                     ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(9),
                                   )),
                             ),
                           ),
+                          TextButton(
+                              onPressed: () async {
+                                SharedPreferences cacheTable =
+                                    await SharedPreferences.getInstance();
+                                var tableClear = cacheTable.remove("saveTable");
+                                SharedPreferences cacheIdTable =
+                                    await SharedPreferences.getInstance();
+                                cacheIdTable.remove("saveId");
+                                SharedPreferences cacheOutletTable =
+                                    await SharedPreferences.getInstance();
+                                cacheOutletTable.remove("saveIdOutlete");
+                                SharedPreferences cacheInputCount =
+                                    await SharedPreferences.getInstance();
+                                var clearCount = cacheInputCount.remove("key");
+                                print(tableClear);
+                                print(clearCount);
+                              },
+                              child: Text("Clear Cache",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'Montserrat'))),
                         ],
                       ),
                     ),
@@ -220,7 +240,7 @@ class _LogOutState extends State<LogOut> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(
-                              top: SizeConfig.blockVertical * 22,
+                              top: SizeConfig.blockVertical * 15,
                               left: SizeConfig.blockVertical * 13),
                           child: Text(
                             formatedTanggal.toString() +
@@ -236,14 +256,20 @@ class _LogOutState extends State<LogOut> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              top: SizeConfig.blockVertical * 26),
-                          height: SizeConfig.blockVertical * 10,
+                              top: SizeConfig.blockVertical * 20),
+                          height: SizeConfig.blockVertical * 9,
                           width: SizeConfig.blockHorizontal * 95,
                           child: ElevatedButton(
                             onPressed: () async {
-                              SharedPreferences removeAll =
-                                  await SharedPreferences.getInstance();
-                              removeAll.clear();
+                              setState(() {
+                                buttonBack ? null : buttonBack = !buttonBack;
+                                buttonBackText
+                                    ? null
+                                    : buttonBackText = !buttonBackText;
+                              });
+                              // SharedPreferences removeAll =
+                              //     await SharedPreferences.getInstance();
+                              // removeAll.clear();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -253,12 +279,15 @@ class _LogOutState extends State<LogOut> {
                               'Log Out',
                               style: TextStyle(
                                   fontFamily: 'Rubik',
-                                  color: buttonColor,
+                                  color: buttonBackText
+                                      ? backgroundClor
+                                      : buttonNavbar,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.bold),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
+                              primary:
+                                  buttonBack ? buttonNavbar : backgroundClor,
                               shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                     color: Colors.indigoAccent.shade400,

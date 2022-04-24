@@ -70,15 +70,12 @@ class _SummeryPage extends State<SummeryPage> {
         appBar: AppBar(
           elevation: 1,
           backgroundColor: backgroundClor,
-          leading: RaisedButton(
-            child: const Icon(Icons.arrow_back),
-            color: backgroundClor,
-            elevation: 0,
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => ViewBar()));
-            },
-          ),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => ViewMenu()));
+              },
+              icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
           title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 18,
@@ -177,13 +174,25 @@ class _SummeryPage extends State<SummeryPage> {
                 height: SizeConfig.blockVertical * 52,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(color: Colors.grey.shade200),
-                child: loading
-                    ? Center(child: CircularProgressIndicator())
-                    : ListView(
-                        children: cartProvider.carts
-                            .map((cart) => CartCard(cart))
-                            .toList(),
-                      ),
+                child: Stack(children: [
+                  Center(
+                      child: Text("No Orders Yet",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontFamily: 'Monserrat',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade400,
+                          ))),
+                  Container(
+                    child: loading
+                        ? Center(child: CircularProgressIndicator())
+                        : ListView(
+                            children: cartProvider.carts
+                                .map((cart) => CartCard(cart))
+                                .toList(),
+                          ),
+                  ),
+                ]),
               ),
               Stack(
                 children: [
@@ -216,7 +225,7 @@ class _SummeryPage extends State<SummeryPage> {
                             ),
                             Container(
                               margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 45,
+                                  left: SizeConfig.blockHorizontal * 58,
                                   top: SizeConfig.blockVertical * 3),
                               child: Text(
                                 cartProvider.totalPrice().toString(),
@@ -245,7 +254,7 @@ class _SummeryPage extends State<SummeryPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ViewMenu()));
+                                                      ViewBar()));
                                           SharedPreferences removeTableName =
                                               await SharedPreferences
                                                   .getInstance();
@@ -282,11 +291,12 @@ class _SummeryPage extends State<SummeryPage> {
                                   "Cancel",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   primary: buttonColor3,
-                                  onSurface: buttonNavbar2,
+                                  onPrimary: textColor3,
                                   elevation: 0,
                                 ),
                               ),
@@ -327,11 +337,12 @@ class _SummeryPage extends State<SummeryPage> {
                                   "Order",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   primary: buttonColor3,
-                                  onSurface: buttonNavbar2,
+                                  onPrimary: buttonNavbar2,
                                   elevation: 0,
                                 ),
                               ),
@@ -394,14 +405,15 @@ _buildPopDialog2(BuildContext context) {
             margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 0,
                 bottom: SizeConfig.blockVertical * 5),
-            height: SizeConfig.blockVertical * 8,
-            width: SizeConfig.blockHorizontal * 50,
+            height: SizeConfig.blockVertical * 9,
+            width: SizeConfig.blockHorizontal * 55,
             child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text("Are You Sure you Want to Leave ?",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -409,9 +421,9 @@ _buildPopDialog2(BuildContext context) {
                   SizedBox(height: SizeConfig.blockVertical * 1),
                   Text("Your Order Will not be Processed",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
                       )),
                 ],

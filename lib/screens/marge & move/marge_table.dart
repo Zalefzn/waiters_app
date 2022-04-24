@@ -19,7 +19,6 @@ class _MargeTable extends State<MargeTable> {
   @override
   Widget build(BuildContext context) {
     var pressed = false;
-    var pressed2 = false;
     var margeTable = "";
     List childTable = [];
 
@@ -193,10 +192,9 @@ class _MargeTable extends State<MargeTable> {
                 ],
               ),
             ),
-            SizedBox(height: SizeConfig.blockVertical * 2),
             addContent(),
             Container(
-                height: SizeConfig.blockVertical * 50,
+                height: SizeConfig.blockVertical * 52,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: backgroundClor,
@@ -211,18 +209,16 @@ class _MargeTable extends State<MargeTable> {
                     itemCount: tableProviders.tables.length,
                     itemBuilder: (context, j) {
                       final b = tableProviders.tables[j];
-
                       return Row(
                         children: [
                           GestureDetector(
                             //Logik untuk memangil data berupa child dan parent
                             onTap: () async {
                               if (margeTable == "") {
+                                // if (!pressed) {
+                                //   pressed ? null : pressed = !pressed;
+                                // }
                                 margeTable = b.idTable.toString();
-                                SharedPreferences getNameTable1 =
-                                    await SharedPreferences.getInstance();
-                                getNameTable1.setString(
-                                    "nameMargeTable", b.tableName);
                                 SharedPreferences setMargeTable =
                                     await SharedPreferences.getInstance();
                                 setMargeTable.setInt("MainMarge", b.idTable);
@@ -231,13 +227,11 @@ class _MargeTable extends State<MargeTable> {
                                 if (margeTable != b.idTable) {
                                   if (childTable != 0) {
                                     childTable.addAll({b.idTable});
-
                                     var isTableExist = childTable
                                         .where((data) => data == b.idTable);
                                     if (isTableExist == 0) {
                                       childTable.addAll({b.idTable});
                                     }
-
                                     SharedPreferences setMargeTable =
                                         await SharedPreferences.getInstance();
                                     setMargeTable.setString(
@@ -267,9 +261,6 @@ class _MargeTable extends State<MargeTable> {
                                           textButton.copyWith(fontSize: 20.sp),
                                     ),
                                     pressed ? Text("Main Table") : Container(),
-                                    pressed2
-                                        ? Text("Child Table")
-                                        : Container(),
                                   ],
                                 ),
                               ),

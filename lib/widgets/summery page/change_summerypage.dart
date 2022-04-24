@@ -186,7 +186,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
             Stack(
               children: [
                 Container(
-                  height: SizeConfig.blockVertical * 18,
+                  height: SizeConfig.blockVertical * 15,
                   width: SizeConfig.blockHorizontal * 100,
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -235,7 +235,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockHorizontal * 5),
                             height: SizeConfig.blockVertical * 7,
-                            width: SizeConfig.blockHorizontal * 42,
+                            width: SizeConfig.blockHorizontal * 90,
                             child: ElevatedButton(
                               onPressed: isButtonActive
                                   ? () {
@@ -244,14 +244,14 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewMenu()));
+                                                    ViewBarPage()));
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             const ViewMenu()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBarPage()));
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -261,35 +261,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                     }
                                   : null,
                               child: const Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red[400],
-                                onSurface: Colors.grey.shade900,
-                                elevation: 0,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 6),
-                            height: SizeConfig.blockVertical * 7,
-                            width: SizeConfig.blockHorizontal * 42,
-                            child: ElevatedButton(
-                              onPressed: isButtonActive2
-                                  ? () async {
-                                      if (cartProvider.carts.isEmpty) {
-                                        setState(() {
-                                          isButtonActive2 = false;
-                                        });
-                                      } else if (cartProvider
-                                          .carts.isNotEmpty) {}
-                                    }
-                                  : null,
-                              child: const Text(
-                                "Order",
+                                "Home",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),

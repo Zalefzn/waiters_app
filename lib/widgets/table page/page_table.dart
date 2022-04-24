@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
+import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/widgets/table%20page/change_page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,7 +70,19 @@ class _PageTableState extends State<ViewTable> {
             },
             icon: Icon(Icons.settings),
           ),
-          actions: [],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        _buildPopupDialog(context),
+                  );
+                },
+                icon: const Icon(
+                  Icons.table_chart,
+                )),
+          ],
         ),
         body: Column(
           children: [
@@ -148,7 +163,7 @@ class _PageTableState extends State<ViewTable> {
             ),
             Container(
                 margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
-                height: SizeConfig.blockVertical * 69,
+                height: SizeConfig.blockVertical * 66,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -171,7 +186,7 @@ class _PageTableState extends State<ViewTable> {
 }
 
 List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Indoor', 'Outdoor'];
+  List<String> dll = ['Base Section', 'Section 001'];
   return dll
       .map(
         (value) => DropdownMenuItem(value: value, child: Text(value)),
@@ -298,4 +313,85 @@ class _TableAreaState extends State<TableArea> {
       ],
     );
   }
+}
+
+_buildPopupDialog(BuildContext context) {
+  return AlertDialog(
+    title: Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 7),
+            child: Text(
+              'Table Management',
+              style: TextStyle(
+                fontFamily: 'Rubik',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                left: SizeConfig.blockHorizontal * 0,
+                bottom: SizeConfig.blockVertical * 0),
+            height: SizeConfig.blockVertical * 5,
+            width: SizeConfig.blockHorizontal * 15,
+            child: RaisedButton(
+                color: backgroundClor,
+                elevation: 0,
+                child: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ViewBarPage()));
+                }),
+          ),
+        ],
+      ),
+    ),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+          height: SizeConfig.blockVertical * 8,
+          width: SizeConfig.blockHorizontal * 95,
+          child: ElevatedButton(
+            child: Text(
+              'Marge Table',
+              style: titleTable.copyWith(
+                fontSize: 12.sp,
+              ),
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const MargeTable()));
+            },
+            style: ElevatedButton.styleFrom(
+                primary: buttonColor, onPrimary: textColor3),
+          ),
+        ),
+        SizedBox(height: SizeConfig.blockVertical * 1),
+        Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
+          height: SizeConfig.blockVertical * 8,
+          width: SizeConfig.blockHorizontal * 95,
+          child: ElevatedButton(
+            child: Text('Move Table',
+                style: titleTable.copyWith(
+                  fontSize: 12.sp,
+                )),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const MoveTable()));
+            },
+            style: ElevatedButton.styleFrom(
+                primary: buttonColor, onPrimary: textColor3),
+          ),
+        ),
+      ],
+    ),
+  );
 }

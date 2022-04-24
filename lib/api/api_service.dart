@@ -210,12 +210,12 @@ class PosSettingServ {
 //api user server
 class UserModelApi {
   Future<List<UserServer>> getUser() async {
-    SharedPreferences getUser = await SharedPreferences.getInstance();
-    var baseUrl = getUser.getString("setApi");
+    SharedPreferences dataServer = await SharedPreferences.getInstance();
+    var baseUrl = dataServer.getString("setApi");
     print(baseUrl);
 
     var url = '$baseUrl/auth/user';
-    var auth = getUser.getString("access_token");
+    var auth = dataServer.getString("access_token");
     print(auth);
     var headers = {"Authorization": "Bearer ${auth}"};
 
@@ -223,12 +223,12 @@ class UserModelApi {
     print(response.body);
 
     if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      var data = jsonData["data"];
-      List<UserServer> getuser = [];
-      print(data);
+      var jsonServer = jsonDecode(response.body);
+      var server = jsonServer["data"];
+      List<UserServer> getDataServer = [];
+      print(server);
 
-      return getuser;
+      return getDataServer;
     } else {
       throw Exception('Gagal Get User');
     }

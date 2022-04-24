@@ -206,6 +206,7 @@ class SectionTable with ChangeNotifier {
   Future<void> getSection() async {
     try {
       List<TableSection> sectionTab = await GetSection().getSection();
+      print(sectionTab);
     } catch (e) {
       print(e);
     }
@@ -214,8 +215,8 @@ class SectionTable with ChangeNotifier {
 
 //provider user
 class ProviderUser with ChangeNotifier {
-  List<UserServer> _user = [];
-  List<UserServer> get users => _user;
+  List<UserServer> _userServer = [];
+  List<UserServer> get users => _userServer;
 
   set users(List<UserServer> _user) {
     notifyListeners();
@@ -223,7 +224,8 @@ class ProviderUser with ChangeNotifier {
 
   Future<void> getUsers() async {
     try {
-      List<UserServer> getUsers = await UserModelApi().getUser();
+      List<UserServer> getServerName = await UserModelApi().getUser();
+      print(getServerName);
     } catch (e) {
       print(e);
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -48,12 +49,13 @@ class MyApp extends StatelessWidget {
             create: (context) => MoveProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => PosProviders(),
+            create: (context) => ProviderUser(),
           ),
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
           '/': (context) => const SplashScreen(),
           '/Login': (context) => const LoginPage(),
+          '/inputCount': (context) => const InputCustomer()
         }),
       );
     });

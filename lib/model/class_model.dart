@@ -277,11 +277,18 @@ class TableSection {
   });
 
   TableSection.fromJson(Map<String, dynamic> json) {
-    createdAt = json["created_at"];
+    var createdAt;
+    if (json["created_At"] != null) {
+      createdAt = json["created_at"];
+    }
+
     idOutlet = json["id_outlet"];
     idSection = json["id_section"];
     sectionName = json["section_name"];
-    updatedAt = json["updated_at"];
+    var updatedAt;
+    if (json["updated_at"] != null) {
+      updatedAt = json["updated_at"];
+    }
   }
 
   Map<String, dynamic> toJson() {

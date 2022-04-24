@@ -3,17 +3,18 @@ import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/validation/method%20style/theme.dart';
+import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
-import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-class MenuPage extends StatefulWidget {
+class MenuList extends StatefulWidget {
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<MenuList> createState() => _MenuListState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _MenuListState extends State<MenuList> {
   TextEditingController searchController = TextEditingController();
   bool isActiveBotton = false;
   bool buttonPressed = false;
@@ -318,6 +319,45 @@ class _MenuPageState extends State<MenuPage> {
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      height: SizeConfig.blockVertical * 3,
+                      width: SizeConfig.blockHorizontal * 13,
+                      child: ElevatedButton(
+                        child: Icon(Icons.grid_view_rounded,
+                            color: backgroundClor),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuPage()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: buttonColor, onPrimary: textColor3),
+                      ),
+                    ),
+                    SizedBox(width: SizeConfig.blockHorizontal * 4),
+                    Container(
+                      margin: EdgeInsets.only(
+                          right: SizeConfig.blockHorizontal * 2),
+                      height: SizeConfig.blockVertical * 3,
+                      width: SizeConfig.blockHorizontal * 13,
+                      child: ElevatedButton(
+                        child: Icon(Icons.list, color: backgroundClor),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuList()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: buttonColor, onPrimary: textColor3),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             Container(
@@ -326,28 +366,104 @@ class _MenuPageState extends State<MenuPage> {
                 color: Colors.white,
                 child: productProviders.search.length != 0 ||
                         searchController.text.toLowerCase().isNotEmpty
-                    ? GridView.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 1,
-                        padding: const EdgeInsets.all(6),
-                        childAspectRatio: 1,
-                        children: productProviders.search
-                            .map((product) => ProductCard(product))
-                            .toList(),
-                      )
+                    ? ListView.builder(
+                        itemCount: productProviders.search.length,
+                        itemBuilder: (context, h) {
+                          final a = productProviders.search[h];
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: SizeConfig.blockVertical * 7,
+                                width: SizeConfig.blockHorizontal * 95,
+                                decoration: BoxDecoration(
+                                    color: backgroundClor,
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                      width: 0.8,
+                                    )),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      a.nameProduct,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'Montserrat'),
+                                    ),
+                                    Text(
+                                      a.hargaProduct,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Montserrat'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        })
                     : loading
                         ? Center(child: CircularProgressIndicator())
-                        : GridView.count(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 2,
-                            crossAxisSpacing: 1,
-                            padding: const EdgeInsets.all(6),
-                            childAspectRatio: 1,
-                            children: productProviders.products
-                                .map((product) => ProductCard(product))
-                                .toList(),
-                          )),
+                        : ListView.builder(
+                            itemCount: productProviders.products.length,
+                            itemBuilder: (context, b) {
+                              final i = productProviders.products[b];
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: SizeConfig.blockVertical * 7,
+                                    width: SizeConfig.blockHorizontal * 95,
+                                    decoration: BoxDecoration(
+                                        color: backgroundClor,
+                                        borderRadius: BorderRadius.circular(7),
+                                        border: Border.all(
+                                          color: Colors.grey.shade300,
+                                          width: 0.8,
+                                        )),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          i.nameProduct,
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Montserrat'),
+                                        ),
+                                        Text(
+                                          i.hargaProduct,
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Montserrat'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            })
+                // : GridView.count(
+                //     crossAxisCount: 2,
+                //     mainAxisSpacing: 2,
+                //     crossAxisSpacing: 1,
+                //     padding: const EdgeInsets.all(6),
+                //     childAspectRatio: 1,
+                //     children: productProviders.products
+                //         .map((product) => ProductCard(product))
+                //         .toList(),
+                //   )),
+                ),
           ]),
         ),
       );
@@ -379,45 +495,29 @@ class _ProductCardState extends State<ProductCard> {
             margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 3,
                 top: SizeConfig.blockVertical * 2),
-            height: 30.h,
+            height: SizeConfig.blockVertical * 25,
             width: SizeConfig.blockHorizontal * 45,
             decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(20)),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: SizeConfig.blockVertical * 1),
-                  Image.network(widget.product.gambarUrl,
-                      height: 80, width: 110, fit: BoxFit.fill),
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Text(
-                            widget.product.nameProduct,
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Montserrat'),
-                          ),
-                        ),
-                        SizedBox(height: SizeConfig.blockVertical * 1),
-                        Center(
-                          child: Text(
-                            widget.product.hargaProduct.toString(),
-                            style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  widget.product.nameProduct,
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Montserrat'),
+                ),
+                Text(
+                  widget.product.hargaProduct.toString(),
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Montserrat'),
+                ),
+              ],
             ),
           ),
         ),

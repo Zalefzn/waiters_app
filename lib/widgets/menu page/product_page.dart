@@ -68,44 +68,29 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget image() {
       return Container(
-        height: SizeConfig.blockVertical * 45,
+        height: SizeConfig.blockVertical * 40,
         width: SizeConfig.blockHorizontal * 100,
+        color: Colors.white,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-                height: SizeConfig.blockVertical * 30,
-                width: SizeConfig.blockHorizontal * 100,
-                child: Image.network(widget.product.gambarProduct)),
-            SizedBox(height: SizeConfig.blockVertical * 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 3),
-                  child: Text(
-                    widget.product.nameProduct,
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin:
-                      EdgeInsets.only(right: SizeConfig.blockHorizontal * 3),
-                  child: Text(
-                    widget.product.hargaProduct.toString(),
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              widget.product.nameProduct,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            SizedBox(height: SizeConfig.blockVertical * 3),
+            Text(
+              widget.product.hargaProduct.toString(),
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
       );

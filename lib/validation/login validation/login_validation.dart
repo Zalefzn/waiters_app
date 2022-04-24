@@ -20,6 +20,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
 
   final _fromKey = GlobalKey<FormState>();
   late bool _isLoading;
+  bool pressedLogin = false;
 
   @override
   void initState() {
@@ -109,8 +110,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
                                   hintText: 'Enter Your Pin'),
                               validator: Validators.compose([
                                 Validators.required('Your Pin Required'),
-                                Validators.maxLength(
-                                    10, 'Your Pin cant access'),
+                                Validators.maxLength(8, 'Your Pin cant access'),
                               ]),
                             ),
                           ),
@@ -133,24 +133,31 @@ class _ValidationLoginState extends State<ValidationLogin> {
                             duration: Duration(milliseconds: 500),
                             backgroundColor: messageColor,
                             content: Text(
-                              "Login Valid",
+                              "Please Enter Your Pin!",
                               textAlign: TextAlign.center,
                             )));
-                      } else if (_pin.text.isNotEmpty) {
+                      } else {
+                        if (_pin.text.isNotEmpty) {
+                          setState(() {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                duration: Duration(milliseconds: 500),
+                                backgroundColor: messageColor,
+                                content: Text(
+                                  "Wrong Pin!",
+                                  textAlign: TextAlign.center,
+                                )));
+                          });
+                        }
                         loginPin(_pin.text);
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: Duration(milliseconds: 500),
-                            backgroundColor: messageColor2,
-                            content: Text(
-                              "Login Success",
-                              textAlign: TextAlign.center,
-                            )));
+                        setState(() {
+                          pressedLogin = !pressedLogin;
+                        });
                       }
                     },
                     child: Text('Login',
                         style: buttonLogin.copyWith(fontSize: 30.sp)),
                     style: ElevatedButton.styleFrom(
-                      primary: buttonColor,
+                      primary: pressedLogin ? textColor3 : buttonColor,
                     ),
                   ),
                 ),
