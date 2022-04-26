@@ -138,20 +138,25 @@ class _ValidationLoginState extends State<ValidationLogin> {
                             )));
                       } else {
                         if (_pin.text.isNotEmpty) {
-                          setState(() {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                duration: Duration(milliseconds: 500),
-                                backgroundColor: messageColor,
-                                content: Text(
-                                  "Wrong Pin!",
-                                  textAlign: TextAlign.center,
-                                )));
-                          });
+                          if (_pin.text == false) {
+                            loginPin(_pin.text);
+                            setState(() {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      duration: Duration(milliseconds: 500),
+                                      backgroundColor: messageColor,
+                                      content: Text(
+                                        "Wrong Pin!",
+                                        textAlign: TextAlign.center,
+                                      )));
+                            });
+                          } else {
+                            loginPin(_pin.text);
+                            setState(() {
+                              pressedLogin = !pressedLogin;
+                            });
+                          }
                         }
-                        loginPin(_pin.text);
-                        setState(() {
-                          pressedLogin = !pressedLogin;
-                        });
                       }
                     },
                     child: Text('Login',

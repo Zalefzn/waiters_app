@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -300,62 +301,62 @@ class _MenuPageState extends State<MenuPage> {
                 ),
               ],
             ),
+            SizedBox(height: SizeConfig.blockVertical * 2),
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-                  height: SizeConfig.blockVertical * 8,
-                  width: SizeConfig.blockHorizontal * 95,
-                  child: Stack(
-                    children: [
-                      TextField(
-                        controller: searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Search Product ...',
-                          icon: Icon(Icons.search),
+                  color: backgroundClor,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                              hintText: 'Search Product Name...',
+                              border: InputBorder.none),
+                          onChanged: onSearchTextChanged,
                         ),
-                        onChanged: onSearchTextChanged,
+                        trailing: IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () {
+                            searchController.clear();
+                            onSearchTextChanged('');
+                          },
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      height: SizeConfig.blockVertical * 3,
-                      width: SizeConfig.blockHorizontal * 13,
-                      child: ElevatedButton(
-                        child: Icon(Icons.grid_view_rounded,
-                            color: backgroundClor),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MenuPage()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: buttonColor, onPrimary: textColor3),
-                      ),
-                    ),
-                    SizedBox(width: SizeConfig.blockHorizontal * 4),
-                    Container(
-                      margin: EdgeInsets.only(
-                          right: SizeConfig.blockHorizontal * 2),
-                      height: SizeConfig.blockVertical * 3,
-                      width: SizeConfig.blockHorizontal * 13,
-                      child: ElevatedButton(
-                        child: Icon(Icons.list, color: backgroundClor),
+                    Text("View : "),
+                    IconButton(
                         onPressed: () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MenuList()));
                         },
-                        style: ElevatedButton.styleFrom(
-                            primary: buttonColor, onPrimary: textColor3),
-                      ),
-                    ),
+                        icon: Icon(
+                          Icons.list,
+                          color: buttonNavbar,
+                          size: 30,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewMenu()));
+                        },
+                        icon: Icon(
+                          Icons.grid_view_rounded,
+                          color: buttonNavbar,
+                          size: 30,
+                        )),
                   ],
                 ),
               ],
@@ -368,9 +369,9 @@ class _MenuPageState extends State<MenuPage> {
                         searchController.text.toLowerCase().isNotEmpty
                     ? GridView.count(
                         crossAxisCount: 2,
-                        mainAxisSpacing: 2,
+                        mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
-                        padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(3),
                         childAspectRatio: 1,
                         children: productProviders.search
                             .map((product) => ProductCard(product))
@@ -380,9 +381,9 @@ class _MenuPageState extends State<MenuPage> {
                         ? Center(child: CircularProgressIndicator())
                         : GridView.count(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 2,
+                            mainAxisSpacing: 1,
                             crossAxisSpacing: 1,
-                            padding: const EdgeInsets.all(6),
+                            padding: const EdgeInsets.all(3),
                             childAspectRatio: 1,
                             children: productProviders.products
                                 .map((product) => ProductCard(product))
@@ -430,14 +431,14 @@ class _ProductCardState extends State<ProductCard> {
                 Text(
                   widget.product.nameProduct,
                   style: const TextStyle(
-                      fontSize: 12,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Montserrat'),
                 ),
                 Text(
                   widget.product.hargaProduct.toString(),
                   style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Montserrat'),
                 ),

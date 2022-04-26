@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
-import 'package:flutter_mobile/widgets/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -132,31 +129,30 @@ class NumPad extends StatelessWidget {
             right: SizeConfig.blockHorizontal * 5),
         child: Column(
           children: [
-            SizedBox(height: SizeConfig.blockVertical * 5),
+            SizedBox(height: SizeConfig.blockVertical * 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 NumberButton(
-                  number: 1,
+                  number: 7,
                   size: buttonSize,
                   color: numpadColor == 1 ? buttonNavbar : buttonColor,
                   controller: controller,
                 ),
                 NumberButton(
-                  number: 2,
+                  number: 8,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
                 NumberButton(
-                  number: 3,
+                  number: 9,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
               ],
             ),
-            SizedBox(height: SizeConfig.blockVertical * 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -179,37 +175,35 @@ class NumPad extends StatelessWidget {
                     controller: controller),
               ],
             ),
-            SizedBox(height: SizeConfig.blockVertical * 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 NumberButton(
-                  number: 7,
+                  number: 1,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
                 NumberButton(
-                  number: 8,
+                  number: 2,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
                 NumberButton(
-                  number: 9,
+                  number: 3,
                   size: buttonSize,
                   color: buttonColor,
                   controller: controller,
                 ),
               ],
             ),
-            SizedBox(height: SizeConfig.blockVertical * 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   height: SizeConfig.blockVertical * 10,
-                  width: 19.w,
+                  width: SizeConfig.blockHorizontal * 28,
                   child: ElevatedButton(
                       onPressed: () => delete(),
                       child: Text(
@@ -231,7 +225,7 @@ class NumPad extends StatelessWidget {
                 ),
                 Container(
                   height: SizeConfig.blockVertical * 10,
-                  width: 19.w,
+                  width: SizeConfig.blockHorizontal * 28,
                   child: ElevatedButton(
                     onPressed: () => onSubmit(),
                     child: Text('OK',
@@ -268,9 +262,10 @@ class NumberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
+    return Container(
+      margin: EdgeInsets.all(4),
+      width: SizeConfig.blockHorizontal * 28,
+      height: SizeConfig.blockVertical * 10,
       child: GestureDetector(
         onTap: () {},
         child: ElevatedButton(

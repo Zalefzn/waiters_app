@@ -7,7 +7,6 @@ import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 
 //navigation navbar menu view
@@ -24,7 +23,6 @@ class _ViewMenuState extends State<ViewMenu> {
   }
 
   void getCount() {}
-  int _count = 0;
   int _currentIndex = 0;
   int selectedIndex = 0;
   List options = [
@@ -37,32 +35,32 @@ class _ViewMenuState extends State<ViewMenu> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          buttonBackgroundColor: Colors.white,
-          backgroundColor: Colors.grey.shade300,
-          animationDuration: Duration(milliseconds: 400),
-          animationCurve: Curves.easeIn,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
           items: [
-            Icon(
-              Icons.shopping_bag_outlined,
-              color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
-            ),
-            Badge(
-              badgeContent: Text(cartprovider.totalItems().toString(),
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              child: Icon(
-                Icons.summarize_outlined,
-                color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.shopping_bag_outlined,
               ),
-              badgeColor: Colors.orangeAccent,
+              title: Text("Order"),
             ),
+            BottomNavigationBarItem(
+              icon: Badge(
+                badgeContent: Text(cartprovider.totalItems().toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+                child: Icon(
+                  Icons.summarize_outlined,
+                ),
+                badgeColor: Colors.orangeAccent,
+              ),
+              title: Text("Summary"),
+            )
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
-              selectedIndex = index;
             });
           },
         ),
@@ -96,25 +94,26 @@ class _ViewBarState extends State<ViewBar> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          buttonBackgroundColor: backgroundClor,
-          backgroundColor: buttonNavbar2,
-          animationDuration: const Duration(milliseconds: 400),
-          animationCurve: Curves.easeIn,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          selectedItemColor: buttonNavbar,
           items: [
-            Icon(
-              Icons.shopping_bag_outlined,
-              color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.shopping_bag_outlined,
+              ),
+              title: Text("Order"),
             ),
-            Icon(
-              Icons.summarize_outlined,
-              color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
-            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.summarize_outlined,
+              ),
+              title: Text("Summary"),
+            )
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
-              selectedIndex = index;
             });
           },
         ),

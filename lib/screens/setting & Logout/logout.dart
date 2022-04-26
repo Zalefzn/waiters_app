@@ -230,7 +230,7 @@ class _LogOutState extends State<LogOut> {
                               },
                               child: Text("Clear Cache",
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: 'Montserrat'))),
                         ],

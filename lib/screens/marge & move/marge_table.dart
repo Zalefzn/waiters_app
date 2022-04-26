@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
@@ -27,15 +27,6 @@ class _MargeTable extends State<MargeTable> {
 
     handleMarge() async {
       if (await margeProvider.margeCheck(tableProviders.tables)) {}
-    }
-
-    void getTableNameMarge() async {
-      final SharedPreferences getNameTable =
-          await SharedPreferences.getInstance();
-
-      setState(() {
-        _saveMainMarge = getNameTable.getString("nameMargeTable") ?? "-";
-      });
     }
 
     return Sizer(builder: (context, orientation, deviceType) {
@@ -70,7 +61,7 @@ class _MargeTable extends State<MargeTable> {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ViewBar()));
+                                      builder: (context) => ViewPage()));
                             });
                           },
                           icon: Icon(Icons.chevron_left),
@@ -91,8 +82,6 @@ class _MargeTable extends State<MargeTable> {
                               left: SizeConfig.blockHorizontal * 6),
                           child: RaisedButton(
                             onPressed: () async {
-                              _saveMainMarge = "-";
-                              _saveChildMarge = "-";
                               SharedPreferences remove =
                                   await SharedPreferences.getInstance();
                               remove.remove("MainMarge");
@@ -114,7 +103,7 @@ class _MargeTable extends State<MargeTable> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 2),
+                    margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
                     height: SizeConfig.blockVertical * 0.1,
                     width: SizeConfig.blockHorizontal * 90,
                     decoration: BoxDecoration(
@@ -192,6 +181,7 @@ class _MargeTable extends State<MargeTable> {
                 ],
               ),
             ),
+            SizedBox(height: SizeConfig.blockVertical * 3),
             addContent(),
             Container(
                 height: SizeConfig.blockVertical * 52,
@@ -215,9 +205,6 @@ class _MargeTable extends State<MargeTable> {
                             //Logik untuk memangil data berupa child dan parent
                             onTap: () async {
                               if (margeTable == "") {
-                                // if (!pressed) {
-                                //   pressed ? null : pressed = !pressed;
-                                // }
                                 margeTable = b.idTable.toString();
                                 SharedPreferences setMargeTable =
                                     await SharedPreferences.getInstance();
@@ -260,7 +247,6 @@ class _MargeTable extends State<MargeTable> {
                                       style:
                                           textButton.copyWith(fontSize: 20.sp),
                                     ),
-                                    pressed ? Text("Main Table") : Container(),
                                   ],
                                 ),
                               ),
@@ -301,7 +287,7 @@ class _MargeTable extends State<MargeTable> {
                   handleMarge();
 
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ViewBar()));
+                      MaterialPageRoute(builder: (context) => ViewPage()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: buttonNavbar,
@@ -328,14 +314,14 @@ addContent() {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Main Table : " + "$_saveMainMarge",
+                Text("Main Table : ",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     )),
                 Text(
-                  "Merged Table :" + "$_saveChildMarge",
+                  "Merged Table :",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -351,9 +337,6 @@ addContent() {
   );
 }
 
-String _saveMainMarge = "";
-String _saveChildMarge = "";
-
 List<DropdownMenuItem<String>> _dropDownItem() {
   List<String> dll = ['Base Section', 'Section 001'];
   return dll
@@ -362,82 +345,3 @@ List<DropdownMenuItem<String>> _dropDownItem() {
       )
       .toList();
 }
-
-// class TableCard extends StatefulWidget {
-//   final TableManagement data;
-//   TableCard(this.data);
-
-//   @override
-//   State<TableCard> createState() => _TableCardState();
-// }
-
-// class _TableCardState extends State<TableCard> {
-//   @override
-  // var _hasBeenPressed = false;
-  // var pressed = false;
-  // var pressed2 = false;
-  // var margeTable = "";
-  // var childTable = [];
-
-//   @override
-//   Widget build(BuildContext context) {
-    // return Row(
-    //   children: [
-    //     GestureDetector(
-    //       //Logik untuk memangil data berupa child dan parent
-    //       onTap: () async {
-    //         if (margeTable == "") {
-    //           margeTable = widget.data.idTable.toString();
-              // SharedPreferences setMargeTable =
-              //     await SharedPreferences.getInstance();
-              // setMargeTable.setInt("saveMainTable", widget.data.idTable);
-    //           setState(() {
-    //             _hasBeenPressed ? null : _hasBeenPressed = !_hasBeenPressed;
-    //             pressed ? null : pressed = !pressed;
-    //           });
-    //           print(margeTable);
-    //         } else {
-    //           if (margeTable != widget.data.idTable) {
-    //             childTable.add(widget.data.idTable);
-    //             var isTableExist = childTable
-    //                 .where((element) => element == widget.data.idTable);
-                // SharedPreferences setMargeTable =
-                //     await SharedPreferences.getInstance();
-                // setMargeTable.setInt("saveChild", widget.data.idTable);
-    //             setState(() {
-    //               _hasBeenPressed ? null : _hasBeenPressed = !_hasBeenPressed;
-    //               pressed2 ? null : pressed2 = !pressed2;
-    //             });
-    //             print(isTableExist);
-    //           }
-    //         }
-    //       },
-    //       child: Container(
-    //         margin: EdgeInsets.only(
-    //             top: SizeConfig.blockVertical * 2,
-    //             left: SizeConfig.blockHorizontal * 2.5),
-    //         height: SizeConfig.blockVertical * 25,
-    //         width: SizeConfig.blockHorizontal * 46,
-    //         decoration: BoxDecoration(
-    //           color: _hasBeenPressed ? buttonNavbar2 : textColor3,
-    //           borderRadius: BorderRadius.circular(15),
-    //         ),
-    //         child: Center(
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Text(
-    //                 widget.data.tableName,
-    //                 style: textButton.copyWith(fontSize: 20.sp),
-    //               ),
-                  // pressed ? Text("Main Table") : Container(),
-                  // pressed2 ? Text("Child Table") : Container(),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
-//   }
-// }

@@ -3,8 +3,8 @@ import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
-import 'package:flutter_mobile/widgets/table%20page/change_page_view.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +58,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
               elevation: 0,
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ViewBarPage()));
+                    MaterialPageRoute(builder: (context) => ViewTable()));
               }),
           title: Container(
             margin: EdgeInsets.only(
@@ -171,7 +171,45 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                 ],
               ),
             ),
-            SizedBox(height: SizeConfig.blockVertical * 0.2),
+            SizedBox(height: SizeConfig.blockVertical * 0.5),
+            Container(
+              padding: EdgeInsets.all(15),
+              height: SizeConfig.blockVertical * 8,
+              width: SizeConfig.blockHorizontal * 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("enything else ?",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: 'Montserrat')),
+                  Container(
+                      height: SizeConfig.blockVertical * 5,
+                      width: SizeConfig.blockHorizontal * 20,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border:
+                              Border.all(color: Colors.indigoAccent.shade400)),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewMenu()));
+                          },
+                          child: Text("Add More",
+                              style: TextStyle(
+                                  color: Colors.indigoAccent.shade400)))),
+                ],
+              ),
+            ),
+            SizedBox(height: SizeConfig.blockVertical * 0.5),
             Container(
               height: SizeConfig.blockVertical * 50,
               width: SizeConfig.blockHorizontal * 100,
@@ -215,10 +253,10 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                           ),
                           Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 64,
+                                left: SizeConfig.blockHorizontal * 58,
                                 top: SizeConfig.blockVertical * 3),
-                            child: const Text(
-                              "0",
+                            child: Text(
+                              cartProvider.totalPrice().toString(),
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 20,
@@ -244,14 +282,14 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewBarPage()));
+                                                    ViewTable()));
                                       } else if (cartProvider
                                           .carts.isNotEmpty) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewBarPage()));
+                                                    ViewTable()));
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -323,7 +361,7 @@ class _CartPageState extends State<CartPage> {
 
     minus() {
       setState(() {
-        if (_n != 0) {
+        if (_n != 1) {
           _n--;
         }
       });
@@ -493,18 +531,18 @@ class _CartPageState extends State<CartPage> {
                                   onChanged: (value) {
                                     switch (value) {
                                       case 'Indoor':
-                                        // Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             ViewBar()));
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBar()));
                                         break;
                                       case 'Outdoor':
-                                      // Navigator.pushReplacement(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             ViewBar2()));
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBar()));
                                     }
                                   },
                                 ),
@@ -568,18 +606,18 @@ class _CartPageState extends State<CartPage> {
                                   onChanged: (value) {
                                     switch (value) {
                                       case '':
-                                        // Navigator.pushReplacement(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             ViewBar()));
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBar()));
                                         break;
                                       case '':
-                                      // Navigator.pushReplacement(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             ViewBar2()));
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewBar()));
                                     }
                                   },
                                 ),

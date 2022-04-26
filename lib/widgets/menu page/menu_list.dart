@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -300,66 +301,67 @@ class _MenuListState extends State<MenuList> {
                 ),
               ],
             ),
+            SizedBox(height: SizeConfig.blockVertical * 2),
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: SizeConfig.blockVertical * 3),
-                  height: SizeConfig.blockVertical * 10,
-                  width: SizeConfig.blockHorizontal * 95,
-                  child: Stack(
-                    children: [
-                      TextField(
-                        controller: searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Search Product ...',
-                          icon: Icon(Icons.search),
+                  color: backgroundClor,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                              hintText: 'Search Product Name...',
+                              border: InputBorder.none),
+                          onChanged: onSearchTextChanged,
                         ),
-                        onChanged: onSearchTextChanged,
+                        trailing: IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () {
+                            searchController.clear();
+                            onSearchTextChanged('');
+                          },
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      height: SizeConfig.blockVertical * 3,
-                      width: SizeConfig.blockHorizontal * 13,
-                      child: ElevatedButton(
-                        child: Icon(Icons.grid_view_rounded,
-                            color: backgroundClor),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MenuPage()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: buttonColor, onPrimary: textColor3),
-                      ),
-                    ),
-                    SizedBox(width: SizeConfig.blockHorizontal * 4),
-                    Container(
-                      margin: EdgeInsets.only(
-                          right: SizeConfig.blockHorizontal * 2),
-                      height: SizeConfig.blockVertical * 3,
-                      width: SizeConfig.blockHorizontal * 13,
-                      child: ElevatedButton(
-                        child: Icon(Icons.list, color: backgroundClor),
+                    Text("View : "),
+                    IconButton(
                         onPressed: () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MenuList()));
                         },
-                        style: ElevatedButton.styleFrom(
-                            primary: buttonColor, onPrimary: textColor3),
-                      ),
-                    ),
+                        icon: Icon(
+                          Icons.list,
+                          color: buttonNavbar,
+                          size: 30,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ViewMenu()));
+                        },
+                        icon: Icon(
+                          Icons.grid_view_rounded,
+                          color: buttonNavbar,
+                          size: 30,
+                        )),
                   ],
                 ),
               ],
             ),
+            SizedBox(height: SizeConfig.blockVertical * 2),
             Container(
                 height: 63.h,
                 width: SizeConfig.blockHorizontal * 100,
@@ -391,14 +393,14 @@ class _MenuListState extends State<MenuList> {
                                     Text(
                                       a.nameProduct,
                                       style: const TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: 'Montserrat'),
                                     ),
                                     Text(
                                       a.hargaProduct,
                                       style: const TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w700,
                                           fontFamily: 'Montserrat'),
                                     ),
@@ -426,26 +428,32 @@ class _MenuListState extends State<MenuList> {
                                         color: backgroundClor,
                                         borderRadius: BorderRadius.circular(7),
                                         border: Border.all(
-                                          color: Colors.grey.shade300,
+                                          color: Colors.grey.shade500,
                                           width: 0.8,
                                         )),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          i.nameProduct,
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: 'Montserrat'),
+                                        Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            i.nameProduct,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'Montserrat'),
+                                          ),
                                         ),
-                                        Text(
-                                          i.hargaProduct,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Montserrat'),
+                                        Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            i.hargaProduct,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: 'Montserrat'),
+                                          ),
                                         ),
                                       ],
                                     ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +21,11 @@ class ViewPage extends StatefulWidget {
 class _ViewPageState extends State<ViewPage> {
   List<TableSection> sectionTable = [];
   var loading = false;
+  var button2 = false;
+  var buttonText2 = false;
+  var buttonText = false;
+  var button1 = false;
+  // late io.Socket socketIo;
 
   TextEditingController indoor = TextEditingController();
   TextEditingController outdoor = TextEditingController();
@@ -35,10 +40,20 @@ class _ViewPageState extends State<ViewPage> {
       });
       loading = true;
     });
+    // connect();
     getTab();
     getProducts();
     super.initState();
   }
+  // void connect() {
+  //   socketIo = io.io("https//staging-io.qoligo.com", <String, dynamic>{
+  //     'transports': ['websocket'],
+  //     'autoConnect': false
+  //   });
+  //   socketIo.connect();
+  //   socketIo.onConnect((data) => print('Connected'));
+  //   print(socketIo.connected);
+  // }
 
   getProducts() async {
     await Provider.of<ProductProviders>(context, listen: false).getData();
@@ -168,42 +183,70 @@ class _ViewPageState extends State<ViewPage> {
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
                   height: SizeConfig.blockVertical * 5,
-                  width: SizeConfig.blockHorizontal * 30,
+                  width: SizeConfig.blockHorizontal * 48,
                   child: ElevatedButton(
                     child: Text(
                       'Marge Table',
-                      style: titleTable.copyWith(
+                      style: TextStyle(
+                        color: buttonText ? backgroundClor : buttonNavbar,
+                        fontWeight: bold,
+                        fontFamily: 'Rubik',
                         fontSize: 12.sp,
                       ),
                     ),
                     onPressed: () {
+                      setState(() {
+                        button1 ? null : button1 = !button1;
+                        buttonText ? null : buttonText = !buttonText;
+                      });
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MargeTable()));
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: buttonColor, onPrimary: textColor3),
+                        primary: button1 ? buttonNavbar : backgroundClor,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: buttonNavbar,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(9),
+                        )),
                   ),
                 ),
-                SizedBox(width: SizeConfig.blockVertical * 10),
+                SizedBox(width: SizeConfig.blockHorizontal * 1),
                 Container(
                   margin: EdgeInsets.only(top: SizeConfig.blockVertical * 0),
                   height: SizeConfig.blockVertical * 5,
-                  width: SizeConfig.blockHorizontal * 30,
+                  width: SizeConfig.blockHorizontal * 48,
                   child: ElevatedButton(
                     child: Text('Move Table',
-                        style: titleTable.copyWith(
+                        style: TextStyle(
                           fontSize: 12.sp,
+                          fontFamily: "Rubik",
+                          color: buttonText2 ? backgroundClor : buttonNavbar,
+                          fontWeight: bold,
                         )),
                     onPressed: () {
+                      setState(() {
+                        button2 ? null : button2 = !button2;
+                        buttonText2 ? null : buttonText2 = !buttonText2;
+                      });
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MoveTable()));
                     },
                     style: ElevatedButton.styleFrom(
-                        primary: buttonColor, onPrimary: textColor3),
+                        primary: button2 ? buttonNavbar : backgroundClor,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: buttonNavbar,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(9),
+                        )),
                   ),
                 ),
               ],

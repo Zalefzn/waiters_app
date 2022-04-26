@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/widgets/table%20page/change_page_view.dart';
 import 'package:flutter_mobile/widgets/menu%20page/update_product_page.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
@@ -26,7 +26,7 @@ class _SummeryPage extends State<SummeryPage> {
   @override
   void initState() {
     setState(() {
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(Duration(milliseconds: 2000), () {
         setState(() {
           loading = false;
         });
@@ -158,7 +158,7 @@ class _SummeryPage extends State<SummeryPage> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             )),
-                        const Text("Rizal",
+                        const Text("-",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 13,
@@ -175,17 +175,16 @@ class _SummeryPage extends State<SummeryPage> {
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(color: Colors.grey.shade200),
                 child: Stack(children: [
-                  Center(
-                      child: Text("No Orders Yet",
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontFamily: 'Monserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey.shade400,
-                          ))),
                   Container(
                     child: loading
-                        ? Center(child: CircularProgressIndicator())
+                        ? Center(
+                            child: Text("No Orders Yet",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Monserrat',
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade400,
+                                )))
                         : ListView(
                             children: cartProvider.carts
                                 .map((cart) => CartCard(cart))
@@ -319,7 +318,7 @@ class _SummeryPage extends State<SummeryPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ViewBarPage()));
+                                                      ViewTable()));
                                           handleOrder();
                                           showDialog(
                                             context: context,
@@ -434,8 +433,8 @@ _buildPopDialog2(BuildContext context) {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ViewBar()));
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => const ViewBar()));
                 cartProvider.carts.clear();
               },
               child: Container(
@@ -594,9 +593,8 @@ class _CartCardState extends State<CartCard> {
                               onTap: () {
                                 cartProvider.removeCart(widget.cartModel.id);
                               },
-                              child: Icon(Icons.remove,
-                                  color: Colors.indigoAccent.shade400,
-                                  size: 30)),
+                              child: Icon(Icons.delete_outline_outlined,
+                                  color: buttonColor3, size: 25)),
                         ],
                       ),
                       onPressed: () {},

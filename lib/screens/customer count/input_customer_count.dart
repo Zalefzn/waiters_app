@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/screens/customer%20count/numpad_page.dart';
-import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
-import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
@@ -28,28 +26,71 @@ class _InputCustomer extends State<InputCustomer> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          buttonBackgroundColor: Colors.white,
-          backgroundColor: Colors.grey.shade300,
-          animationDuration: Duration(milliseconds: 400),
-          animationCurve: Curves.easeIn,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          selectedItemColor: buttonNavbar,
           items: [
-            Icon(
-              Icons.shopping_bag_outlined,
-              color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.shopping_bag_outlined,
+              ),
+              title: Text("Order"),
             ),
-            Icon(
-              Icons.summarize_outlined,
-              color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
-            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.summarize_outlined,
+              ),
+              title: Text("Summary"),
+            )
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
-              selectedIndex = index;
             });
           },
         ),
+        // bottomNavigationBar: CurvedNavigationBar(
+        //   buttonBackgroundColor: Colors.white,
+        //   backgroundColor: Colors.grey.shade300,
+        //   animationDuration: Duration(milliseconds: 400),
+        //   animationCurve: Curves.easeIn,
+        //   items: [
+        //     Column(
+        //       children: [
+        //         Icon(
+        //           Icons.shopping_bag_outlined,
+        //           color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
+        //         ),
+        //         Text("Order",
+        //             style: TextStyle(
+        //               fontSize: 13,
+        //               fontWeight: FontWeight.w700,
+        //               color: selectedIndex == 0 ? buttonNavbar : buttonNavbar2,
+        //             ))
+        //       ],
+        //     ),
+        //     Column(
+        //       children: [
+        //         Icon(
+        //           Icons.summarize_outlined,
+        //           color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
+        //         ),
+        //         Text("Summary",
+        //             style: TextStyle(
+        //               fontSize: 13,
+        //               fontWeight: FontWeight.w700,
+        //               color: selectedIndex == 1 ? buttonNavbar : buttonNavbar2,
+        //             ))
+        //       ],
+        //     ),
+        //   ],
+        //   onTap: (index) {
+        //     setState(() {
+        //       _currentIndex = index;
+        //       selectedIndex = index;
+        //     });
+        //   },
+        // ),
         backgroundColor: Colors.white,
         body: Container(
           child: options[_currentIndex],
@@ -115,7 +156,7 @@ class _InputCount extends State<InputCount> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewBar()));
+                                    builder: (context) => ViewPage()));
                           });
                         },
                         child: Text(

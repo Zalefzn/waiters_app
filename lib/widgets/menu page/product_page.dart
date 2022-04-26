@@ -33,7 +33,7 @@ class _ProductPageState extends State<ProductPage> {
 
   minus() {
     setState(() {
-      if (_n != 0) {
+      if (_n != 1) {
         _n--;
       }
     });
@@ -59,6 +59,7 @@ class _ProductPageState extends State<ProductPage> {
                   },
                   child: Icon(
                     Icons.chevron_left,
+                    size: 40,
                   )),
             ]),
           ),
@@ -126,12 +127,15 @@ class _ProductPageState extends State<ProductPage> {
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: TextField(
-                controller: textEditing,
-                maxLines: 9,
-                decoration: InputDecoration(
-                  hintText: "Contoh : Pedas Manis",
-                  border: InputBorder.none,
+              child: Container(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  controller: textEditing,
+                  maxLines: 9,
+                  decoration: InputDecoration(
+                    hintText: "Contoh : Pedas Manis",
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             ),
@@ -149,18 +153,12 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
-              onTap: () async {
-                SharedPreferences setAdd =
-                    await SharedPreferences.getInstance();
-                setAdd.setInt("getCounterData", _n + 1);
-                print(_n + 1);
-                setState(() {
-                  add();
-                });
+              onTap: () {
+                minus();
               },
               child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: Text("+",
+                  margin: const EdgeInsets.all(5),
+                  child: Text("-",
                       style: TextStyle(
                           fontFamily: 'Rubik',
                           fontSize: 35,
@@ -178,12 +176,18 @@ class _ProductPageState extends State<ProductPage> {
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
-              onTap: () {
-                minus();
+              onTap: () async {
+                SharedPreferences setAdd =
+                    await SharedPreferences.getInstance();
+                setAdd.setInt("getCounterData", _n + 1);
+                print(_n + 1);
+                setState(() {
+                  add();
+                });
               },
               child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Text("-",
+                  margin: EdgeInsets.all(5),
+                  child: Text("+",
                       style: TextStyle(
                           fontFamily: 'Rubik',
                           fontSize: 35,
@@ -252,9 +256,7 @@ class _ProductPageState extends State<ProductPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.w600))),
                   style: TextButton.styleFrom(
-                    backgroundColor: _changeColor == _changeWarna
-                        ? Colors.grey.shade300
-                        : buttonNavbar,
+                    backgroundColor: buttonNavbar,
                   )),
             ),
           ],

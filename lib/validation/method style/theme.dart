@@ -6,18 +6,18 @@ Color backgroundClor = const Color(0xffffffff);
 Color backgroundColor = const Color(0xffDCDCDC);
 Color textColor1 = const Color(0xff000000);
 Color textColor2 = const Color(0xffffffff);
-Color textColor3 = const Color(0xffD3D3D3);
+Color textColor3 = const Color(0xffEDEDED);
 Color appBarColor = const Color(0xff1E1E81);
 Color iconColor = const Color(0xffffffff);
 Color buttonColor4 = const Color(0xffffffff);
 Color iconColor2 = const Color(0xff000000);
 Color buttonColor = const Color(0xff3742F9);
-Color AccesedTable = const Color(0xff262626);
+Color accesedTable = const Color(0xff262626);
 Color buttonColor2 = const Color(0xffEDEDED);
 Color buttonColor3 = const Color(0xffFF6B6B);
 Color buttonNavbar = const Color(0xff3742F9);
-Color buttonNavbar2 = const Color(0xffDCDCDC);
-Color hint = const Color(0xffD3D3D3);
+Color buttonNavbar2 = const Color(0xffEDEDED);
+Color hint = const Color(0xffEDEDED);
 Color bordeSide = const Color(0xff000000);
 Color messageColor = const Color(0xffFF6B6B);
 Color messageColor2 = const Color(0xff54FF65);
@@ -77,7 +77,7 @@ TextStyle textButton = TextStyle(
 );
 
 TextStyle titleTable = TextStyle(
-  color: textColor2,
+  color: buttonNavbar,
   fontWeight: bold,
   fontFamily: 'Rubik',
 );

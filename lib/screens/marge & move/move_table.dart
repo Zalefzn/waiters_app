@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
@@ -61,7 +61,7 @@ class _MoveTable extends State<MoveTable> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ViewBar()));
+                                        builder: (context) => ViewPage()));
                               });
                             },
                             icon: Icon(Icons.chevron_left),
@@ -298,7 +298,7 @@ class _MoveTable extends State<MoveTable> {
                   onPressed: () {
                     handleMove();
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewBar()));
+                        MaterialPageRoute(builder: (context) => ViewPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     primary: buttonNavbar,

@@ -32,7 +32,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
 
   kurang() {
     setState(() {
-      if (_s != 0) {
+      if (_s != 1) {
         _s--;
       }
     });
@@ -54,64 +54,47 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             child: Row(children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewMenu()));
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => ViewMenu()));
                   },
-                  child: const Icon(
-                    Icons.chevron_left,
-                  )),
+                  child: const Icon(Icons.chevron_left, size: 40)),
             ]),
           ),
         ],
       );
     }
 
-    Widget image2() {
+    Widget image() {
       return Container(
-        height: SizeConfig.blockVertical * 45,
+        height: SizeConfig.blockVertical * 40,
         width: SizeConfig.blockHorizontal * 100,
+        color: Colors.white,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-                height: SizeConfig.blockVertical * 30,
-                width: SizeConfig.blockHorizontal * 100,
-                child: Image.network(widget.cartModel.product.gambarProduct)),
-            SizedBox(height: SizeConfig.blockVertical * 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 2),
-                  child: Text(
-                    widget.cartModel.product.nameProduct,
-                    style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin:
-                      EdgeInsets.only(left: SizeConfig.blockHorizontal * 20),
-                  child: Text(
-                    widget.cartModel.product.hargaProduct.toString(),
-                    style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              widget.cartModel.product.nameProduct,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            SizedBox(height: SizeConfig.blockVertical * 3),
+            Text(
+              widget.cartModel.product.hargaProduct.toString(),
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
       );
     }
 
-    Widget notes2() {
+    Widget notes() {
       return Container(
         height: SizeConfig.blockVertical * 30,
         width: SizeConfig.blockHorizontal * 100,
@@ -119,9 +102,9 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
           children: [
             Container(
               margin: EdgeInsets.only(
-                  right: SizeConfig.blockHorizontal * 58,
+                  right: SizeConfig.blockHorizontal * 53,
                   top: SizeConfig.blockVertical * 2),
-              child: const Text(
+              child: Text(
                 "Additional Notes  :",
                 style: TextStyle(
                   fontFamily: 'Montserrat',
@@ -141,12 +124,15 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: TextField(
-                controller: textController,
-                maxLines: 9,
-                decoration: InputDecoration(
-                  hintText: "   Contoh : Pedas Manis",
-                  border: InputBorder.none,
+              child: Container(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  controller: textController,
+                  maxLines: 9,
+                  decoration: InputDecoration(
+                    hintText: "Contoh : Pedas Manis",
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             ),
@@ -165,13 +151,11 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
               onTap: () {
-                setState(() {
-                  tambah();
-                });
+                kurang();
               },
               child: Container(
                   margin: const EdgeInsets.all(5),
-                  child: Text("+",
+                  child: Text("-",
                       style: TextStyle(
                           fontFamily: 'Rubik',
                           fontSize: 35,
@@ -181,7 +165,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Text(
               "$_s",
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'Rubik',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -189,14 +173,18 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                SharedPreferences setAdd =
+                    await SharedPreferences.getInstance();
+                setAdd.setInt("getCounterData", _s + 1);
+                print(_s + 1);
                 setState(() {
-                  kurang();
+                  tambah();
                 });
               },
               child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Text("-",
+                  margin: EdgeInsets.all(5),
+                  child: Text("+",
                       style: TextStyle(
                           fontFamily: 'Rubik',
                           fontSize: 35,
@@ -249,10 +237,10 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                           ),
                         );
                         cartProvider.addCart(widget.cartModel.product);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ViewMenu()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => ViewMenu()));
                       }
                     }
                   },
@@ -265,9 +253,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.w600))),
                   style: TextButton.styleFrom(
-                    backgroundColor: _changeColor == _changeWarna
-                        ? Colors.grey.shade300
-                        : buttonNavbar,
+                    backgroundColor: buttonNavbar,
                   )),
             ),
           ],
@@ -280,13 +266,13 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       body: ListView(
         children: [
           header2(),
-          image2(),
+          image(),
           Container(
             height: SizeConfig.blockVertical * 0.2,
             width: SizeConfig.blockHorizontal * 100,
             decoration: BoxDecoration(color: Colors.grey[300]),
           ),
-          notes2(),
+          notes(),
           Container(
             height: SizeConfig.blockVertical * 0.2,
             width: SizeConfig.blockHorizontal * 100,
