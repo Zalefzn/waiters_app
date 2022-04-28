@@ -240,8 +240,8 @@ class _MoveTable extends State<MoveTable> {
                                 width: SizeConfig.blockHorizontal * 46,
                                 decoration: BoxDecoration(
                                   color: _hasBeenPressed
-                                      ? buttonNavbar2
-                                      : textColor3,
+                                      ? textColor3
+                                      : buttonNavbar2,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Center(

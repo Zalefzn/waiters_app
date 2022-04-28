@@ -6,6 +6,7 @@ import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_list.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
@@ -81,10 +82,18 @@ class _MenuPageState extends State<MenuPage> {
           leading: IconButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LogOut()));
+                  context, MaterialPageRoute(builder: (context) => ViewPage()));
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.chevron_left, size: 40, color: Colors.white),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LogOut()));
+                },
+                icon: Icon(Icons.settings, color: Colors.white))
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(children: [
@@ -215,7 +224,7 @@ class _MenuPageState extends State<MenuPage> {
                                                                       context,
                                                                       MaterialPageRoute(
                                                                           builder: (context) =>
-                                                                              MenuPage()));
+                                                                              ViewMenuGrid()));
                                                                   productProviders
                                                                       .products
                                                                       .where((product) =>
@@ -338,7 +347,7 @@ class _MenuPageState extends State<MenuPage> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MenuList()));
+                                  builder: (context) => ViewMenuList()));
                         },
                         icon: Icon(
                           Icons.list,
@@ -350,7 +359,7 @@ class _MenuPageState extends State<MenuPage> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ViewMenu()));
+                                  builder: (context) => ViewMenuGrid()));
                         },
                         icon: Icon(
                           Icons.grid_view_rounded,
@@ -407,6 +416,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
+    var hargaProduct = double.parse(widget.product.hargaProduct).floor();
     return Row(
       children: [
         GestureDetector(
@@ -436,7 +446,7 @@ class _ProductCardState extends State<ProductCard> {
                       fontFamily: 'Montserrat'),
                 ),
                 Text(
-                  widget.product.hargaProduct.toString(),
+                  hargaProduct.toString(),
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

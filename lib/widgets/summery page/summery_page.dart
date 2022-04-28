@@ -4,6 +4,7 @@ import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/menu%20page/update_product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
@@ -70,12 +71,12 @@ class _SummeryPage extends State<SummeryPage> {
         appBar: AppBar(
           elevation: 1,
           backgroundColor: backgroundClor,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => ViewMenu()));
-              },
-              icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
+          // leading: IconButton(
+          //     onPressed: () {
+          //       Navigator.pushReplacement(context,
+          //           MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+          //     },
+          //     icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
           title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 18,
@@ -96,265 +97,243 @@ class _SummeryPage extends State<SummeryPage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: SizeConfig.blockVertical * 9,
-                width: SizeConfig.blockHorizontal * 100,
-                decoration: BoxDecoration(
-                  color: backgroundClor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text('No.of Customers',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                color: Colors.grey.shade300,
-                                fontWeight: FontWeight.w500)),
-                        Text(
-                          "Table No",
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: SizeConfig.blockVertical * 9,
+              width: SizeConfig.blockHorizontal * 100,
+              decoration: BoxDecoration(
+                color: backgroundClor,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('No.of Customers',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey.shade300),
-                        ),
-                        Text("Served By",
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 16,
-                                color: Colors.grey.shade300,
-                                fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: SizeConfig.blockHorizontal * 7),
-                          child: Text("$_count",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 8),
-                            child: Text(
-                              "$_tableName",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
-                        const Text("-",
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                      Text(
+                        "Table No",
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade300),
+                      ),
+                      Text("Served By",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              color: Colors.grey.shade300,
+                              fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: SizeConfig.blockHorizontal * 7),
+                        child: Text("$_count",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 13,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: SizeConfig.blockVertical * 0.2),
-              Container(
-                height: SizeConfig.blockVertical * 52,
-                width: SizeConfig.blockHorizontal * 100,
-                decoration: BoxDecoration(color: Colors.grey.shade200),
-                child: Stack(children: [
-                  Container(
-                    child: loading
-                        ? Center(
-                            child: Text("No Orders Yet",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'Monserrat',
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey.shade400,
-                                )))
-                        : ListView(
-                            children: cartProvider.carts
-                                .map((cart) => CartCard(cart))
-                                .toList(),
-                          ),
-                  ),
-                ]),
-              ),
-              Stack(
-                children: [
-                  Container(
-                    height: SizeConfig.blockVertical * 20,
-                    width: SizeConfig.blockHorizontal * 100,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40),
-                        )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 5,
-                                  top: SizeConfig.blockVertical * 3),
-                              child: const Text(
-                                "Subtotal ",
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 58,
-                                  top: SizeConfig.blockVertical * 3),
-                              child: Text(
-                                cartProvider.totalPrice().toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: SizeConfig.blockVertical * 1),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 5),
-                              height: SizeConfig.blockVertical * 7,
-                              width: SizeConfig.blockHorizontal * 42,
-                              child: ElevatedButton(
-                                onPressed: isButtonActive
-                                    ? () async {
-                                        if (cartProvider.carts.isEmpty) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewBar()));
-                                          SharedPreferences removeTableName =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          removeTableName.remove("saveTable");
-                                          SharedPreferences removeCount =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          removeCount.remove("key");
-                                          _tableName = "-";
-                                        } else if (cartProvider
-                                            .carts.isNotEmpty) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                _buildPopDialog2(context),
-                                          );
-                                          SharedPreferences removeTableName =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          removeTableName.remove("saveTable");
-                                          SharedPreferences removeCount =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          removeCount.remove("key");
-                                          _tableName = "-";
-                                          _count = 0;
-                                        }
-                                        setState(() {
-                                          isButtonActive = false;
-                                        });
-                                      }
-                                    : null,
-                                child: const Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: buttonColor3,
-                                  onPrimary: textColor3,
-                                  elevation: 0,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 6),
-                              height: SizeConfig.blockVertical * 7,
-                              width: SizeConfig.blockHorizontal * 42,
-                              child: ElevatedButton(
-                                onPressed: isButtonActive2
-                                    ? () async {
-                                        if (cartProvider.carts.isEmpty) {
-                                          return null;
-                                        } else if (cartProvider
-                                            .carts.isNotEmpty) {
-                                          cartProvider.carts = [];
-
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewTable()));
-                                          handleOrder();
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                _buildPopDialog(context),
-                                          );
-                                        }
-
-                                        setState(() {
-                                          isButtonActive2 = false;
-                                        });
-                                      }
-                                    : null,
-                                child: const Text(
-                                  "Order",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: buttonColor3,
-                                  onPrimary: buttonNavbar2,
-                                  elevation: 0,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockHorizontal * 8),
+                          child: Text(
+                            "$_tableName",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )),
+                      const Text("-",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: SizeConfig.blockVertical * 0.2),
+            Container(
+              height: SizeConfig.blockVertical * 54,
+              width: SizeConfig.blockHorizontal * 100,
+              decoration: BoxDecoration(color: Colors.grey.shade200),
+              child: Stack(children: [
+                Container(
+                  child: loading
+                      ? Center(
+                          child: Text("No Orders Yet",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontFamily: 'Monserrat',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey.shade400,
+                              )))
+                      : ListView(
+                          children: cartProvider.carts
+                              .map((cart) => CartCard(cart))
+                              .toList(),
+                        ),
+                ),
+              ]),
+            ),
+            Stack(
+              children: [
+                Container(
+                  height: SizeConfig.blockVertical * 15,
+                  width: SizeConfig.blockHorizontal * 100,
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      )),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockVertical * 3),
+                            child: const Text(
+                              "Subtotal ",
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 50,
+                                top: SizeConfig.blockVertical * 3),
+                            child: Text(
+                              cartProvider.totalPrice().toString(),
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.blockVertical * 1),
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 5),
+                            height: SizeConfig.blockVertical * 7,
+                            width: SizeConfig.blockHorizontal * 42,
+                            child: ElevatedButton(
+                              onPressed: isButtonActive
+                                  ? () async {
+                                      if (cartProvider.carts.isEmpty) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewPage()));
+                                      } else if (cartProvider
+                                          .carts.isNotEmpty) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              _buildPopDialog2(context),
+                                        );
+                                      }
+                                      setState(() {
+                                        isButtonActive = false;
+                                      });
+                                    }
+                                  : null,
+                              child: const Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: buttonColor3,
+                                onPrimary: textColor3,
+                                elevation: 0,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: SizeConfig.blockHorizontal * 6),
+                            height: SizeConfig.blockVertical * 7,
+                            width: SizeConfig.blockHorizontal * 42,
+                            child: ElevatedButton(
+                              onPressed: isButtonActive2
+                                  ? () async {
+                                      if (cartProvider.carts.isEmpty) {
+                                        return null;
+                                      } else if (cartProvider
+                                          .carts.isNotEmpty) {
+                                        cartProvider.carts = [];
+                                        // cartProvider.carts.clear();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewTable()));
+                                        handleOrder();
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              _buildPopDialog(context),
+                                        );
+                                      }
+
+                                      setState(() {
+                                        isButtonActive2 = false;
+                                      });
+                                    }
+                                  : null,
+                              child: const Text(
+                                "Order",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: buttonColor3,
+                                onPrimary: buttonNavbar2,
+                                elevation: 0,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       );
     });
@@ -393,6 +372,8 @@ _buildPopDialog(BuildContext context) {
   ));
 }
 
+String _tableName = "";
+int _count = 0;
 _buildPopDialog2(BuildContext context) {
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   return AlertDialog(
@@ -432,10 +413,19 @@ _buildPopDialog2(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => const ViewBar()));
+              onTap: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ViewPage()));
                 cartProvider.carts.clear();
+
+                SharedPreferences removeTableName =
+                    await SharedPreferences.getInstance();
+                removeTableName.remove("saveTable");
+                SharedPreferences removeCount =
+                    await SharedPreferences.getInstance();
+                removeCount.remove("key");
+                _tableName = "-";
+                _count = 0;
               },
               child: Container(
                 height: SizeConfig.blockVertical * 5,
@@ -449,9 +439,9 @@ _buildPopDialog2(BuildContext context) {
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ViewMenu()));
+                    MaterialPageRoute(builder: (context) => ViewMenuGrid()));
               },
               child: Container(
                   height: SizeConfig.blockVertical * 5,
@@ -500,12 +490,14 @@ class _CartCardState extends State<CartCard> {
   void getNotes() async {
     final SharedPreferences getNote = await SharedPreferences.getInstance();
     setState(() {
-      _notes = getNote.getString("Notes") ?? "No Notes";
+      _notes = getNote.getString("Notes") ?? "-";
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var hargaProduct =
+        double.parse(widget.cartModel.product.hargaProduct).floor();
     CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     bool _itemPressed = false;
@@ -556,7 +548,7 @@ class _CartCardState extends State<CartCard> {
                     margin:
                         EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
                     child: Text(
-                      widget.cartModel.product.hargaProduct,
+                      hargaProduct.toString(),
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,

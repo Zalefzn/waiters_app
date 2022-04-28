@@ -42,6 +42,8 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+
+    var hargaProduct = double.parse(widget.product.hargaProduct).floor();
     Widget header() {
       return Column(
         children: [
@@ -54,8 +56,10 @@ class _ProductPageState extends State<ProductPage> {
             child: Row(children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ViewMenu()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewMenuGrid()));
                   },
                   child: Icon(
                     Icons.chevron_left,
@@ -85,7 +89,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             Text(
-              widget.product.hargaProduct.toString(),
+              hargaProduct.toString(),
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 17,
@@ -243,7 +247,7 @@ class _ProductPageState extends State<ProductPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ViewMenu()));
+                                builder: (context) => ViewMenuGrid()));
                       }
                     }
                   },

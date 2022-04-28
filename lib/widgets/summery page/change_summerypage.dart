@@ -4,20 +4,21 @@ import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 
-class ChangeSummerPage extends StatefulWidget {
-  const ChangeSummerPage({Key? key}) : super(key: key);
-  State<ChangeSummerPage> createState() => _StateSummeryPage();
+class ChangeSummeryPage extends StatefulWidget {
+  const ChangeSummeryPage({Key? key}) : super(key: key);
+  State<ChangeSummeryPage> createState() => _StateSummeryPage();
 }
 
-class _StateSummeryPage extends State<ChangeSummerPage> {
+class _StateSummeryPage extends State<ChangeSummeryPage> {
   String _nameTable = "";
   int _countNum = 0;
-
   bool isButtonActive = true;
   bool isButtonActive2 = true;
 
@@ -52,14 +53,18 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
         appBar: AppBar(
           elevation: 1,
           backgroundColor: Colors.white,
-          leading: RaisedButton(
-              child: const Icon(Icons.arrow_back),
-              color: Colors.white,
-              elevation: 0,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ViewTable()));
-              }),
+          // leading: RaisedButton(
+          //     child: const Icon(
+          //       Icons.chevron_left_rounded,
+          //       color: Colors.black,
+          //       size: 40,
+          //     ),
+          //     color: Colors.white,
+          //     elevation: 0,
+          //     onPressed: () {
+          //       Navigator.push(context,
+          //           MaterialPageRoute(builder: (context) => ViewTable()));
+          //     }),
           title: Container(
             margin: EdgeInsets.only(
               left: SizeConfig.blockHorizontal * 18,
@@ -159,7 +164,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                         ),
                       ),
                       const Text(
-                        "Rizal",
+                        "-",
                         style: TextStyle(
                             fontSize: 13,
                             fontFamily: 'Montserrat',
@@ -173,7 +178,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
             ),
             SizedBox(height: SizeConfig.blockVertical * 0.5),
             Container(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(10),
               height: SizeConfig.blockVertical * 8,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
@@ -189,7 +194,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                           color: Colors.black,
                           fontFamily: 'Montserrat')),
                   Container(
-                      height: SizeConfig.blockVertical * 5,
+                      height: SizeConfig.blockVertical * 8,
                       width: SizeConfig.blockHorizontal * 20,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -201,7 +206,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewMenu()));
+                                    builder: (context) => ViewMenuGrid()));
                           },
                           child: Text("Add More",
                               style: TextStyle(
@@ -211,7 +216,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
             ),
             SizedBox(height: SizeConfig.blockVertical * 0.5),
             Container(
-              height: SizeConfig.blockVertical * 50,
+              height: SizeConfig.blockVertical * 46,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
@@ -234,13 +239,12 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                     ),
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 5,
                                 top: SizeConfig.blockVertical * 3),
                             child: const Text(
                               "Subtotal ",
@@ -253,7 +257,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                           ),
                           Container(
                             margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 58,
+                                left: SizeConfig.blockHorizontal * 50,
                                 top: SizeConfig.blockVertical * 3),
                             child: Text(
                               cartProvider.totalPrice().toString(),
@@ -289,7 +293,7 @@ class _StateSummeryPage extends State<ChangeSummerPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewTable()));
+                                                    ViewPage()));
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -333,7 +337,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  String noteMenu = "";
+  String _noteMenu = "";
 
   @override
   void initState() {
@@ -343,12 +347,14 @@ class _CartPageState extends State<CartPage> {
 
   void getNotes() async {
     final SharedPreferences getNote = await SharedPreferences.getInstance();
-    noteMenu = getNote.getString("Notes") ?? "-";
+    _noteMenu = getNote.getString("Notes") ?? "-";
   }
 
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    var hargaProduct =
+        double.parse(widget.cartModel.product.hargaProduct).floor();
     bool _itemClick = false;
     bool _isStatusActive = false;
     int _n = 0;
@@ -438,7 +444,7 @@ class _CartPageState extends State<CartPage> {
                       color: Colors.white,
                     ),
                     child: Center(
-                      child: Text("Notes : " + "$noteMenu",
+                      child: Text("Notes : " + "$_noteMenu",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -535,89 +541,14 @@ class _CartPageState extends State<CartPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewBar()));
+                                                    ViewTable()));
                                         break;
                                       case 'Outdoor':
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewBar()));
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: SizeConfig.blockVertical * 10,
-                    width: SizeConfig.blockHorizontal * 100,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Stack(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 3,
-                                  top: SizeConfig.blockVertical * 3),
-                              child: Text(
-                                'Table : ',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockHorizontal * 15,
-                                  top: SizeConfig.blockVertical * 2.5),
-                              width: SizeConfig.blockHorizontal * 64,
-                              height: SizeConfig.blockVertical * 5,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(width: 1, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  hint: Container(
-                                    margin: EdgeInsets.only(
-                                        left: SizeConfig.blockVertical * 2),
-                                    child: Text(
-                                      "",
-                                      style: TextStyle(
-                                        fontFamily: ' Montserrat',
-                                        fontSize: 12.sp,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  elevation: 0,
-                                  items: _dropDownItem2(),
-                                  onChanged: (value) {
-                                    switch (value) {
-                                      case '':
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewBar()));
-                                        break;
-                                      case '':
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewBar()));
+                                                    ViewTable()));
                                     }
                                   },
                                 ),
@@ -744,7 +675,7 @@ class _CartPageState extends State<CartPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text(
-                  "2x",
+                  "0x",
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -764,7 +695,7 @@ class _CartPageState extends State<CartPage> {
                 Container(
                   margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 8),
                   child: Text(
-                    widget.cartModel.product.hargaProduct.toString(),
+                    hargaProduct.toString(),
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -782,7 +713,7 @@ class _CartPageState extends State<CartPage> {
                       left: SizeConfig.blockHorizontal * 11.5,
                       top: SizeConfig.blockVertical * 1),
                   child: Text(
-                    "$noteMenu",
+                    "$_noteMenu",
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 10,
@@ -791,7 +722,24 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                 ),
-                Container(),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: SizeConfig.blockHorizontal * 10,
+                      bottom: SizeConfig.blockVertical * 0.3),
+                  child: TextButton(
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              // cartProvider.removeCart(widget.cartModel.id);
+                            },
+                            child: Icon(Icons.delete_forever_rounded,
+                                color: buttonColor3, size: 25)),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
               ],
             ),
           ],
@@ -803,15 +751,6 @@ class _CartPageState extends State<CartPage> {
 
 List<DropdownMenuItem<String>> _dropDownItem() {
   List<String> dll = ['Indoor', 'Outdoor'];
-  return dll
-      .map(
-        (value) => DropdownMenuItem(value: value, child: Text(value)),
-      )
-      .toList();
-}
-
-List<DropdownMenuItem<String>> _dropDownItem2() {
-  List<String> dll = ['', ''];
   return dll
       .map(
         (value) => DropdownMenuItem(value: value, child: Text(value)),

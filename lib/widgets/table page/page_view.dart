@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/class_model.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
@@ -152,14 +151,14 @@ class _ViewPageState extends State<ViewPage> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ViewBar()));
+                                                        ViewPage()));
                                             break;
                                           case 'Section 001':
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ViewBar()));
+                                                        ViewPage()));
                                             break;
                                         }
                                       },

@@ -3,7 +3,6 @@ import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:sizer/sizer.dart';
 
 class NumpadPage extends StatefulWidget {
@@ -76,7 +75,7 @@ class _NumpadState extends State<NumpadPage> {
               onSubmit: () {
                 setState(() {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ViewMenu()));
+                      MaterialPageRoute(builder: (context) => ViewMenuGrid()));
                 });
               },
               controller: _myController,
@@ -203,7 +202,7 @@ class NumPad extends StatelessWidget {
               children: [
                 Container(
                   height: SizeConfig.blockVertical * 10,
-                  width: SizeConfig.blockHorizontal * 28,
+                  width: SizeConfig.blockHorizontal * 25,
                   child: ElevatedButton(
                       onPressed: () => delete(),
                       child: Text(
@@ -215,7 +214,7 @@ class NumPad extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: textColor3, onPrimary: buttonNavbar)),
+                          primary: buttonColor2, onPrimary: buttonNavbar)),
                 ),
                 NumberButton(
                   number: 0,
@@ -225,7 +224,7 @@ class NumPad extends StatelessWidget {
                 ),
                 Container(
                   height: SizeConfig.blockVertical * 10,
-                  width: SizeConfig.blockHorizontal * 28,
+                  width: SizeConfig.blockHorizontal * 25,
                   child: ElevatedButton(
                     onPressed: () => onSubmit(),
                     child: Text('OK',
@@ -234,7 +233,7 @@ class NumPad extends StatelessWidget {
                             color: Colors.black,
                             fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
-                        primary: textColor3, onPrimary: buttonNavbar),
+                        primary: buttonColor2, onPrimary: buttonNavbar),
                   ),
                 ),
               ],
@@ -264,13 +263,13 @@ class NumberButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(4),
-      width: SizeConfig.blockHorizontal * 28,
+      width: SizeConfig.blockHorizontal * 25,
       height: SizeConfig.blockVertical * 10,
       child: GestureDetector(
         onTap: () {},
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: textColor3, onPrimary: buttonNavbar),
+              primary: buttonColor2, onPrimary: buttonNavbar),
           child: Center(
             child: Text(
               number.toString(),

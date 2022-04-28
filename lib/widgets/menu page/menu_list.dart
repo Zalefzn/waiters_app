@@ -7,6 +7,7 @@ import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -81,10 +82,18 @@ class _MenuListState extends State<MenuList> {
           leading: IconButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LogOut()));
+                  context, MaterialPageRoute(builder: (context) => ViewPage()));
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.chevron_left, size: 40, color: Colors.white),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LogOut()));
+                },
+                icon: Icon(Icons.settings, color: Colors.white))
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(children: [
@@ -215,7 +224,7 @@ class _MenuListState extends State<MenuList> {
                                                                       context,
                                                                       MaterialPageRoute(
                                                                           builder: (context) =>
-                                                                              MenuPage()));
+                                                                              ViewMenuGrid()));
                                                                   productProviders
                                                                       .products
                                                                       .where((product) =>
@@ -350,7 +359,7 @@ class _MenuListState extends State<MenuList> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ViewMenu()));
+                                  builder: (context) => ViewMenuGrid()));
                         },
                         icon: Icon(
                           Icons.grid_view_rounded,

@@ -4,7 +4,6 @@ import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class InputCustomer extends StatefulWidget {
@@ -26,29 +25,29 @@ class _InputCustomer extends State<InputCustomer> {
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          selectedItemColor: buttonNavbar,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-              ),
-              title: Text("Order"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.summarize_outlined,
-              ),
-              title: Text("Summary"),
-            )
-          ],
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   currentIndex: _currentIndex,
+        //   selectedItemColor: buttonNavbar,
+        //   items: [
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         Icons.shopping_bag_outlined,
+        //       ),
+        //       title: Text("Order"),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(
+        //         Icons.summarize_outlined,
+        //       ),
+        //       title: Text("Summary"),
+        //     )
+        //   ],
+        //   onTap: (index) {
+        //     setState(() {
+        //       _currentIndex = index;
+        //     });
+        //   },
+        // ),
         // bottomNavigationBar: CurvedNavigationBar(
         //   buttonBackgroundColor: Colors.white,
         //   backgroundColor: Colors.grey.shade300,

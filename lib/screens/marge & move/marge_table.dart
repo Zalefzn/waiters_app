@@ -35,7 +35,7 @@ class _MargeTable extends State<MargeTable> {
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              height: SizeConfig.blockVertical * 28,
+              height: SizeConfig.blockVertical * 26,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(
                 color: backgroundClor,
@@ -235,7 +235,7 @@ class _MargeTable extends State<MargeTable> {
                               height: SizeConfig.blockVertical * 25,
                               width: SizeConfig.blockHorizontal * 46,
                               decoration: BoxDecoration(
-                                color: textColor3,
+                                color: buttonNavbar2,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: Center(

@@ -158,7 +158,8 @@ class CartProvider with ChangeNotifier {
   totalPrice() {
     double total = 0;
     for (var item in carts) {
-      total += (item.quantity);
+      var hargaProduct = double.parse(item.product.hargaProduct).floor();
+      total += (item.quantity * hargaProduct);
     }
     return total;
   }
