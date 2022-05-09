@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/screens/customer%20count/numpad_page.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';

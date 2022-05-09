@@ -44,16 +44,15 @@ dev_dependencies:
   animated_splash_screen: ^1.1.0
   sizer: ^2.0.15
   dropdown_search: ^2.0.1
-  wc_form_validators: ^1.0.0
   curved_navigation_bar: ^1.0.1
   http: ^0.13.4
   intl: ^0.17.0
   get: ^4.6.1
   shared_preferences: ^2.0.12
   provider: ^6.0.2
-  socket_io_client: ^1.0.2
   badges: ^2.0.2
- 
+  flutter_io_socket: ^0.0.7
+  email_validator: ^2.0.1
 
 
 

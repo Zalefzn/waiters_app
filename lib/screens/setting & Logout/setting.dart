@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
-import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
+import 'package:email_validator/email_validator.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -52,6 +54,7 @@ class _SettingsState extends State<Settings> {
   }
 
   TextEditingController dataApi = TextEditingController();
+  bool isValidate = true;
   var buttonOutline = false;
   var buttonChange = false;
   var buttonBack = false;
@@ -149,21 +152,39 @@ class _SettingsState extends State<Settings> {
                             height: SizeConfig.blockVertical * 9,
                             width: SizeConfig.blockHorizontal * 95,
                             child: TextFormField(
-                              controller: dataApi,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 3, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(8),
+                                controller: dataApi,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 3,
+                                        color: isValidate
+                                            ? buttonNavbar
+                                            : buttonColor3),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  hintText: "Outlet IP Address",
                                 ),
-                                labelText: "Outlet IP Address",
-                              ),
-                              validator: Validators.compose([
-                                Validators.required('Fill IP Address'),
-                                Validators.maxLength(
-                                    160, 'Your IP Address cant Access'),
-                              ]),
-                            ),
+                                style: TextStyle(color: buttonNavbar),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter Ip Address";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  bool isValid = EmailValidator.validate(value);
+                                  print(isValid);
+                                  if (isValid) {
+                                    setState(() {
+                                      isValidate = false;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      isValidate = true;
+                                    });
+                                  }
+                                }),
                           ),
                         ],
                       ),
@@ -178,28 +199,30 @@ class _SettingsState extends State<Settings> {
                             width: SizeConfig.blockHorizontal * 95,
                             child: ElevatedButton(
                               onPressed: () async {
-                                SharedPreferences sharedPreferences =
-                                    await SharedPreferences.getInstance();
-                                sharedPreferences.setString(
-                                    'setApi', dataApi.text);
+                                if (_fromKey.currentState!.validate()) {
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.setString(
+                                      'setApi', dataApi.text);
 
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      _buildPopDialog(context),
-                                );
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        _buildPopDialog(context),
+                                  );
 
-                                setState(() {
-                                  buttonChange
-                                      ? null
-                                      : buttonChange = !buttonChange;
-                                  buttonOutline
-                                      ? null
-                                      : buttonOutline = !buttonOutline;
-                                  // getUser();
-                                  getTab();
-                                  // getUserServer();
-                                });
+                                  setState(() {
+                                    buttonChange
+                                        ? null
+                                        : buttonChange = !buttonChange;
+                                    buttonOutline
+                                        ? null
+                                        : buttonOutline = !buttonOutline;
+                                    // getUser();
+                                    getTab();
+                                    // getUserServer();
+                                  });
+                                }
                               },
                               child: Text(
                                 'Confirm IP Address',
@@ -319,7 +342,7 @@ _buildPopDialog(BuildContext context) {
             size: 130,
           ),
         ),
-        Text("Ip Address Confirmed!",
+        const Text("Ip Address Confirmed!",
             style: TextStyle(
                 fontFamily: ' Montserrat',
                 fontSize: 18,

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:http/http.dart' as http;
 import 'package:sizer/sizer.dart';
-import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class ValidationLogin extends StatefulWidget {
@@ -22,6 +23,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
   final _fromKey = GlobalKey<FormState>();
   late bool _isLoading;
   bool pressedLogin = false;
+  bool isValidButton = true;
 
   @override
   void initState() {
@@ -84,6 +86,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
               children: [
                 SingleChildScrollView(
                   child: Container(
+                    margin: const EdgeInsets.all(0),
                     child: Form(
                       key: _fromKey,
                       child: Column(
@@ -105,14 +108,36 @@ class _ValidationLoginState extends State<ValidationLogin> {
                                     borderRadius: BorderRadius.circular(4),
                                     borderSide: BorderSide(
                                       width: SizeConfig.blockHorizontal * 1,
-                                      color: bordeSide,
+                                      color: isValidButton
+                                          ? buttonNavbar
+                                          : buttonColor3,
                                     ),
                                   ),
                                   hintText: 'Enter Your Pin'),
-                              validator: Validators.compose([
-                                Validators.required('Your Pin Required'),
-                                Validators.maxLength(8, 'Your Pin cant access'),
-                              ]),
+                              style: TextStyle(
+                                color:
+                                    isValidButton ? buttonNavbar : buttonColor3,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your pin";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {
+                                bool isValid = EmailValidator.validate(value);
+                                print(isValid);
+                                if (isValid) {
+                                  setState(() {
+                                    isValidButton = true;
+                                  });
+                                } else {
+                                  setState(() {
+                                    isValidButton = false;
+                                  });
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -129,35 +154,18 @@ class _ValidationLoginState extends State<ValidationLogin> {
                   width: SizeConfig.blockHorizontal * 85,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_pin.text.isEmpty) {
+                      if (_fromKey.currentState!.validate()) {
+                        loginPin(_pin.text);
+                        setState(() {
+                          pressedLogin = !pressedLogin;
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: Duration(milliseconds: 500),
-                            backgroundColor: messageColor,
-                            content: Text(
-                              "Please Enter Your Pin!",
+                            duration: const Duration(milliseconds: 500),
+                            backgroundColor: Colors.greenAccent[400],
+                            content: const Text(
+                              "Login Success!",
                               textAlign: TextAlign.center,
                             )));
-                      } else {
-                        if (_pin.text.isNotEmpty) {
-                          if (_pin.text == false) {
-                            loginPin(_pin.text);
-                            setState(() {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                      duration: Duration(milliseconds: 500),
-                                      backgroundColor: messageColor,
-                                      content: Text(
-                                        "Wrong Pin!",
-                                        textAlign: TextAlign.center,
-                                      )));
-                            });
-                          } else {
-                            loginPin(_pin.text);
-                            setState(() {
-                              pressedLogin = !pressedLogin;
-                            });
-                          }
-                        }
                       }
                     },
                     child: Text('Login',

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
@@ -8,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:sizer/sizer.dart';
-import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
 
 class LogOut extends StatefulWidget {
@@ -18,6 +20,7 @@ class LogOut extends StatefulWidget {
 
 class _LogOutState extends State<LogOut> {
   String api = "";
+  bool isValidate = true;
 
   @override
   void initState() {
@@ -44,7 +47,6 @@ class _LogOutState extends State<LogOut> {
 
   @override
   Widget build(BuildContext context) {
-    ProviderUser userProvider = Provider.of<ProviderUser>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -55,14 +57,15 @@ class _LogOutState extends State<LogOut> {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => ViewPage()));
                 },
-                icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
+                icon: const Icon(Icons.chevron_left,
+                    size: 40, color: Colors.black)),
             elevation: 1,
             backgroundColor: backgroundClor,
             title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 24,
               ),
-              child: Text(
+              child: const Text(
                 'Settings',
                 style: TextStyle(
                   fontFamily: ' Montserrat',
@@ -140,21 +143,42 @@ class _LogOutState extends State<LogOut> {
                             height: SizeConfig.blockVertical * 10,
                             width: SizeConfig.blockHorizontal * 95,
                             child: TextFormField(
-                              controller: dataApi,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 3, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(9),
+                                controller: dataApi,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 3,
+                                        color: isValidate
+                                            ? buttonNavbar
+                                            : buttonColor3),
+                                    borderRadius: BorderRadius.circular(9),
+                                  ),
+                                  hintText: "Outlet IP Address",
                                 ),
-                                labelText: "Outlet IP Address",
-                              ),
-                              validator: Validators.compose([
-                                Validators.required('Fill IP Address'),
-                                Validators.maxLength(
-                                    160, 'Your IP Address cant Access'),
-                              ]),
-                            ),
+                                style: TextStyle(
+                                    color: isValidate
+                                        ? buttonNavbar
+                                        : buttonColor3),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter Ip Address";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  bool isValid = EmailValidator.validate(value);
+                                  print(isValid);
+                                  if (isValid) {
+                                    setState(() {
+                                      isValidate = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      isValidate = false;
+                                    });
+                                  }
+                                }),
                           ),
                         ],
                       ),
@@ -169,25 +193,30 @@ class _LogOutState extends State<LogOut> {
                             width: SizeConfig.blockHorizontal * 95,
                             child: ElevatedButton(
                               onPressed: () async {
-                                SharedPreferences sharedPreferences =
-                                    await SharedPreferences.getInstance();
+                                if (_fromKey.currentState!.validate()) {
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  sharedPreferences.setString(
+                                      'setApi', dataApi.text);
 
-                                sharedPreferences.setString(
-                                    'setApi', dataApi.text);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        _buildPopDialog(context),
+                                  );
 
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      _buildPopDialog(context),
-                                );
-                                setState(() {
-                                  buttonChange
-                                      ? null
-                                      : buttonChange = !buttonChange;
-                                  buttonOutline
-                                      ? null
-                                      : buttonOutline = !buttonOutline;
-                                });
+                                  setState(() {
+                                    buttonChange
+                                        ? null
+                                        : buttonChange = !buttonChange;
+                                    buttonOutline
+                                        ? null
+                                        : buttonOutline = !buttonOutline;
+                                    // getUser();
+
+                                    // getUserServer();
+                                  });
+                                }
                               },
                               child: Text(
                                 'Confirm IP Address',
@@ -228,6 +257,11 @@ class _LogOutState extends State<LogOut> {
                                 var clearCount = cacheInputCount.remove("key");
                                 print(tableClear);
                                 print(clearCount);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      _showPopDialog(context),
+                                );
                               },
                               child: Text("Clear Cache",
                                   style: TextStyle(
@@ -309,6 +343,20 @@ class _LogOutState extends State<LogOut> {
       );
     });
   }
+}
+
+_showPopDialog(BuildContext context) {
+  return AlertDialog(
+      title: Center(
+    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+        height: SizeConfig.blockVertical * 15,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+      ),
+    ]),
+  ));
 }
 
 _buildPopDialog(BuildContext context) {
@@ -481,11 +529,6 @@ class _LogOut2State extends State<LogOut2> {
                                 ),
                                 labelText: "Outlet IP Address",
                               ),
-                              validator: Validators.compose([
-                                Validators.required('Fill IP Address'),
-                                Validators.maxLength(
-                                    160, 'Your IP Address cant Access'),
-                              ]),
                             ),
                           ),
                         ],

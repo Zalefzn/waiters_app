@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
-import 'package:flutter_mobile/widgets/menu%20page/menu_list.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
@@ -380,7 +381,7 @@ class _MenuPageState extends State<MenuPage> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
-                        padding: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(2),
                         childAspectRatio: 1,
                         children: productProviders.search
                             .map((product) => ProductCard(product))
@@ -392,7 +393,7 @@ class _MenuPageState extends State<MenuPage> {
                             crossAxisCount: 2,
                             mainAxisSpacing: 1,
                             crossAxisSpacing: 1,
-                            padding: const EdgeInsets.all(3),
+                            padding: const EdgeInsets.all(2),
                             childAspectRatio: 1,
                             children: productProviders.products
                                 .map((product) => ProductCard(product))
@@ -428,7 +429,7 @@ class _ProductCardState extends State<ProductCard> {
           },
           child: Container(
             margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 3,
+                left: SizeConfig.blockHorizontal * 2,
                 top: SizeConfig.blockVertical * 2),
             height: SizeConfig.blockVertical * 25,
             width: SizeConfig.blockHorizontal * 45,

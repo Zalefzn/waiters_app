@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -18,7 +20,7 @@ class ChangeSummeryPage extends StatefulWidget {
 
 class _StateSummeryPage extends State<ChangeSummeryPage> {
   String _nameTable = "";
-  int _countNum = 0;
+  int _countNum = 1;
   bool isButtonActive = true;
   bool isButtonActive2 = true;
 
@@ -39,7 +41,7 @@ class _StateSummeryPage extends State<ChangeSummeryPage> {
   void getCounts() async {
     final SharedPreferences getCounts = await SharedPreferences.getInstance();
     setState(() {
-      _countNum = getCounts.getInt("key") ?? 0;
+      _countNum = getCounts.getInt("key") ?? 1;
     });
   }
 
@@ -338,11 +340,18 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   String _noteMenu = "";
+  int _getQuantity = 1;
 
   @override
   void initState() {
     getNotes();
     super.initState();
+  }
+
+  void getQuantity() async {
+    final SharedPreferences getQuantityCounter =
+        await SharedPreferences.getInstance();
+    _getQuantity = getQuantityCounter.getInt("getCounterData") ?? 1;
   }
 
   void getNotes() async {
@@ -731,6 +740,11 @@ class _CartPageState extends State<CartPage> {
                       children: [
                         GestureDetector(
                             onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    _buildPopDialog(context),
+                              );
                               // cartProvider.removeCart(widget.cartModel.id);
                             },
                             child: Icon(Icons.delete_forever_rounded,
@@ -747,6 +761,23 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+}
+
+_buildPopDialog(BuildContext context) {
+  return AlertDialog(
+      title: Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: SizeConfig.blockVertical * 50,
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+        )
+      ],
+    ),
+  ));
 }
 
 List<DropdownMenuItem<String>> _dropDownItem() {

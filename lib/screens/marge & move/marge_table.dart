@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
@@ -231,7 +233,7 @@ class _MargeTable extends State<MargeTable> {
                             child: Container(
                               margin: EdgeInsets.only(
                                   top: SizeConfig.blockVertical * 2,
-                                  left: SizeConfig.blockHorizontal * 2.5),
+                                  left: SizeConfig.blockHorizontal * 2),
                               height: SizeConfig.blockVertical * 25,
                               width: SizeConfig.blockHorizontal * 46,
                               decoration: BoxDecoration(

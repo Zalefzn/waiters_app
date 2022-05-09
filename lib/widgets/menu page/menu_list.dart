@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
-import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:provider/provider.dart';
@@ -381,6 +382,8 @@ class _MenuListState extends State<MenuList> {
                         itemCount: productProviders.search.length,
                         itemBuilder: (context, h) {
                           final a = productProviders.search[h];
+                          var hargaProductInt =
+                              double.parse(a.hargaProduct).floor();
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -400,7 +403,7 @@ class _MenuListState extends State<MenuList> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      a.nameProduct,
+                                      hargaProductInt.toString(),
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500,
@@ -421,55 +424,68 @@ class _MenuListState extends State<MenuList> {
                         })
                     : loading
                         ? Center(child: CircularProgressIndicator())
-                        : ListView.builder(
-                            itemCount: productProviders.products.length,
-                            itemBuilder: (context, b) {
-                              final i = productProviders.products[b];
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: SizeConfig.blockVertical * 7,
-                                    width: SizeConfig.blockHorizontal * 95,
-                                    decoration: BoxDecoration(
-                                        color: backgroundClor,
-                                        borderRadius: BorderRadius.circular(7),
-                                        border: Border.all(
-                                          color: Colors.grey.shade500,
-                                          width: 0.8,
-                                        )),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            i.nameProduct,
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Montserrat'),
-                                          ),
+                        : GestureDetector(
+                            onTap: () {
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             ProductPage(widget.product)));
+                            },
+                            child: ListView.builder(
+                                itemCount: productProviders.products.length,
+                                itemBuilder: (context, b) {
+                                  final i = productProviders.products[b];
+                                  var hargaProductInt =
+                                      double.parse(i.hargaProduct).floor();
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: SizeConfig.blockVertical * 7,
+                                        width: SizeConfig.blockHorizontal * 95,
+                                        decoration: BoxDecoration(
+                                            color: backgroundClor,
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                            border: Border.all(
+                                              color: Colors.grey.shade500,
+                                              width: 0.8,
+                                            )),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                i.nameProduct,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: 'Montserrat'),
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                hargaProductInt.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: 'Montserrat'),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            i.hargaProduct,
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Montserrat'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            })
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          )
                 // : GridView.count(
                 //     crossAxisCount: 2,
                 //     mainAxisSpacing: 2,

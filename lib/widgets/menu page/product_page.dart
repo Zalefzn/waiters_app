@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -23,9 +25,11 @@ class _ProductPageState extends State<ProductPage> {
 
   bool _changeWarna = false;
   bool _changeColor = false;
-  int _n = 0;
+  int _n = 1;
 
   add() async {
+    SharedPreferences setAdd = await SharedPreferences.getInstance();
+    setAdd.setInt("getCounterData", _n + 1);
     setState(() {
       _n++;
     });
@@ -129,7 +133,7 @@ class _ProductPageState extends State<ProductPage> {
                 border: Border.all(
                   color: Colors.black,
                 ),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Container(
                 padding: EdgeInsets.all(15),
@@ -181,9 +185,6 @@ class _ProductPageState extends State<ProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
               onTap: () async {
-                SharedPreferences setAdd =
-                    await SharedPreferences.getInstance();
-                setAdd.setInt("getCounterData", _n + 1);
                 print(_n + 1);
                 setState(() {
                   add();

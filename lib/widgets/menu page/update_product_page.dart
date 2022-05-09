@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -22,7 +24,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
 
   bool _changeWarna = false;
   bool _changeColor = false;
-  int _s = 0;
+  int _s = 1;
 
   tambah() {
     setState(() {
@@ -127,7 +129,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 border: Border.all(
                   color: Colors.black,
                 ),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Container(
                 padding: EdgeInsets.all(15),

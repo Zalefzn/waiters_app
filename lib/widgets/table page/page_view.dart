@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -7,7 +9,6 @@ import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,7 +127,7 @@ class _ViewPageState extends State<ViewPage> {
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           width: 1, color: Colors.black),
-                                      borderRadius: BorderRadius.circular(10)),
+                                      borderRadius: BorderRadius.circular(8)),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
                                       hint: Container(
@@ -253,7 +254,9 @@ class _ViewPageState extends State<ViewPage> {
 
             //widget table
             Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockVertical * 1),
+                margin: EdgeInsets.only(
+                  top: SizeConfig.blockVertical * 1,
+                ),
                 height: SizeConfig.blockVertical * 69,
                 width: SizeConfig.blockHorizontal * 100,
                 decoration: BoxDecoration(
@@ -266,12 +269,13 @@ class _ViewPageState extends State<ViewPage> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 2,
-                          mainAxisSpacing: 1,
+                          mainAxisSpacing: 2,
                           childAspectRatio: 1,
                         ),
                         itemCount: tableProviders.tables.length,
                         itemBuilder: (context, i) {
                           final a = tableProviders.tables[i];
+                          var pressedButton = false;
                           sectionTable.sections
                               .where((data) =>
                                   data.idOutlet ==
@@ -301,7 +305,7 @@ class _ViewPageState extends State<ViewPage> {
                                 child: Container(
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockVertical * 2,
-                                      left: SizeConfig.blockHorizontal * 2.5),
+                                      left: SizeConfig.blockHorizontal * 2),
                                   height: SizeConfig.blockVertical * 25,
                                   width: SizeConfig.blockHorizontal * 46,
                                   decoration: BoxDecoration(

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -8,7 +10,6 @@ import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/summery%20page/change_summerypage.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -292,7 +293,7 @@ class _ViewTableState extends State<ViewTable> {
                                 child: Container(
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockVertical * 2,
-                                      left: SizeConfig.blockHorizontal * 2.5),
+                                      left: SizeConfig.blockHorizontal * 2),
                                   height: SizeConfig.blockVertical * 25,
                                   width: SizeConfig.blockHorizontal * 46,
                                   decoration: BoxDecoration(

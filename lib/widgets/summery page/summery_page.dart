@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -42,7 +44,7 @@ class _SummeryPage extends State<SummeryPage> {
   void getCount() async {
     final SharedPreferences getCount = await SharedPreferences.getInstance();
     setState(() {
-      _count = getCount.getInt("key") ?? 0;
+      _count = getCount.getInt("key") ?? 1;
     });
   }
 
@@ -171,7 +173,7 @@ class _SummeryPage extends State<SummeryPage> {
             ),
             SizedBox(height: SizeConfig.blockVertical * 0.2),
             Container(
-              height: SizeConfig.blockVertical * 54,
+              height: SizeConfig.blockVertical * 50,
               width: SizeConfig.blockHorizontal * 100,
               decoration: BoxDecoration(color: Colors.grey.shade200),
               child: Stack(children: [
@@ -196,7 +198,7 @@ class _SummeryPage extends State<SummeryPage> {
             Stack(
               children: [
                 Container(
-                  height: SizeConfig.blockVertical * 15,
+                  height: SizeConfig.blockVertical * 17,
                   width: SizeConfig.blockHorizontal * 100,
                   decoration: const BoxDecoration(
                       color: Colors.white,
@@ -372,9 +374,13 @@ _buildPopDialog(BuildContext context) {
   ));
 }
 
-String _tableName = "";
-int _count = 0;
 _buildPopDialog2(BuildContext context) {
+  String _tableName = "";
+  int _count = 0;
+  var pressedColor1 = false;
+  var pressedColorText = false;
+  var pressedColor2 = false;
+  var pressedColorText2 = false;
   CartProvider cartProvider = Provider.of<CartProvider>(context);
   return AlertDialog(
       title: Center(
@@ -417,13 +423,17 @@ _buildPopDialog2(BuildContext context) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ViewPage()));
                 cartProvider.carts.clear();
-
+                pressedColor1 = !pressedColor1;
+                pressedColorText = !pressedColorText;
                 SharedPreferences removeTableName =
                     await SharedPreferences.getInstance();
                 removeTableName.remove("saveTable");
                 SharedPreferences removeCount =
                     await SharedPreferences.getInstance();
                 removeCount.remove("key");
+                SharedPreferences removeCounter =
+                    await SharedPreferences.getInstance();
+                removeCounter.remove("getCounterData");
                 _tableName = "-";
                 _count = 0;
               },
@@ -432,10 +442,16 @@ _buildPopDialog2(BuildContext context) {
                 width: SizeConfig.blockHorizontal * 25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Colors.indigoAccent.shade400,
+                  color: pressedColor1
+                      ? Colors.indigoAccent.shade400
+                      : Colors.grey.shade200,
                 ),
                 child: Center(
-                    child: Text("Yes", style: TextStyle(color: Colors.white))),
+                    child: Text("Yes",
+                        style: TextStyle(
+                            color: pressedColorText
+                                ? Colors.white
+                                : Colors.indigoAccent.shade400))),
               ),
             ),
             GestureDetector(
@@ -448,12 +464,11 @@ _buildPopDialog2(BuildContext context) {
                   width: SizeConfig.blockHorizontal * 25,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.grey.shade200,
+                    color: Colors.indigoAccent.shade400,
                   ),
                   child: Center(
-                      child: Text("No",
-                          style:
-                              TextStyle(color: Colors.indigoAccent.shade400)))),
+                      child:
+                          Text("No", style: TextStyle(color: Colors.white)))),
             ),
           ],
         ),
@@ -477,13 +492,14 @@ class _CartCardState extends State<CartCard> {
   @override
   void initState() {
     getNotes();
+    getCount();
     super.initState();
   }
 
   void getCount() async {
     final SharedPreferences getCounter = await SharedPreferences.getInstance();
     setState(() {
-      _countProduct = getCounter.getInt("getCounterData") ?? 0;
+      _countProduct = getCounter.getInt("getCounterData") ?? 1;
     });
   }
 
@@ -516,7 +532,7 @@ class _CartCardState extends State<CartCard> {
           width: SizeConfig.blockHorizontal * 100,
           decoration: BoxDecoration(
             color: _itemPressed ? Colors.grey.shade300 : Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -525,7 +541,7 @@ class _CartCardState extends State<CartCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    "$_countProduct" + "X",
+                    "$_countProduct x",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,

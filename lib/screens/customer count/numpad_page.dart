@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/method/method%20size/method.dart';
+import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:email_validator/email_validator.dart';
 
 class NumpadPage extends StatefulWidget {
   const NumpadPage({Key? key}) : super(key: key);
@@ -29,6 +32,9 @@ class _NumpadState extends State<NumpadPage> {
     super.initState();
   }
 
+  bool isValidate = false;
+  final _fromKey = GlobalKey<FormState>();
+
   final TextEditingController _myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -38,29 +44,39 @@ class _NumpadState extends State<NumpadPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: EdgeInsets.all(7),
-              child: SizedBox(
-                height: SizeConfig.blockVertical * 5,
-                child: Center(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.black,
+            Form(
+              key: _fromKey,
+              child: Padding(
+                padding: EdgeInsets.all(7),
+                child: SizedBox(
+                  height: SizeConfig.blockVertical * 8,
+                  child: Center(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              width: 3,
+                              color: isValidate ? buttonNavbar : buttonColor3),
+                          borderRadius: BorderRadius.circular(7),
                         ),
-                        borderRadius: BorderRadius.circular(3),
+                        hintText: "Enter Customer Count",
                       ),
-                      hintText: 'Enter Customer Count',
+                      controller: _myController,
+                      textAlign: TextAlign.center,
+                      showCursor: false,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.black,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please enter Count Number!";
+                        } else {
+                          return null;
+                        }
+                      },
+                      keyboardType: TextInputType.none,
                     ),
-                    controller: _myController,
-                    textAlign: TextAlign.center,
-                    showCursor: false,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Colors.black,
-                    ),
-                    keyboardType: TextInputType.none,
                   ),
                 ),
               ),
@@ -73,10 +89,14 @@ class _NumpadState extends State<NumpadPage> {
                     .substring(0, _myController.text.length - 1);
               },
               onSubmit: () {
-                setState(() {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ViewMenuGrid()));
-                });
+                if (_fromKey.currentState!.validate()) {
+                  setState(() {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewMenuGrid()));
+                  });
+                }
               },
               controller: _myController,
             )
