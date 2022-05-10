@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
-import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:email_validator/email_validator.dart';

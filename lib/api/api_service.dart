@@ -1,5 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_mobile/model/class_cartModel.dart';
+import 'package:flutter_mobile/model/class_dataProduct.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_model_categoryProduct.dart';
+import 'package:flutter_mobile/model/class_model_posSetting.dart';
+import 'package:flutter_mobile/model/class_model_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,37 +67,6 @@ class TableService {
     }
   }
 }
-
-// //api tableServiceMarge
-// class TableServiceMarge {
-//   Future<List<TableManagementMarge>> getDataMargeTable() async {
-//     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-//     var baseUrl = sharedPreferences.getString("setApi");
-
-//     var url = '$baseUrl/table_management';
-//     var apiSet = sharedPreferences.getString("setApi");
-
-//     var auth = sharedPreferences.getString("access_token");
-//     print(auth);
-//     var headers = {"Authorization": "Bearer ${auth}"};
-
-//     var response = await http.get(Uri.parse(url), headers: headers);
-//     print(response.body);
-
-//     if (response.statusCode == 200) {
-//       List data = jsonDecode(response.body)['data'];
-//       List<TableManagementMarge> tablesMarge = [];
-
-//       for (var item in data) {
-//         tablesMarge.add(TableManagementMarge.fromJson(item));
-//       }
-//       return tablesMarge;
-//     } else {
-//       throw Exception('Gagal Get Table');
-//     }
-//   }
-// }
 
 //api dataService Product
 class DataService {
@@ -179,26 +153,27 @@ class GetSection {
 }
 
 //api pos setting
-class PosSettingServ {
-  Future<List<PosSetting>> posSettings() async {
+class PosSettings {
+  Future<List<SettingPos>> posSettings() async {
     SharedPreferences getServ = await SharedPreferences.getInstance();
     var baseUrl = getServ.getString("setApi");
-    print(baseUrl);
-
     var url = '$baseUrl/pos_setting';
-    var auth = getServ.getString("access_token");
-    print(auth);
-    var headers = {"Authorization": "Bearer ${auth}"};
+    // var auth = getServ.getString("access_token");
+
+    var headers = {
+      // "Authorization": "Bearer ${auth}",
+      'Content-type': 'application/json'
+    };
 
     var response = await http.get(Uri.parse(url), headers: headers);
     print(response.body);
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data'];
-      List<PosSetting> serv = [];
+      List<SettingPos> serv = [];
 
       for (var item in data) {
-        serv.add(PosSetting.fromJson(item));
+        serv.add(SettingPos.fromJson(item));
       }
       return serv;
     } else {

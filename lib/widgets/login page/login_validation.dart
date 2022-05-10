@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
+import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class ValidationLogin extends StatefulWidget {
   ValidationLogin({Key? key}) : super(key: key);
@@ -26,15 +26,34 @@ class _ValidationLoginState extends State<ValidationLogin> {
   bool isValidButton = true;
 
   @override
+  @override
   void initState() {
-    _isLoading = false;
-    Future.delayed(Duration(seconds: 3), () {
-      setState(() {
-        _isLoading = false;
+    setState(() {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          _isLoading = false;
+        });
       });
+      _isLoading = true;
     });
     super.initState();
   }
+
+  getProducts() async {
+    await Provider.of<ProductProviders>(context, listen: false).getData();
+  }
+
+  getTab() async {
+    await Provider.of<TableProviders>(context, listen: false).getTable();
+  }
+
+  getUser() async {
+    await Provider.of<ProviderUser>(context, listen: false).getUsers();
+  }
+
+  // getCategory() async {
+  //   await Provider.of<ProductCategorys>(context, listen: false).getCategory();
+  // }
 
   loginPin(String pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -107,16 +126,12 @@ class _ValidationLoginState extends State<ValidationLogin> {
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(4),
                                     borderSide: BorderSide(
-                                      width: SizeConfig.blockHorizontal * 1,
-                                      color: isValidButton
-                                          ? buttonNavbar
-                                          : buttonColor3,
-                                    ),
+                                        width: SizeConfig.blockHorizontal * 1,
+                                        color: buttonNavbar),
                                   ),
                                   hintText: 'Enter Your Pin'),
                               style: TextStyle(
-                                color:
-                                    isValidButton ? buttonNavbar : buttonColor3,
+                                color: buttonNavbar,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -157,6 +172,11 @@ class _ValidationLoginState extends State<ValidationLogin> {
                       if (_fromKey.currentState!.validate()) {
                         loginPin(_pin.text);
                         setState(() {
+                          getTab();
+                          getProducts();
+                          getUser();
+                          // getCategory();
+
                           pressedLogin = !pressedLogin;
                         });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_cartModel.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/menu%20page/update_product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class SummeryPage extends StatefulWidget {
   @override
@@ -73,12 +71,6 @@ class _SummeryPage extends State<SummeryPage> {
         appBar: AppBar(
           elevation: 1,
           backgroundColor: backgroundClor,
-          // leading: IconButton(
-          //     onPressed: () {
-          //       Navigator.pushReplacement(context,
-          //           MaterialPageRoute(builder: (context) => ViewMenuGrid()));
-          //     },
-          //     icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
           title: Container(
               margin: EdgeInsets.only(
                 left: SizeConfig.blockHorizontal * 18,

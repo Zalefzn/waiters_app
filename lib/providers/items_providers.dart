@@ -1,6 +1,11 @@
 import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/class_cartModel.dart';
+import 'package:flutter_mobile/model/class_dataProduct.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_model_categoryProduct.dart';
+import 'package:flutter_mobile/model/class_model_posSetting.dart';
+import 'package:flutter_mobile/model/class_model_token.dart';
 
 //provider Auth service
 class AuthProviders with ChangeNotifier {
@@ -47,17 +52,17 @@ class TableProviders with ChangeNotifier {
 
 //provider pos setting
 class PosProviders with ChangeNotifier {
-  List<PosSetting> _pos = [];
-  List<PosSetting> get pos => _pos;
+  List<SettingPos> _pos = [];
+  List<SettingPos> get pos => _pos;
 
-  set pos(List<PosSetting> poses) {
+  set pos(List<SettingPos> poses) {
     notifyListeners();
   }
 
   Future<void> getPos() async {
     try {
-      List<PosSetting> poses = await PosSettingServ().posSettings();
-      _pos = poses;
+      List<SettingPos> posSetting = await PosSettings().posSettings();
+      _pos = posSetting;
     } catch (e) {
       print(e);
     }

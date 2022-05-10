@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/method%20style/theme.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:email_validator/email_validator.dart';
@@ -21,11 +19,16 @@ class LogOut extends StatefulWidget {
 class _LogOutState extends State<LogOut> {
   String api = "";
   bool isValidate = true;
+  List userName = [];
 
   @override
   void initState() {
     getApiText();
     super.initState();
+  }
+
+  getUser() async {
+    await Provider.of<ProviderUser>(context, listen: false).getUsers();
   }
 
   getApiText() async {
@@ -350,10 +353,22 @@ _showPopDialog(BuildContext context) {
       title: Center(
     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
-        height: SizeConfig.blockVertical * 15,
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
+          height: SizeConfig.blockVertical * 15,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Icon(
+            Icons.check_rounded,
+            color: Colors.blue.shade900,
+            size: 100,
+          )),
+      Container(
+        margin: EdgeInsets.only(
+            left: SizeConfig.blockHorizontal * 5,
+            bottom: SizeConfig.blockVertical * 4),
+        child: Text("Clear Cache successful!",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
       ),
     ]),
   ));

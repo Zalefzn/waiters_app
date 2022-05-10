@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:email_validator/email_validator.dart';
 
 class Settings extends StatefulWidget {
@@ -34,16 +32,12 @@ class _SettingsState extends State<Settings> {
     super.initState();
   }
 
-  getUserServer() async {
-    await Provider.of<ProviderUser>(context, listen: false).getUsers();
+  getPosSetting() async {
+    await Provider.of<PosProviders>(context, listen: false).getPos();
   }
 
   getTab() async {
     await Provider.of<TableProviders>(context, listen: false).getTable();
-  }
-
-  getProducts() async {
-    await Provider.of<ProductProviders>(context, listen: false).getData();
   }
 
   getApiText() async {
@@ -66,7 +60,6 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    var userProvider = Provider.of<ProviderUser>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -220,6 +213,7 @@ class _SettingsState extends State<Settings> {
                                         : buttonOutline = !buttonOutline;
                                     // getUser();
                                     getTab();
+                                    getPosSetting();
                                     // getUserServer();
                                   });
                                 }

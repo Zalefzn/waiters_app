@@ -5,9 +5,7 @@ import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 
 class MoveTable extends StatefulWidget {
   const MoveTable({Key? key}) : super(key: key);

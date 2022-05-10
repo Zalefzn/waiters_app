@@ -44,7 +44,6 @@ dev_dependencies:
   animated_splash_screen: ^1.1.0
   sizer: ^2.0.15
   dropdown_search: ^2.0.1
-  curved_navigation_bar: ^1.0.1
   http: ^0.13.4
   intl: ^0.17.0
   get: ^4.6.1

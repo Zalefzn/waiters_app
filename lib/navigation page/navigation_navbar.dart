@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_list.dart';
 import 'package:flutter_mobile/widgets/summery%20page/summery_page.dart';
@@ -10,7 +9,6 @@ import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 
 //navigation navbar menu view
 class ViewMenuGrid extends StatefulWidget {

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/summery%20page/change_summerypage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -41,8 +39,8 @@ class _ViewTableState extends State<ViewTable> {
       loading = true;
     });
     // connect();
-    getTab();
-    getProducts();
+    // getTab();
+    // getProducts();
     super.initState();
   }
 
@@ -56,13 +54,13 @@ class _ViewTableState extends State<ViewTable> {
   //   print(socketIo.connected);
   // }
 
-  getProducts() async {
-    await Provider.of<ProductProviders>(context, listen: false).getData();
-  }
+  // getProducts() async {
+  //   await Provider.of<ProductProviders>(context, listen: false).getData();
+  // }
 
-  getTab() async {
-    await Provider.of<TableProviders>(context, listen: false).getTable();
-  }
+  // getTab() async {
+  //   await Provider.of<TableProviders>(context, listen: false).getTable();
+  // }
 
   @override
   Widget build(BuildContext context) {

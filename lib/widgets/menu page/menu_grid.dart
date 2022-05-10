@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_dataProduct.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
@@ -33,18 +31,14 @@ class _MenuPageState extends State<MenuPage> {
       });
       loading = true;
     });
-    getCategory();
-    getProducts();
+
+    // getProducts();
     super.initState();
   }
 
-  getCategory() async {
-    await Provider.of<ProductCategorys>(context, listen: false).getCategory();
-  }
-
-  getProducts() async {
-    await Provider.of<ProductProviders>(context, listen: false).getData();
-  }
+  // getProducts() async {
+  //   await Provider.of<ProductProviders>(context, listen: false).getData();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +401,7 @@ class _MenuPageState extends State<MenuPage> {
 }
 
 class ProductCard extends StatefulWidget {
-  DataProduct product;
+  final DataProduct product;
   ProductCard(this.product);
 
   @override

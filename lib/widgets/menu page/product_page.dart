@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_dataProduct.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +33,9 @@ class _ProductPageState extends State<ProductPage> {
     });
   }
 
-  minus() {
+  minus() async {
+    SharedPreferences setMinus = await SharedPreferences.getInstance();
+    setMinus.setInt("getCounterData", _n--);
     setState(() {
       if (_n != 1) {
         _n--;

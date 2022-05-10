@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/class_cartModel.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProductPage extends StatefulWidget {
@@ -149,6 +147,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
     }
 
     Widget addChart2() {
+      CartProvider cartProvider = Provider.of<CartProvider>(context);
       return Container(
         margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 4),
         height: SizeConfig.blockVertical * 13.5,

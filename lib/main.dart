@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
             create: (context) => MoveProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => ProviderUser(),
-          ),
+            create: (context) => PosProviders(),
+          )
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
           '/': (context) => const SplashScreen(),

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/marge_table.dart';
 import 'package:flutter_mobile/screens/marge%20&%20move/move_table.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,39 +27,6 @@ class _ViewPageState extends State<ViewPage> {
 
   TextEditingController indoor = TextEditingController();
   TextEditingController outdoor = TextEditingController();
-
-  @override
-  void initState() {
-    setState(() {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          loading = false;
-        });
-      });
-      loading = true;
-    });
-    // connect();
-    getTab();
-    getProducts();
-    super.initState();
-  }
-  // void connect() {
-  //   socketIo = io.io("https//staging-io.qoligo.com", <String, dynamic>{
-  //     'transports': ['websocket'],
-  //     'autoConnect': false
-  //   });
-  //   socketIo.connect();
-  //   socketIo.onConnect((data) => print('Connected'));
-  //   print(socketIo.connected);
-  // }
-
-  getProducts() async {
-    await Provider.of<ProductProviders>(context, listen: false).getData();
-  }
-
-  getTab() async {
-    await Provider.of<TableProviders>(context, listen: false).getTable();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -287,14 +252,6 @@ class _ViewPageState extends State<ViewPage> {
                               GestureDetector(
                                 onTap: () async {
                                   a.tableName != null;
-                                  SharedPreferences getOutlet =
-                                      await SharedPreferences.getInstance();
-                                  getOutlet.setInt("saveIdOutlete", a.idOutlet);
-                                  print(a.idOutlet);
-                                  SharedPreferences getId =
-                                      await SharedPreferences.getInstance();
-                                  getId.setInt("saveId", a.idTable);
-                                  print(a.idTable);
                                   SharedPreferences getTable =
                                       await SharedPreferences.getInstance();
                                   getTable.setString("saveTable", a.tableName);
