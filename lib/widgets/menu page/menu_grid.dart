@@ -6,6 +6,7 @@ import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
+import 'package:flutter_mobile/widgets/menu%20page/product_detail.dart';
 import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:sizer/sizer.dart';
@@ -425,7 +426,7 @@ class _ProductCardState extends State<ProductCard> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProductPage(widget.product)));
+                    builder: (context) => ProductDetail(widget.product)));
           },
           child: Container(
             margin: EdgeInsets.only(
