@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/transaction_product_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
@@ -409,24 +410,30 @@ class _MenuPageState extends State<MenuPage> {
 
 class ProductCard extends StatefulWidget {
   DataProduct product;
-  ProductCard(this.product);
+
+  @override
+  ProductCard(this.product, {Key? key}) : super(key: key);
 
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
+
+
   @override
   Widget build(BuildContext context) {
+    var transactionProduct = TransactionProductModel(name: widget.product.nameProduct, price: double.parse(widget.product.hargaProduct));
     var hargaProduct = double.parse(widget.product.hargaProduct).floor();
+
     return Row(
       children: [
         GestureDetector(
           onTap: () async {
             Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => ProductDetail(widget.product)));
+                MaterialPageRoute(builder: (context) => ProductDetail(transactionProduct)),
+            );
           },
           child: Container(
             margin: EdgeInsets.only(

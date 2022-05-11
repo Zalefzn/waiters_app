@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
+import 'package:flutter_mobile/model/transaction_product_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 
 class ProductDetail extends StatefulWidget {
-  final DataProduct product;
+  final TransactionProductModel product;
 
   const ProductDetail(this.product, {key}) : super(key: key);
 
@@ -26,6 +27,14 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      _productAmount = widget.product.quantity;
+      _productNotes = widget.product.notes;
+    });
+
+    _textEditingController.text = _productNotes;
+
     _textEditingController.addListener(() {
       final String text = _textEditingController.text;
 
@@ -74,7 +83,7 @@ class _ProductDetailState extends State<ProductDetail> {
     ));
 
     if (isValidated) {
-      cartProvider.addCart(widget.product);
+      // cartProvider.addCart(widget.product);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
     }
 
@@ -92,7 +101,7 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
 
-    var productPrice = double.parse(widget.product.hargaProduct).floor();
+    var productPrice = widget.product.price;
 
     Widget header() {
       return Column(
@@ -122,7 +131,7 @@ class _ProductDetailState extends State<ProductDetail> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              widget.product.nameProduct,
+              widget.product.name,
               style: const TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 17,
