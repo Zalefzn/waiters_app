@@ -4,6 +4,7 @@ import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/model/transaction_product_model.dart';
 import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
@@ -68,8 +69,10 @@ class _ProductDetailState extends State<ProductDetail> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
   }
 
-  _handleAddToCartBtn(CartProvider cartProvider) async {
+  _handleAddToCartBtn(TransactionProvider transactionProvider) async {
     bool isValidated = (_productAmount >= 1);
+
+    // TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
     var snackbarColor = isValidated ? Colors.green : Colors.red;
     var snackbarContent = isValidated ? "Successfully added product to cart !" : "Cannot add product, please check and try again";
@@ -84,6 +87,8 @@ class _ProductDetailState extends State<ProductDetail> {
 
     if (isValidated) {
       // cartProvider.addCart(widget.product);
+      transactionProvider.addProduct(widget.product);
+      print(transactionProvider.transactionProducts.length);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
     }
 
@@ -100,6 +105,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context);
 
     var productPrice = widget.product.price;
 
@@ -252,7 +258,7 @@ class _ProductDetailState extends State<ProductDetail> {
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
                   onPressed: () async {
-                    _handleAddToCartBtn(cartProvider);
+                    _handleAddToCartBtn(transactionProvider);
                   },
                   child: Container(
                       margin: const EdgeInsets.all(5),

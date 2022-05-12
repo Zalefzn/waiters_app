@@ -7,4 +7,10 @@ class TransactionProvider with ChangeNotifier {
 
   final List<TransactionProductModel> transactionProducts = [];
   List<TransactionProductModel> get products => transactionProducts;
+
+  addProduct(TransactionProductModel product) {
+    transactionProducts.add(product);
+    notifyListeners();
+  }
+
 }

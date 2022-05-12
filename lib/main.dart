@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => ProviderUser(),
           ),
+          ChangeNotifierProvider(create: (context) => TransactionProvider()),
         ],
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
           '/': (context) => const SplashScreen(),
