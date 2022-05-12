@@ -213,7 +213,7 @@ class _SettingsState extends State<Settings> {
                                         : buttonOutline = !buttonOutline;
                                     // getUser();
                                     getTab();
-                                    getPosSetting();
+                                    // getPosSetting();
                                     // getUserServer();
                                   });
                                 }

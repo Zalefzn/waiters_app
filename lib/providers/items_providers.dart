@@ -61,8 +61,8 @@ class PosProviders with ChangeNotifier {
 
   Future<void> getPos() async {
     try {
-      List<SettingPos> posSetting = await PosSettings().posSettings();
-      _pos = posSetting;
+      List<SettingPos> poses = await PosSettings().posSettings();
+      _pos = poses;
     } catch (e) {
       print(e);
     }

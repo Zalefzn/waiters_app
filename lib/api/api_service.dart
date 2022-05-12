@@ -169,7 +169,7 @@ class PosSettings {
     print(response.body);
 
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)['data'];
+      List data = jsonDecode(response.body)["data"];
       List<SettingPos> serv = [];
 
       for (var item in data) {

@@ -3,6 +3,7 @@ import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
+import 'package:flutter_mobile/widgets/summery%20page/change_summerypage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(debugShowCheckedModeBanner: false, routes: {
           '/': (context) => const SplashScreen(),
           '/Login': (context) => const LoginPage(),
-          '/inputCount': (context) => const InputCustomer()
+          '/inputCount': (context) => const InputCustomer(),
+          '/changeSummary': (context) => const ChangeSummeryPage(),
         }),
       );
     });

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/api/api_service.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/model/class_model.dart';
@@ -23,7 +24,6 @@ class _ViewPageState extends State<ViewPage> {
   var buttonText2 = false;
   var buttonText = false;
   var button1 = false;
-  // late io.Socket socketIo;
 
   TextEditingController indoor = TextEditingController();
   TextEditingController outdoor = TextEditingController();
@@ -240,24 +240,29 @@ class _ViewPageState extends State<ViewPage> {
                         itemCount: tableProviders.tables.length,
                         itemBuilder: (context, i) {
                           final a = tableProviders.tables[i];
-                          var pressedButton = false;
-                          sectionTable.sections
-                              .where((data) =>
-                                  data.idOutlet ==
-                                  tableProviders.tables[i].idTable)
-                              .toList();
                           return Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GestureDetector(
                                 onTap: () async {
-                                  a.tableName != null;
-                                  SharedPreferences getTable =
-                                      await SharedPreferences.getInstance();
-                                  getTable.setString("saveTable", a.tableName);
-                                  print(a.tableName);
-                                  Navigator.pushReplacementNamed(
-                                      context, '/inputCount');
+                                  if (a.tableName.isEmpty) {
+                                  } else {
+                                    if (a.tableName.isNotEmpty) {
+                                      // Navigator.pushReplacementNamed(
+                                      //     context, '/changeSummary');
+                                      SharedPreferences getId =
+                                          await SharedPreferences.getInstance();
+                                      getId.setInt("saveId", a.idTable);
+                                      print(a.idTable);
+                                      SharedPreferences getTable =
+                                          await SharedPreferences.getInstance();
+                                      getTable.setString(
+                                          "saveTable", a.tableName);
+                                      print(a.tableName);
+                                      Navigator.pushReplacementNamed(
+                                          context, '/inputCount');
+                                    }
+                                  }
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(

@@ -293,7 +293,7 @@ class _StateSummeryPage extends State<ChangeSummeryPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewPage()));
+                                                    ViewTable()));
                                       }
                                       setState(() {
                                         isButtonActive = false;
@@ -681,8 +681,8 @@ class _CartPageState extends State<CartPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text(
-                  "0x",
+                Text(
+                  cartProvider.totalItems().toString() + " x",
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,

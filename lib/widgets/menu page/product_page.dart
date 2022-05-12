@@ -25,23 +25,21 @@ class _ProductPageState extends State<ProductPage> {
   bool _changeColor = false;
   int _n = 1;
 
-  add() async {
-    SharedPreferences setAdd = await SharedPreferences.getInstance();
-    setAdd.setInt("getCounterData", _n + 1);
-    setState(() {
-      _n++;
-    });
-  }
+  // add() async {
+  //   SharedPreferences setAdd = await SharedPreferences.getInstance();
+  //   setAdd.setInt("getCounterData", _n + 1);
+  //   setState(() {
+  //     _n++;
+  //   });
+  // }
 
-  minus() async {
-    SharedPreferences setMinus = await SharedPreferences.getInstance();
-    setMinus.setInt("getCounterData", _n--);
-    setState(() {
-      if (_n != 1) {
-        _n--;
-      }
-    });
-  }
+  // minus() async {
+  //   setState(() {
+  //     if (_n != 1) {
+  //       _n--;
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -154,54 +152,54 @@ class _ProductPageState extends State<ProductPage> {
 
     Widget addChart() {
       return Container(
-        margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 4),
+        margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 2),
         height: SizeConfig.blockVertical * 13.5,
         width: SizeConfig.blockHorizontal * 100,
         child: Row(
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
-            GestureDetector(
-              onTap: () {
-                minus();
-              },
-              child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Text("-",
-                      style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 35,
-                          fontWeight: FontWeight.w600,
-                          color: buttonNavbar))),
-            ),
-            SizedBox(width: SizeConfig.blockHorizontal * 8),
-            Text(
-              "$_n",
-              style: const TextStyle(
-                  fontFamily: 'Rubik',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            SizedBox(width: SizeConfig.blockHorizontal * 8),
-            GestureDetector(
-              onTap: () async {
-                print(_n + 1);
-                setState(() {
-                  add();
-                });
-              },
-              child: Container(
-                  margin: EdgeInsets.all(5),
-                  child: Text("+",
-                      style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 35,
-                          fontWeight: FontWeight.w600,
-                          color: buttonNavbar))),
-            ),
-            SizedBox(width: SizeConfig.blockHorizontal * 8),
+            // GestureDetector(
+            //   onTap: () {
+            //     minus();
+            //   },
+            //   child: Container(
+            //       margin: const EdgeInsets.all(5),
+            //       child: Text("-",
+            //           style: TextStyle(
+            //               fontFamily: 'Rubik',
+            //               fontSize: 35,
+            //               fontWeight: FontWeight.w600,
+            //               color: buttonNavbar))),
+            // ),
+            // SizedBox(width: SizeConfig.blockHorizontal * 8),
+            // Text(
+            //   "$_n",
+            //   style: const TextStyle(
+            //       fontFamily: 'Rubik',
+            //       fontSize: 20,
+            //       fontWeight: FontWeight.bold,
+            //       color: Colors.black),
+            // ),
+            // SizedBox(width: SizeConfig.blockHorizontal * 8),
+            // GestureDetector(
+            //   onTap: () async {
+            //     print(_n + 1);
+            //     setState(() {
+            //       add();
+            //     });
+            //   },
+            //   child: Container(
+            //       margin: EdgeInsets.all(5),
+            //       child: Text("+",
+            //           style: TextStyle(
+            //               fontFamily: 'Rubik',
+            //               fontSize: 35,
+            //               fontWeight: FontWeight.w600,
+            //               color: buttonNavbar))),
+            // ),
+            SizedBox(width: SizeConfig.blockHorizontal * 0),
             Container(
-              width: SizeConfig.blockHorizontal * 47,
+              width: SizeConfig.blockHorizontal * 90,
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
                   onPressed: () async {
@@ -209,49 +207,49 @@ class _ProductPageState extends State<ProductPage> {
                         await SharedPreferences.getInstance();
                     setNotes.setString("Notes", textEditing.text);
                     print(textEditing.text);
-                    if (cartProvider.carts.isEmpty ||
-                        cartProvider.carts.isNotEmpty) {
-                      if (_n == 0) {
-                        setState(() {
-                          _changeColor = false;
-                        });
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            "Add Valid",
-                            textAlign: TextAlign.center,
-                          ),
-                        ));
-                      } else if (_n > 0) {
-                        setState(() {
-                          _changeWarna = true;
+                    // if (cartProvider.carts.isEmpty ||
+                    //     cartProvider.carts.isNotEmpty) {
+                    //   // if (_n == 0) {
+                    //   //   setState(() {
+                    //   //     _changeColor = false;
+                    //   //   });
+                    //   //   ScaffoldMessenger.of(context)
+                    //   //       .showSnackBar(const SnackBar(
+                    //   //     duration: Duration(milliseconds: 500),
+                    //   //     backgroundColor: Colors.red,
+                    //   //     content: Text(
+                    //   //       "Add Valid",
+                    //   //       textAlign: TextAlign.center,
+                    //   //     ),
+                    //   //   ));
+                    //   // } else if (_n > 0) {
+                    //   //   setState(() {
+                    //   //     _changeWarna = true;
 
-                          if (_n < 1) {
-                            setState(() {
-                              _changeWarna = false;
-                            });
-                          }
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(milliseconds: 500),
-                            backgroundColor: Colors.green,
-                            content: Text(
-                              "Add Success",
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                        cartProvider.addCart(widget.product);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ViewMenuGrid()));
-                      }
-                    }
+                    //   //     if (_n < 1) {
+                    //   //       setState(() {
+                    //   //         _changeWarna = false;
+                    //   //       });
+                    //   //     }
+                    //   //   });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(milliseconds: 500),
+                        backgroundColor: Colors.green,
+                        content: Text(
+                          "Add Success",
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                    cartProvider.addCart(widget.product);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewMenuGrid()));
                   },
+                  // },
+
                   child: Container(
                       margin: const EdgeInsets.all(5),
                       child: const Text("Add to Cart",

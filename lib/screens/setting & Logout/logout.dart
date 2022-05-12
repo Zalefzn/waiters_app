@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
+import 'package:flutter_mobile/model/class_model.dart';
 import 'package:flutter_mobile/providers/items_providers.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
 import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
@@ -27,10 +28,6 @@ class _LogOutState extends State<LogOut> {
     super.initState();
   }
 
-  getUser() async {
-    await Provider.of<ProviderUser>(context, listen: false).getUsers();
-  }
-
   getApiText() async {
     final SharedPreferences getApi = await SharedPreferences.getInstance();
     setState(() {
@@ -43,6 +40,7 @@ class _LogOutState extends State<LogOut> {
   var buttonChange = false;
   var buttonBack = false;
   var buttonBackText = false;
+
   final _fromKey = GlobalKey<FormState>();
   static var today = DateTime.now();
   var formatedTanggal = DateFormat.Hm().format(today);
@@ -50,6 +48,8 @@ class _LogOutState extends State<LogOut> {
 
   @override
   Widget build(BuildContext context) {
+    ProviderUser providerUser = Provider.of<ProviderUser>(context);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -448,7 +448,7 @@ class _LogOut2State extends State<LogOut2> {
             leading: IconButton(
                 onPressed: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ViewTable()));
+                      MaterialPageRoute(builder: (context) => ViewPage()));
                 },
                 icon: Icon(Icons.chevron_left, size: 40, color: Colors.black)),
             elevation: 1,
