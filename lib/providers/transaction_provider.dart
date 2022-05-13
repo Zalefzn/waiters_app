@@ -13,4 +13,14 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  subtotal() {
+    double subtotal = 0;
+
+    for (var product in transactionProducts) {
+      subtotal += product.price * product.quantity;
+    }
+
+    return subtotal;
+  }
+
 }

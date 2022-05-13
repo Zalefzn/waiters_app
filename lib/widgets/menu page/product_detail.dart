@@ -87,7 +87,12 @@ class _ProductDetailState extends State<ProductDetail> {
 
     if (isValidated) {
       // cartProvider.addCart(widget.product);
+
+      widget.product.quantity = _productAmount;
+      widget.product.notes = _productNotes;
+
       transactionProvider.addProduct(widget.product);
+      print(widget.product.quantity);
       print(transactionProvider.transactionProducts.length);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
     }
