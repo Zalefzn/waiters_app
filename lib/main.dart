@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
-import 'package:flutter_mobile/widgets/login%20page/login_page.dart';
+import 'package:flutter_mobile/providers/authService.dart';
+import 'package:flutter_mobile/providers/cartProduct.dart';
+import 'package:flutter_mobile/providers/categoryProduct.dart';
+import 'package:flutter_mobile/providers/maredTable.dart';
+import 'package:flutter_mobile/providers/moveTable.dart';
+import 'package:flutter_mobile/providers/orderProduct.dart';
+import 'package:flutter_mobile/providers/posSetting.dart';
+import 'package:flutter_mobile/providers/productProvider.dart';
+import 'package:flutter_mobile/providers/sectionTable,.dart';
+import 'package:flutter_mobile/providers/tableProvider.dart';
+import 'package:flutter_mobile/providers/userServer.dart';
+import 'package:flutter_mobile/screens/customerCount/input_customer_count.dart';
+import 'package:flutter_mobile/widgets/loginPage/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
-import 'package:flutter_mobile/widgets/summery%20page/change_summerypage.dart';
+import 'package:flutter_mobile/widgets/summaryPage/change_summerypage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
