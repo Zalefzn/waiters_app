@@ -52,6 +52,7 @@ dev_dependencies:
   badges: ^2.0.2
   flutter_io_socket: ^0.0.7
   email_validator: ^2.0.1
+  custom_switch_button: ^0.5.0
 
 
 

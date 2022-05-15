@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/api/authService.dart';
-import 'package:flutter_mobile/model/class_model_token.dart';
+import 'package:flutter_mobile/api/authServiceApi.dart';
+import 'package:flutter_mobile/model/token.dart';
 
 //provider Auth service
 class AuthProviders with ChangeNotifier {

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/methodSize/method.dart';
-import 'package:flutter_mobile/method/methodStyle/theme.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/providers/userServer.dart';
-import 'package:flutter_mobile/widgets/tablePage/page_view.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -52,10 +52,6 @@ class _ValidationLoginState extends State<ValidationLogin> {
   getUser() async {
     await Provider.of<ProviderUser>(context, listen: false).getUsers();
   }
-
-  // getCategory() async {
-  //   await Provider.of<ProductCategorys>(context, listen: false).getCategory();
-  // }
 
   loginPin(String pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/methodSize/method.dart';
-import 'package:flutter_mobile/method/methodStyle/theme.dart';
 import 'package:flutter_mobile/providers/posSetting.dart';
-import 'package:flutter_mobile/screens/setting/setting.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/widgets/loginPage/login_validation.dart';
+import 'package:flutter_mobile/widgets/setting/setting.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 
@@ -14,16 +14,12 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-// void getOutlate() async {
-//   SharedPreferences getOutlate = await SharedPreferences.getInstance();
-//   var getData = getOutlate.setString("Outlate", )
-// }
-
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     PosProviders posProviders =
         Provider.of<PosProviders>(context, listen: false);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(

@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/methodSize/method.dart';
-import 'package:flutter_mobile/method/methodStyle/theme.dart';
 import 'package:flutter_mobile/model/sectionTable.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
-import 'package:flutter_mobile/screens/marge_move/marge_table.dart';
-import 'package:flutter_mobile/screens/marge_move/move_table.dart';
-import 'package:flutter_mobile/screens/setting/logout.dart';
-import 'package:flutter_mobile/widgets/summaryPage/change_summerypage.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/widgets/margeTable/marge_table.dart';
+import 'package:flutter_mobile/widgets/moveTable/move_table.dart';
+import 'package:flutter_mobile/widgets/setting/logout.dart';
+import 'package:flutter_mobile/widgets/summaryPage/afterOrder/change_summerypage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 

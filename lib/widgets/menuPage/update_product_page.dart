@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/methodSize/method.dart';
-import 'package:flutter_mobile/method/methodStyle/theme.dart';
 import 'package:flutter_mobile/model/cartProduct.dart';
-import 'package:flutter_mobile/navigation/navigation_navbar.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 

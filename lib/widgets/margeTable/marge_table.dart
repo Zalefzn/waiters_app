@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/methodSize/method.dart';
-import 'package:flutter_mobile/method/methodStyle/theme.dart';
 import 'package:flutter_mobile/providers/maredTable.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
-import 'package:flutter_mobile/widgets/tablePage/page_view.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
