@@ -423,7 +423,7 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    var transactionProduct = TransactionProductModel(name: widget.product.nameProduct, price: double.parse(widget.product.hargaProduct));
+    var transactionProduct = TransactionProductModel(name: widget.product.nameProduct, price: double.parse(widget.product.hargaProduct), productId: widget.product.productId);
     var hargaProduct = double.parse(widget.product.hargaProduct).floor();
 
     return Row(

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_mobile/api/transaction_service.dart';
 import 'package:flutter_mobile/model/transaction_model.dart';
 import 'package:flutter_mobile/model/transaction_product_model.dart';
 
@@ -51,10 +52,28 @@ class TransactionProvider with ChangeNotifier {
     return transactionProducts.length;
   }
 
+  isHaveOrderedProduct() {
+    return (totalItemCount() > 0);
+  }
 
   generateTransactionProductId() {
     var transactionProductCount = transactionProducts.length;
     return (transactionProductCount == 0) ? 1 : transactionProductCount++;
   }
 
+  clearTransaction() {
+    clearTransactionProducts();
+  }
+
+  clearTransactionProducts() {
+    transactionProducts.clear();
+  }
+
+  Future<bool> saveTransaction() async {
+    try {
+      return TransactionService().placeOrder(transactionProducts);
+    } catch (e) {
+      return false;
+    }
+  }
 }

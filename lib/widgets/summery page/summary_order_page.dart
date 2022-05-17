@@ -4,11 +4,15 @@ import 'package:flutter_mobile/method/method%20style/theme.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/screens/customer%20count/input_customer_count.dart';
 import 'package:flutter_mobile/widgets/summery%20page/ordered_product_card.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_table.dart';
+import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 class SummaryOrderPage extends StatefulWidget {
+  const SummaryOrderPage({Key? key}) : super(key: key);
+
   @override
   State<SummaryOrderPage> createState() => _SummaryOrderPage();
 }
@@ -110,6 +114,25 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
     }
 
     Widget buttonOrder() {
+      handleCancelBtn() {
+        if (transactionProvider.isHaveOrderedProduct()) {
+          showDialog(context: context, builder: (BuildContext context) => _cancelConfirmationDialog(context));
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPage()));
+        }
+      }
+
+      handleOrderBtn() async {
+        if (transactionProvider.isHaveOrderedProduct()) {
+          if (await transactionProvider.saveTransaction()) {
+            print("Order placed successfully");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTable()));
+          } else {
+            print("Cannot place order, please try again");
+          }
+        }
+      }
+
       return Stack(
         children: [
           Container(
@@ -163,7 +186,7 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
                       width: SizeConfig.blockHorizontal * 42,
                       child: ElevatedButton(
                         onPressed: () async {
-                          return;
+                          handleCancelBtn();
                         },
                         child: const Text(
                           "Cancel",
@@ -186,7 +209,7 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
                       width: SizeConfig.blockHorizontal * 42,
                       child: ElevatedButton(
                         onPressed: () async {
-                          return;
+                          handleOrderBtn();
                         },
                         child: const Text(
                           "Order",
@@ -266,4 +289,104 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
     });
 
   }
+
+  _cancelConfirmationDialog(BuildContext context) {
+    TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context);
+
+    handleDeclineBtn() {
+      Navigator.pop(context);
+    }
+
+    handleProceedBtn() {
+      transactionProvider.clearTransaction();
+    }
+
+    return AlertDialog(
+      title: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 0, bottom: SizeConfig.blockVertical * 5),
+              height: SizeConfig.blockVertical * 9,
+              width: SizeConfig.blockHorizontal * 55,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      "Are you sure want to leave ?",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.blockVertical * 1),
+                    const Text(
+                      "Your order will not be processed",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    handleProceedBtn();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewPage()));
+                  },
+                  child: Container(
+                    height: SizeConfig.blockVertical * 5,
+                    width: SizeConfig.blockHorizontal * 25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.grey.shade200
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(
+                          color: Colors.indigoAccent.shade400
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    handleDeclineBtn();
+                  },
+                  child: Container(
+                    height: SizeConfig.blockVertical * 5,
+                    width: SizeConfig.blockHorizontal * 25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.indigoAccent.shade400
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
 }
