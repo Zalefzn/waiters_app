@@ -9,8 +9,32 @@ class TransactionProvider with ChangeNotifier {
   List<TransactionProductModel> get products => transactionProducts;
 
   addProduct(TransactionProductModel product) {
-    transactionProducts.add(product);
+    
+    if (product.id == null) {
+      insertProduct(product);
+    } else {
+      updateProduct(product);
+    }
+    
     notifyListeners();
+  }
+  
+  insertProduct(TransactionProductModel product) {
+    product.id = generateTransactionProductId();
+    transactionProducts.add(product);
+  }
+  
+  updateProduct(TransactionProductModel product) {
+    var productIndex = transactionProducts.indexWhere((element) => element.id == product.id);
+
+    if (productIndex != -1) {
+      var updatedProduct = transactionProducts[productIndex];
+
+      updatedProduct.name = product.name;
+      updatedProduct.price = product.price;
+      updatedProduct.quantity = product.quantity;
+      updatedProduct.notes = product.notes;
+    }
   }
 
   subtotal() {
@@ -21,6 +45,11 @@ class TransactionProvider with ChangeNotifier {
     }
 
     return subtotal;
+  }
+
+  generateTransactionProductId() {
+    var transactionProductCount = transactionProducts.length;
+    return (transactionProductCount == 0) ? 1 : transactionProductCount++;
   }
 
 }

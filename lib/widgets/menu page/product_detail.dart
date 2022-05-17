@@ -92,8 +92,6 @@ class _ProductDetailState extends State<ProductDetail> {
       widget.product.notes = _productNotes;
 
       transactionProvider.addProduct(widget.product);
-      print(widget.product.quantity);
-      print(transactionProvider.transactionProducts.length);
       Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
     }
 
