@@ -47,6 +47,11 @@ class TransactionProvider with ChangeNotifier {
     return subtotal;
   }
 
+  totalItemCount() {
+    return transactionProducts.length;
+  }
+
+
   generateTransactionProductId() {
     var transactionProductCount = transactionProducts.length;
     return (transactionProductCount == 0) ? 1 : transactionProductCount++;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/method/method%20size/method.dart';
 import 'package:flutter_mobile/method/method%20style/theme.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/validation/method%20size/method.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_list.dart';
@@ -37,6 +38,8 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   @override
   Widget build(BuildContext context) {
     CartProvider cartprovider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -52,7 +55,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
             ),
             BottomNavigationBarItem(
               icon: Badge(
-                badgeContent: Text(cartprovider.totalItems().toString(),
+                badgeContent: Text(transactionProvider.totalItemCount().toString(),
                     style: TextStyle(
                       color: Colors.white,
                     )),
