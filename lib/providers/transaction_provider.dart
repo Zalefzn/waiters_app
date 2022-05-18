@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_mobile/api/transaction_service.dart';
 import 'package:flutter_mobile/model/transactionModel.dart';
 import 'package:flutter_mobile/model/transactionProduct.dart';
+import 'package:flutter_mobile/providers/tableProvider.dart';
 
 class TransactionProvider with ChangeNotifier {
   late TransactionModel transaction;
@@ -71,7 +72,13 @@ class TransactionProvider with ChangeNotifier {
 
   Future<bool> saveTransaction() async {
     try {
-      return TransactionService().placeOrder(transactionProducts);
+      var transactionStatus =  await TransactionService().placeOrder(transactionProducts);
+
+      if (transactionStatus == true) {
+        TableProviders().getTable();
+      }
+
+      return transactionStatus;
     } catch (e) {
       return false;
     }
