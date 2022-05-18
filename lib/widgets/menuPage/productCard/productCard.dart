@@ -19,7 +19,8 @@ class _ProductCardState extends State<ProductCard> {
   Widget build(BuildContext context) {
     var transactionProduct = TransactionProduct(
         name: widget.product.nameProduct,
-        priceProduct: double.parse(widget.product.priceProduct));
+        price: double.parse(widget.product.priceProduct),
+        productId: widget.product.productId);
     var hargaProduct = double.parse(widget.product.priceProduct).floor();
 
     return Row(

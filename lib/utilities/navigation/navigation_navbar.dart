@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/transactionProvider.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menuPage/menuList/menu_list.dart';
-import 'package:flutter_mobile/widgets/summaryPage/beforeOrder/summery_page.dart';
+import 'package:flutter_mobile/widgets/summery%20page/summary_order_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   int selectedIndex = 0;
   List options = [
     MenuPage(),
-    SummeryPage(),
+    SummaryOrderPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _ViewMenuListState extends State<ViewMenuList> {
   int selectedIndex = 0;
   List options = [
     MenuList(),
-    SummeryPage(),
+    SummaryOrderPage(),
   ];
   @override
   Widget build(BuildContext context) {
