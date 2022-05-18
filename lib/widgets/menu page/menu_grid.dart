@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/method/method%20size/method.dart';
-import 'package:flutter_mobile/method/method%20style/theme.dart';
-import 'package:flutter_mobile/model/class_model.dart';
-import 'package:flutter_mobile/model/transaction_product_model.dart';
-import 'package:flutter_mobile/navigation%20page/navigation_navbar.dart';
-import 'package:flutter_mobile/providers/items_providers.dart';
-import 'package:flutter_mobile/screens/setting%20&%20Logout/logout.dart';
-import 'package:flutter_mobile/validation/method%20size/method.dart';
-import 'package:flutter_mobile/widgets/menu%20page/product_detail.dart';
-import 'package:flutter_mobile/widgets/menu%20page/product_page.dart';
-import 'package:flutter_mobile/widgets/table%20page/page_view.dart';
+import 'package:flutter_mobile/providers/categoryProduct.dart';
+import 'package:flutter_mobile/providers/productProvider.dart';
+import 'package:flutter_mobile/utilities/methodSize/method.dart';
+import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
+import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
+import 'package:flutter_mobile/widgets/setting/logout.dart';
+import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:flutter_mobile/validation/method style/theme.dart';
 import 'package:provider/provider.dart';
 
 class MenuPage extends StatefulWidget {
@@ -35,17 +31,8 @@ class _MenuPageState extends State<MenuPage> {
       });
       loading = true;
     });
-    getCategory();
-    getProducts();
+
     super.initState();
-  }
-
-  getCategory() async {
-    await Provider.of<ProductCategorys>(context, listen: false).getCategory();
-  }
-
-  getProducts() async {
-    await Provider.of<ProductProviders>(context, listen: false).getData();
   }
 
   @override
@@ -405,67 +392,5 @@ class _MenuPageState extends State<MenuPage> {
         ),
       );
     });
-  }
-}
-
-class ProductCard extends StatefulWidget {
-  DataProduct product;
-
-  @override
-  ProductCard(this.product, {Key? key}) : super(key: key);
-
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-
-
-  @override
-  Widget build(BuildContext context) {
-    var transactionProduct = TransactionProductModel(name: widget.product.nameProduct, price: double.parse(widget.product.hargaProduct));
-    var hargaProduct = double.parse(widget.product.hargaProduct).floor();
-
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProductDetail(transactionProduct)),
-            );
-          },
-          child: Container(
-            margin: EdgeInsets.only(
-                left: SizeConfig.blockHorizontal * 2,
-                top: SizeConfig.blockVertical * 2),
-            height: SizeConfig.blockVertical * 25,
-            width: SizeConfig.blockHorizontal * 45,
-            decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  widget.product.nameProduct,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Montserrat'),
-                ),
-                Text(
-                  hargaProduct.toString(),
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Montserrat'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
