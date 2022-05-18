@@ -5,10 +5,10 @@ import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/margeTable/marge_table.dart';
-import 'package:flutter_mobile/widgets/moveTable/move_table.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/summaryPage/afterOrder/change_summerypage.dart';
+import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
+import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 

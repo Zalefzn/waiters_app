@@ -1,5 +1,5 @@
-import 'package:flutter_mobile/api/margedTable.dart';
-import 'package:flutter_mobile/api/moveTable.dart';
+import 'package:flutter_mobile/api/margedTableApi.dart';
+import 'package:flutter_mobile/api/moveTableApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/tableManagement.dart';
 

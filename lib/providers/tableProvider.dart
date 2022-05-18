@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/api/tableService.dart';
+import 'package:flutter_mobile/api/tableApi.dart';
 import 'package:flutter_mobile/model/tableManagement.dart';
 
 //provider table management

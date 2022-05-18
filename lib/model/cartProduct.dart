@@ -6,7 +6,11 @@ class CartModel {
   late DataProduct product;
   late int quantity;
 
-  CartModel({required this.id, required this.product, required this.quantity});
+  CartModel({
+    required this.id,
+    required this.product,
+    required this.quantity,
+  });
 
   CartModel.fromJson(Map<String, dynamic> json) {
     id = json["id_product"];

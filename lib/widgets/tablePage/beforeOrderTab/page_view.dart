@@ -3,9 +3,9 @@ import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/margeTable/marge_table.dart';
-import 'package:flutter_mobile/widgets/moveTable/move_table.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
+import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
+import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,10 +30,10 @@ class _ViewPageState extends State<ViewPage> {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
     SectionTable sectionTable = Provider.of<SectionTable>(context);
 
-    filterTableSection() async {
-      tableProviders.tables.forEach((data) {
-        if (data.idTable == sectionTable) {}
-      });
+    void filterTableSection() async {
+      tableProviders.tables
+          .where((element) => element.idTable == sectionTable.sections)
+          .toList();
     }
 
     Widget header() {

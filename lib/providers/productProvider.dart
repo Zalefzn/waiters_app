@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/api/productService.dart';
+import 'package:flutter_mobile/api/productApi.dart';
 import 'package:flutter_mobile/model/product.dart';
 
 //provider product data

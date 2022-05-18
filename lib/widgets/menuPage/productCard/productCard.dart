@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/product.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
-import 'package:flutter_mobile/widgets/menuPage/product_page.dart';
+import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail.dart';
 
 class ProductCard extends StatefulWidget {
   final DataProduct product;

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/menuPage/menu_grid.dart';
-import 'package:flutter_mobile/widgets/menuPage/menu_list.dart';
+import 'package:flutter_mobile/widgets/menuPage/menuGrid/menu_grid.dart';
+import 'package:flutter_mobile/widgets/menuPage/menuList/menu_list.dart';
 import 'package:flutter_mobile/widgets/summaryPage/beforeOrder/summery_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
@@ -26,7 +26,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   int _currentIndex = 0;
   int selectedIndex = 0;
   List options = [
-    MenuPage(),
+    MenuGrid(),
     SummeryPage(),
   ];
   @override

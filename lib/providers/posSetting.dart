@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/api/posSetting.dart';
+import 'package:flutter_mobile/api/posSettingApi.dart';
 import 'package:flutter_mobile/model/posSetting.dart';
 
 //provider pos setting

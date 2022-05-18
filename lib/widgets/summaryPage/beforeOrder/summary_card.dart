@@ -3,7 +3,7 @@ import 'package:flutter_mobile/model/cartProduct.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/menuPage/update_product_page.dart';
+import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail_update.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -141,47 +141,6 @@ class _CartCardState extends State<CartCard> {
                   ),
                 ],
               ),
-              // Row(
-              //   children: [
-              //     SizedBox(width: SizeConfig.blockHorizontal * 5),
-              //     GestureDetector(
-              //       onTap: () async {
-              //         cartProvider.reduceQuntity(widget.cartModel.id);
-              //       },
-              //       child: Container(
-              //           margin: const EdgeInsets.all(2),
-              //           child: Text("-",
-              //               style: TextStyle(
-              //                   fontFamily: 'Rubik',
-              //                   fontSize: 35,
-              //                   fontWeight: FontWeight.w600,
-              //                   color: buttonNavbar))),
-              //     ),
-              //     SizedBox(width: SizeConfig.blockHorizontal * 4),
-              //     Text(
-              //       cartProvider.totalItems().toString(),
-              //       style: const TextStyle(
-              //           fontFamily: 'Rubik',
-              //           fontSize: 20,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.black),
-              //     ),
-              //     SizedBox(width: SizeConfig.blockHorizontal * 4),
-              //     GestureDetector(
-              //       onTap: () async {
-              //         cartProvider.addQuantity(widget.cartModel.id);
-              //       },
-              //       child: Container(
-              //           margin: const EdgeInsets.all(2),
-              //           child: Text("+",
-              //               style: TextStyle(
-              //                   fontFamily: 'Rubik',
-              //                   fontSize: 35,
-              //                   fontWeight: FontWeight.w600,
-              //                   color: buttonNavbar))),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ));

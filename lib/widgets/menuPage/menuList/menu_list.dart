@@ -4,7 +4,7 @@ import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
-import 'package:flutter_mobile/widgets/productCard/productCard.dart';
+import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:provider/provider.dart';
@@ -186,18 +186,6 @@ class _MenuListState extends State<MenuList> {
                                                                     builder:
                                                                         (context) =>
                                                                             ViewMenuGrid()));
-                                                            productProviders
-                                                                .products
-                                                                .where((product) =>
-                                                                    ProductCard(
-                                                                            product)
-                                                                        .product
-                                                                        .idProCategory ==
-                                                                    category
-                                                                        .categorys[
-                                                                            index]
-                                                                        .idCategory)
-                                                                .toList();
                                                           },
                                                           child: Container(
                                                             margin: EdgeInsets.only(

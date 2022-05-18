@@ -331,7 +331,6 @@ class _SummeryPage extends State<SummeryPage> {
             ContainerApp(),
             SizedBox(height: SizeConfig.blockVertical * 3),
             listCart(),
-            SizedBox(height: SizeConfig.blockVertical * 3),
             buttonOrder(),
           ],
         ),

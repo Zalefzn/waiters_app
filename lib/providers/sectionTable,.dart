@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/api/sectionTable.dart';
+import 'package:flutter_mobile/api/sectionTableApi.dart';
 import 'package:flutter_mobile/model/sectionTable.dart';
 
 //provider section table

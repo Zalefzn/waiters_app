@@ -4,19 +4,19 @@ import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
-import 'package:flutter_mobile/widgets/productCard/productCard.dart';
+import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:sizer/sizer.dart';
 import 'dart:math' as math;
 import 'package:provider/provider.dart';
 
-class MenuPage extends StatefulWidget {
+class MenuGrid extends StatefulWidget {
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<MenuGrid> createState() => _MenuGridState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _MenuGridState extends State<MenuGrid> {
   TextEditingController searchController = TextEditingController();
   bool isActiveBotton = false;
   bool buttonPressed = false;
