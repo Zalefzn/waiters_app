@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/transactionModel.dart';
 import 'package:flutter_mobile/providers/authService.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
@@ -10,12 +9,11 @@ import 'package:flutter_mobile/providers/posSetting.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
-import 'package:flutter_mobile/providers/transactionProvider.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/providers/userServer.dart';
 import 'package:flutter_mobile/widgets/customerCount/input_customer_count.dart';
 import 'package:flutter_mobile/widgets/loginPage/login_page.dart';
 import 'package:flutter_mobile/widgets/splash_screen.dart';
-import 'package:flutter_mobile/widgets/summaryPage/afterOrder/change_summerypage.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -72,7 +70,6 @@ class MyApp extends StatelessWidget {
           '/': (context) => const SplashScreen(),
           '/Login': (context) => const LoginPage(),
           '/inputCount': (context) => const InputCount(),
-          '/changeSummary': (context) => const ChangeSummeryPage(),
         }),
       );
     });

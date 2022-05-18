@@ -1,51 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/model/product.dart';
+import 'package:flutter_mobile/model/transactionProduct.dart';
 import 'package:flutter_mobile/providers/cartProduct.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
-class ProductPage extends StatefulWidget {
-  final DataProduct product;
+class ProductDetail extends StatefulWidget {
+  final TransactionProduct product;
 
-  ProductPage(
-    this.product,
-  );
+  const ProductDetail(this.product, {key}) : super(key: key);
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<ProductDetail> createState() => _ProductDetailState();
 }
 
-class _ProductPageState extends State<ProductPage> {
-  TextEditingController textEditing = TextEditingController();
+class _ProductDetailState extends State<ProductDetail> {
+  int _productAmount = 1;
+  String _productNotes = "";
 
-  bool _changeWarna = false;
-  bool _changeColor = false;
-  int _n = 1;
+  late final TextEditingController _textEditingController =
+      TextEditingController();
 
-  add() async {
-    SharedPreferences setAdd = await SharedPreferences.getInstance();
-    setAdd.setInt("getCounterData", _n + 1);
+  @override
+  void initState() {
+    super.initState();
+
     setState(() {
-      _n++;
+      _productAmount = widget.product.quantity;
+      _productNotes = widget.product.notes;
+    });
+
+    _textEditingController.text = _productNotes;
+
+    _textEditingController.addListener(() {
+      final String text = _textEditingController.text;
+
+      setState(() {
+        _productNotes = text;
+      });
     });
   }
 
-  minus() async {
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  _increaseQuantity() async {
     setState(() {
-      if (_n != 1) {
-        _n--;
-      }
+      _productAmount++;
     });
+  }
+
+  _decreaseQuantity() async {
+    if (_productAmount != 1) {
+      setState(() {
+        _productAmount--;
+      });
+    }
+  }
+
+  _handleBackBtn() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+  }
+
+  _handleAddToCartBtn(TransactionProvider transactionProvider) async {
+    bool isValidated = (_productAmount >= 1);
+
+    // TransactionProvider transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
+
+    var snackbarColor = isValidated ? Colors.green : Colors.red;
+    var snackbarContent = isValidated
+        ? "Successfully added product to cart !"
+        : "Cannot add product, please check and try again";
+
+    setPreferences();
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: const Duration(milliseconds: 500),
+      backgroundColor: snackbarColor,
+      content: Text(snackbarContent, textAlign: TextAlign.center),
+    ));
+
+    if (isValidated) {
+      // cartProvider.addCart(widget.product);
+
+      widget.product.quantity = _productAmount;
+      widget.product.notes = _productNotes;
+
+      transactionProvider.addProduct(widget.product);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+    }
+  }
+
+  setPreferences() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    preferences.setInt("getCounterData", _productAmount);
+    preferences.setString("Notes", _productNotes);
   }
 
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
 
-    var hargaProduct = double.parse(widget.product.priceProduct).floor();
+    var productPrice = widget.product.price;
+
     Widget header() {
       return Column(
         children: [
@@ -53,22 +121,17 @@ class _ProductPageState extends State<ProductPage> {
             margin: EdgeInsets.only(
                 top: SizeConfig.blockVertical * 2,
                 left: SizeConfig.blockHorizontal * 2),
-            height: SizeConfig.blockVertical * 6,
+            height: SizeConfig.blockHorizontal * 6,
             width: SizeConfig.blockHorizontal * 100,
-            child: Row(children: [
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ViewMenuGrid()));
-                  },
-                  child: Icon(
-                    Icons.chevron_left,
-                    size: 40,
-                  )),
-            ]),
-          ),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: _handleBackBtn,
+                  child: const Icon(Icons.chevron_left, size: 40),
+                )
+              ],
+            ),
+          )
         ],
       );
     }
@@ -83,16 +146,16 @@ class _ProductPageState extends State<ProductPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              widget.product.nameProduct,
-              style: TextStyle(
+              widget.product.name,
+              style: const TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
               ),
             ),
             Text(
-              hargaProduct.toString(),
-              style: TextStyle(
+              productPrice.toString(),
+              style: const TextStyle(
                 fontFamily: 'Montserrat',
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
@@ -104,7 +167,7 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     Widget notes() {
-      return Container(
+      return SizedBox(
         height: SizeConfig.blockVertical * 30,
         width: SizeConfig.blockHorizontal * 100,
         child: Column(
@@ -113,7 +176,7 @@ class _ProductPageState extends State<ProductPage> {
               margin: EdgeInsets.only(
                   right: SizeConfig.blockHorizontal * 53,
                   top: SizeConfig.blockVertical * 2),
-              child: Text(
+              child: const Text(
                 "Additional Notes  :",
                 style: TextStyle(
                   fontFamily: 'Montserrat',
@@ -134,11 +197,11 @@ class _ProductPageState extends State<ProductPage> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Container(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: TextField(
-                  controller: textEditing,
+                  controller: _textEditingController,
                   maxLines: 9,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Contoh : Pedas Manis",
                     border: InputBorder.none,
                   ),
@@ -150,17 +213,19 @@ class _ProductPageState extends State<ProductPage> {
       );
     }
 
-    Widget addChart() {
+    Widget addCart() {
       return Container(
-        margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 2),
+        margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 4),
         height: SizeConfig.blockVertical * 13.5,
         width: SizeConfig.blockHorizontal * 100,
         child: Row(
           children: [
             SizedBox(width: SizeConfig.blockHorizontal * 3),
             GestureDetector(
-              onTap: () {
-                minus();
+              onTap: () async {
+                setState(() {
+                  _decreaseQuantity();
+                });
               },
               child: Container(
                   margin: const EdgeInsets.all(5),
@@ -173,7 +238,7 @@ class _ProductPageState extends State<ProductPage> {
             ),
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             Text(
-              "$_n",
+              "$_productAmount",
               style: const TextStyle(
                   fontFamily: 'Rubik',
                   fontSize: 20,
@@ -183,13 +248,12 @@ class _ProductPageState extends State<ProductPage> {
             SizedBox(width: SizeConfig.blockHorizontal * 8),
             GestureDetector(
               onTap: () async {
-                print(_n + 1);
                 setState(() {
-                  add();
+                  _increaseQuantity();
                 });
               },
               child: Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   child: Text("+",
                       style: TextStyle(
                           fontFamily: 'Rubik',
@@ -197,58 +261,13 @@ class _ProductPageState extends State<ProductPage> {
                           fontWeight: FontWeight.w600,
                           color: buttonNavbar))),
             ),
-            SizedBox(width: SizeConfig.blockHorizontal * 10),
-            Container(
-              width: SizeConfig.blockHorizontal * 50,
+            SizedBox(width: SizeConfig.blockHorizontal * 8),
+            SizedBox(
+              width: SizeConfig.blockHorizontal * 47,
               height: SizeConfig.blockVertical * 9,
               child: ElevatedButton(
                   onPressed: () async {
-                    SharedPreferences setNotes =
-                        await SharedPreferences.getInstance();
-                    setNotes.setString("Notes", textEditing.text);
-                    print(textEditing.text);
-                    if (cartProvider.carts.isEmpty ||
-                        cartProvider.carts.isNotEmpty) {
-                      if (_n == 0) {
-                        setState(() {
-                          _changeColor = false;
-                        });
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            "Add Valid",
-                            textAlign: TextAlign.center,
-                          ),
-                        ));
-                      } else if (_n > 0) {
-                        setState(() {
-                          _changeWarna = true;
-
-                          if (_n < 1) {
-                            setState(() {
-                              _changeWarna = false;
-                            });
-                          }
-                        });
-                      }
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(milliseconds: 500),
-                          backgroundColor: Colors.green,
-                          content: Text(
-                            "Add Success",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                      cartProvider.addCart(widget.product);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ViewMenuGrid()));
-                    }
+                    _handleAddToCartBtn(transactionProvider);
                   },
                   child: Container(
                       margin: const EdgeInsets.all(5),
@@ -284,7 +303,7 @@ class _ProductPageState extends State<ProductPage> {
             width: SizeConfig.blockHorizontal * 100,
             decoration: BoxDecoration(color: Colors.grey[300]),
           ),
-          addChart(),
+          addCart()
         ],
       ),
     );
