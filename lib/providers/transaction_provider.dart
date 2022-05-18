@@ -76,6 +76,7 @@ class TransactionProvider with ChangeNotifier {
 
       if (transactionStatus == true) {
         TableProviders().getTable();
+        clearTransaction();
       }
 
       return transactionStatus;
