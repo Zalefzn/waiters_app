@@ -3,9 +3,9 @@ import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
+import 'package:flutter_mobile/widgets/menuPage/menuGrid/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menuPage/menuList/menu_list.dart';
-import 'package:flutter_mobile/widgets/summery%20page/summary_order_page.dart';
+import 'package:flutter_mobile/widgets/summaryPage/beforeOrder/summary_order_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   int _currentIndex = 0;
   int selectedIndex = 0;
   List options = [
-    MenuPage(),
+    MenuGrid(),
     SummaryOrderPage(),
   ];
   @override

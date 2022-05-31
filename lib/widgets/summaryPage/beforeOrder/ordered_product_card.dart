@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/transactionProduct.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail.dart';
+import 'package:provider/provider.dart';
 
 class OrderedProductCard extends StatefulWidget {
   final TransactionProduct transactionProductModel;
@@ -15,7 +17,13 @@ class OrderedProductCard extends StatefulWidget {
 class _OrderedProductCard extends State<OrderedProductCard> {
   @override
   Widget build(BuildContext context) {
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
     bool _itemPressed = false;
+
+    handleProductRemove() {
+      transactionProvider.removeProduct(widget.transactionProductModel);
+    }
 
     return GestureDetector(
       onTap: () {
@@ -47,7 +55,8 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                         "x " +
                         widget.transactionProductModel.name,
                     style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 18,
+                      fontFamily: 'Montserrat',
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                     ),
@@ -59,13 +68,39 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                   child: Text(
                     widget.transactionProductModel.price.toString(),
                     style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
+                        fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
                         color: Colors.black),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: SizeConfig.blockVertical * 2),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 5),
+                  height: SizeConfig.blockVertical * 5,
+                  width: SizeConfig.blockHorizontal * 35,
+                  child: Text(widget.transactionProductModel.notes,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w500,
+                      )),
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete, size: 30, color: Colors.red),
+                  onPressed: () {
+                    // handleProductRemove();
+                  },
+                )
+              ],
+            )
           ],
         ),
       ),

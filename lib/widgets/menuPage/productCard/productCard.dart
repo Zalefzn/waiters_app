@@ -21,7 +21,7 @@ class _ProductCardState extends State<ProductCard> {
         name: widget.product.nameProduct,
         price: double.parse(widget.product.priceProduct),
         productId: widget.product.productId);
-    var hargaProduct = double.parse(widget.product.priceProduct).floor();
+    var priceProduct = double.parse(widget.product.priceProduct).floor();
 
     return Row(
       children: [
@@ -53,7 +53,7 @@ class _ProductCardState extends State<ProductCard> {
                       fontFamily: 'Montserrat'),
                 ),
                 Text(
-                  hargaProduct.toString(),
+                  priceProduct.toString(),
                   style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

@@ -6,7 +6,7 @@ import 'package:flutter_mobile/model/tableManagement.dart';
 class TableProviders with ChangeNotifier {
   List<TableManagement> _tables = [];
   List<TableManagement> get tables => _tables;
-
+  
   set tables(List<TableManagement> tables) {
     notifyListeners();
   }

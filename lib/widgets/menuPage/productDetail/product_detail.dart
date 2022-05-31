@@ -291,6 +291,7 @@ class _ProductDetailState extends State<ProductDetail> {
       body: ListView(
         children: [
           header(),
+          SizedBox(height: SizeConfig.blockVertical * 1),
           image(),
           Container(
             height: SizeConfig.blockVertical * 0.2,

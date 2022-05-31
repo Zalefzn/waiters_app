@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/widgets/customerCount/input_customer_count.dart';
-import 'package:flutter_mobile/widgets/summaryPage/afterOrder/ordered_product_card.dart';
+import 'package:flutter_mobile/widgets/summaryPage/beforeOrder/ordered_product_card.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,10 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
   @override
   void initState() {
     getTableData();
+  }
+
+  getTab() async {
+    await Provider.of<TableProviders>(context, listen: false).getTable();
   }
 
   void getTableData() async {
@@ -130,8 +135,11 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
         if (transactionProvider.isHaveOrderedProduct()) {
           if (await transactionProvider.saveTransaction()) {
             print("Order placed successfully");
+
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => ViewPage()));
+
+            getTab();
           } else {
             print("Cannot place order, please try again");
           }

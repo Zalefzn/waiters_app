@@ -1,8 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/tableManagement.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
+import 'package:flutter_mobile/widgets/menuPage/dropdownPage/dropdown_table.dart';
+import 'package:flutter_mobile/widgets/menuPage/menuGrid/menu_grid.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
@@ -16,6 +23,7 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
+  var selectedValue;
   var loading = false;
   var button2 = false;
   var buttonText2 = false;
@@ -30,10 +38,12 @@ class _ViewPageState extends State<ViewPage> {
     TableProviders tableProviders = Provider.of<TableProviders>(context);
     SectionTable sectionTable = Provider.of<SectionTable>(context);
 
-    void filterTableSection() async {
+    filterTableSection() {
       tableProviders.tables
           .where((element) => element.idTable == sectionTable.sections)
           .toList();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => PageView()));
     }
 
     Widget header() {
@@ -51,69 +61,7 @@ class _ViewPageState extends State<ViewPage> {
                   ),
                   child: Stack(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 3,
-                                top: SizeConfig.blockVertical * 3),
-                            child: Text(
-                              'Section/Floor : ',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 1,
-                                top: SizeConfig.blockVertical * 2.5),
-                            width: SizeConfig.blockHorizontal * 60,
-                            height: SizeConfig.blockVertical * 5,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.black),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                hint: Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockHorizontal * 2),
-                                  child: Text(
-                                    'Base Section',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                elevation: 0,
-                                items: _dropDownItem(),
-                                onChanged: (value) {
-                                  switch (value) {
-                                    case 'Base Section':
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewPage()));
-                                      break;
-                                    case 'Section 001':
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewPage()));
-                                      break;
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      DropdownPage(),
                     ],
                   ),
                 ),
@@ -200,6 +148,35 @@ class _ViewPageState extends State<ViewPage> {
     }
 
     Widget tablePage() {
+      var saveSessionTable = [];
+      handleTableNavigate(TableManagement table) async {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+
+        preferences.setInt("saveId", table.idTable);
+        preferences.setString("saveTable", table.tableName);
+
+        // if (table.sessionTab?.idSessionTable == table.tableName) {
+        //   Navigator.push(
+        //       context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+        // } else {
+        //   Navigator.pushNamed(context, '/inputCount');
+        // }
+
+        if (saveSessionTable != null) {
+          Navigator.pushNamed(context, '/inputCount');
+        } else {
+          if (saveSessionTable == table.tableName) {
+            saveSessionTable.add({table.idTable});
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+          }
+        }
+
+        print(saveSessionTable);
+        print(table.tableName);
+        print(table.idTable);
+      }
+
       return Container(
           margin: EdgeInsets.only(
             top: SizeConfig.blockVertical * 1,
@@ -226,22 +203,7 @@ class _ViewPageState extends State<ViewPage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            if (a.tableName.isEmpty) {
-                            } else {
-                              if (a.tableName.isNotEmpty) {
-                                SharedPreferences getId =
-                                    await SharedPreferences.getInstance();
-                                getId.setInt("saveId", a.idTable);
-                                print(a.idTable);
-                                SharedPreferences getTable =
-                                    await SharedPreferences.getInstance();
-                                getTable.setString("saveTable", a.tableName);
-                                print(a.tableName);
-
-                                Navigator.pushReplacementNamed(
-                                    context, '/inputCount');
-                              }
-                            }
+                            handleTableNavigate(a);
                           },
                           child: Container(
                             margin: EdgeInsets.only(
@@ -299,13 +261,4 @@ class _ViewPageState extends State<ViewPage> {
       );
     });
   }
-}
-
-List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Base Section', 'Section 001'];
-  return dll
-      .map(
-        (value) => DropdownMenuItem(value: value, child: Text(value)),
-      )
-      .toList();
 }
