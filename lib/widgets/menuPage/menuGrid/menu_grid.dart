@@ -68,9 +68,7 @@ class _MenuGridState extends State<MenuGrid> {
                   ),
                   child: Stack(
                     children: [
-                      Row(
-                        children: [CatgeoryProduct()],
-                      ),
+                      CatgeoryProduct(),
                     ],
                   ),
                 ),

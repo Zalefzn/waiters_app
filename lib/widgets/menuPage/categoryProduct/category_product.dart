@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/categoryProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
-import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -19,6 +19,14 @@ class _CategoryProduct extends State<CatgeoryProduct> {
   Widget build(BuildContext context) {
     ProductProviders productProviders = Provider.of<ProductProviders>(context);
     ProductCategorys category = Provider.of<ProductCategorys>(context);
+
+    handleButtonNavigate(ProductCategory category) {
+      productProviders.products
+          .where((element) => element.productId == category.idCategory)
+          .toList();
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+    }
 
     return Scaffold(
       body: Container(
@@ -98,29 +106,15 @@ class _CategoryProduct extends State<CatgeoryProduct> {
                                   left: SizeConfig.blockHorizontal * 0),
                               height: SizeConfig.blockVertical * 75,
                               width: SizeConfig.blockHorizontal * 90,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                              ),
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
                               child: ListView.builder(
                                   itemCount: category.categorys.length,
-                                  itemBuilder: (context, int index) {
-                                    final a = category.categorys[index];
-                                    var buttonPressed;
+                                  itemBuilder: (context, i) {
+                                    final a = category.categorys[i];
                                     return GestureDetector(
                                       onTap: () async {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewMenuGrid()));
-                                        productProviders.products
-                                            .where((product) =>
-                                                ProductCard(product)
-                                                    .product
-                                                    .idProCategory ==
-                                                category.categorys[index]
-                                                    .idCategory)
-                                            .toList();
+                                        handleButtonNavigate(a);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(
@@ -128,9 +122,7 @@ class _CategoryProduct extends State<CatgeoryProduct> {
                                         height: SizeConfig.blockVertical * 10,
                                         width: SizeConfig.blockHorizontal * 80,
                                         decoration: BoxDecoration(
-                                            color: buttonPressed
-                                                ? buttonColor
-                                                : textColor2,
+                                            color: textColor2,
                                             border: Border.all(
                                               width: 1,
                                               color: Colors.black,
