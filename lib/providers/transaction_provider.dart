@@ -78,12 +78,13 @@ class TransactionProvider with ChangeNotifier {
   Future<bool> saveTransaction() async {
     try {
       var transactionStatus =
-          TransactionService().placeOrder(transactionProducts);
+          await TransactionService().placeOrder(transactionProducts);
+
       if (transactionStatus == true) {
         TableProviders().getTable();
         clearTransaction();
-        print(transactionStatus);
       }
+
       return transactionStatus;
     } catch (e) {
       return false;

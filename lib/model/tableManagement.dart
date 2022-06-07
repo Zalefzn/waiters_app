@@ -4,7 +4,7 @@ import 'package:flutter_mobile/model/sessionTable.dart';
 class TableManagement {
   late int idOutlet;
   late int idTable;
-  late SessionTable? sessionTable;
+  SessionTable? sessionTable;
   bool? isParentMarge;
   late String tableName;
 
@@ -23,6 +23,7 @@ class TableManagement {
     if (json["session_table"] != null) {
       sessionTable = SessionTable.fromJson(json["session_table"]);
     }
+
     var isParentMarge;
     if (json["is_parent_table"] != null) {
       isParentMarge = json["is_parent_table"];

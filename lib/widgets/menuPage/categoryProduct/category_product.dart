@@ -21,11 +21,16 @@ class _CategoryProduct extends State<CatgeoryProduct> {
     ProductCategorys category = Provider.of<ProductCategorys>(context);
 
     handleButtonNavigate(ProductCategory category) {
-      productProviders.products
-          .where((element) => element.productId == category.idCategory)
+      var data = productProviders.products
+          .where((element) => element.idProCategory == category.idCategory)
           .toList();
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+      // var data = productProviders.products
+      //     .where((element) => element.idProCategory == category.idCategory)
+      //     .toList();
+
+      print(data);
     }
 
     return Scaffold(

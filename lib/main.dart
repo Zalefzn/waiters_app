@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/providers/authService.dart';
-import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/maredTable.dart';
 import 'package:flutter_mobile/providers/moveTable.dart';
@@ -39,9 +38,6 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => ProductCategorys(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CartProvider(),
           ),
           ChangeNotifierProvider(
             create: (context) => SectionTable(),
