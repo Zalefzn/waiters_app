@@ -1,46 +1,29 @@
-// import 'package:flutter_mobile/model/idOrder.dart';
-// import 'package:flutter_mobile/model/sessionStatus.dart';
-// import 'package:flutter_mobile/model/tableManagement.dart';
+class SessionTable {
+  // late IdOrder idOrder;
+  late int idSession;
+  late bool isAccessed;
+  // late SessionStatus sessionStatus;
 
-// class SessionTableManage {
-//   IdOrder? idOrder;
-//   late int idSessionTable;
-//   TableManagement? table;
-//   late bool isAccessed;
-//   SessionStatus? status;
+  SessionTable({
+    // required this.idOrder,
+    required this.idSession,
+    required this.isAccessed,
+    // required this.sessionStatus,
+  });
 
-//   SessionTableManage({
-//     required this.idOrder,
-//     required this.idSessionTable,
-//     required this.isAccessed,
-//     required this.status,
-//     required this.table,
-//   });
+  SessionTable.fromJson(Map<String, dynamic> json) {
+    // idOrder = IdOrder.fromJson(json["id_order"]);
+    idSession = json["id_session_table"];
+    isAccessed = json["is_accessed"];
+    // sessionStatus = SessionStatus.fromJson(json["session_table_status"]);
+  }
 
-//   SessionTableManage.fromJson(Map<String, dynamic> json) {
-//     var idOrder;
-//     if (idOrder != null) {
-//       idOrder = IdOrder.fromJson(json["id_order"]);
-//     }
-//     idSessionTable = json["id_session_table"];
-//     var table;
-//     if (table != null) {
-//       table = TableManagement.fromJson(json["id_table_management"]);
-//     }
-//     isAccessed = json["is_accessed"];
-//     var status;
-//     if (status != null) {
-//       status = SessionStatus.fromJson(json["session_table_status"]);
-//     }
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     return {
-//       "id_order": idOrder?.toJson(),
-//       "id_session_table": idOrder,
-//       "id_table_management": table?.toJson(),
-//       "is_accessed": isAccessed,
-//       "session_table_status": status?.toJson(),
-//     };
-//   }
-// }
+  Map<String, dynamic> toJson() {
+    return {
+      // "id_order": idOrder,
+      "id_session_table": idSession,
+      "is_accessed": isAccessed,
+      // "session_table_status": sessionStatus.toJson(),
+    };
+  }
+}

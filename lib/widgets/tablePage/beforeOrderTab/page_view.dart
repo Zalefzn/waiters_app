@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/tableManagement.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
@@ -8,9 +5,8 @@ import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
-import 'package:flutter_mobile/widgets/menuPage/dropdownPage/dropdown_table.dart';
-import 'package:flutter_mobile/widgets/menuPage/menuGrid/menu_grid.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
+import 'package:flutter_mobile/widgets/tablePage/dropdownPage/dropdown_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
 import 'package:provider/provider.dart';
@@ -148,24 +144,19 @@ class _ViewPageState extends State<ViewPage> {
     }
 
     Widget tablePage() {
-      var saveSessionTable = [];
       handleTableNavigate(TableManagement table) async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
 
         preferences.setInt("saveId", table.idTable);
         preferences.setString("saveTable", table.tableName);
 
-        if (saveSessionTable != null) {
-          Navigator.pushNamed(context, '/inputCount');
+        if (table.sessionTable?.idSession == table.idTable) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
         } else {
-          if (saveSessionTable == table.tableName) {
-            saveSessionTable.add({table.idTable});
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ViewMenuGrid()));
-          }
+          Navigator.pushNamed(context, '/inputCount');
         }
-
-        print(saveSessionTable);
+        print(table.sessionTable?.idSession);
         print(table.tableName);
         print(table.idTable);
       }

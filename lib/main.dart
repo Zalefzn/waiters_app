@@ -4,7 +4,6 @@ import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/maredTable.dart';
 import 'package:flutter_mobile/providers/moveTable.dart';
-import 'package:flutter_mobile/providers/orderProduct.dart';
 import 'package:flutter_mobile/providers/posSetting.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
@@ -49,9 +48,6 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => ProviderUser(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => OrderProvider(),
           ),
           ChangeNotifierProvider(
             create: (context) => MargeProviders(),

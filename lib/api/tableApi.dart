@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/sessionTable.dart';
 import 'package:flutter_mobile/model/tableManagement.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,13 +17,17 @@ class TableService {
 
     var auth = sharedPreferences.getString("access_token");
     print(auth);
-    var headers = {"Authorization": "Bearer ${auth}"};
+    var headers = {
+      "Authorization": "Bearer ${auth}",
+      'Content-Type': 'application/json',
+    };
 
     var response = await http.get(Uri.parse(url), headers: headers);
     print(response.body);
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['data'];
+
       List<TableManagement> tables = [];
 
       for (var item in data) {

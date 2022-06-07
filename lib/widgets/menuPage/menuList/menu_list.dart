@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/transactionProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
 import 'package:flutter_mobile/widgets/menuPage/categoryProduct/category_product.dart';
 import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
+import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:provider/provider.dart';
@@ -153,10 +155,13 @@ class _MenuListState extends State<MenuList> {
     }
 
     Widget menuListPage() {
+      //handle navigate product
       handleProductNavigate() async {
-        productProviders.products
-            .map((product) => ProductCard(product))
-            .toList();
+        // Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) => ProductDetail(transactionProduct)),
+        //     );
       }
 
       return Container(
@@ -210,7 +215,9 @@ class _MenuListState extends State<MenuList> {
               : loading
                   ? Center(child: CircularProgressIndicator())
                   : GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        handleProductNavigate();
+                      },
                       child: ListView.builder(
                           itemCount: productProviders.products.length,
                           itemBuilder: (context, b) {
@@ -218,9 +225,7 @@ class _MenuListState extends State<MenuList> {
                             var hargaProductInt =
                                 double.parse(i.priceProduct).floor();
                             return GestureDetector(
-                              onTap: () {
-                                handleProductNavigate();
-                              },
+                              onTap: () {},
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,

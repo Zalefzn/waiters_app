@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
@@ -32,7 +31,6 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   ];
   @override
   Widget build(BuildContext context) {
-    CartProvider cartprovider = Provider.of<CartProvider>(context);
     TransactionProvider transactionProvider =
         Provider.of<TransactionProvider>(context);
 
@@ -79,7 +77,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   }
 }
 
-//navigation navbar menu list
+//navigation navbar menu List
 class ViewMenuList extends StatefulWidget {
   @override
   State<ViewMenuList> createState() => _ViewMenuListState();
@@ -101,7 +99,9 @@ class _ViewMenuListState extends State<ViewMenuList> {
   ];
   @override
   Widget build(BuildContext context) {
-    CartProvider cartprovider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -117,10 +117,11 @@ class _ViewMenuListState extends State<ViewMenuList> {
             ),
             BottomNavigationBarItem(
               icon: Badge(
-                badgeContent: Text(cartprovider.totalItems().toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
+                badgeContent:
+                    Text(transactionProvider.totalItemCount().toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
                 child: Icon(
                   Icons.summarize_outlined,
                 ),
