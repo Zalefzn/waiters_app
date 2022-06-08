@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/tableManagement.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
+import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
@@ -27,7 +30,7 @@ class _ViewPageState extends State<ViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    TableProviders tableProviders = Provider.of<TableProviders>(context);
+    TableProviders tableProviders = Provider.of<TableProviders>(context, listen: false);
     SectionTable sectionTable = Provider.of<SectionTable>(context);
 
     void filterTableSection() async {
@@ -200,6 +203,23 @@ class _ViewPageState extends State<ViewPage> {
     }
 
     Widget tablePage() {
+      handleTableClicked(TableManagement table) async {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+
+        preferences.setInt("saveId", table.idTable);
+        preferences.setString("saveTable", table.tableName);
+
+        print(table.session?.sessionTable);
+        print(table.session?.orderId);
+
+        if (table.session?.sessionTable != null) {
+          await Provider.of<TransactionProvider>(context, listen: false).getTransaction(table.session?.orderId);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+        } else {
+          Navigator.pushReplacementNamed(context, "/inputCount");
+        }
+      }
+
       return Container(
           margin: EdgeInsets.only(
             top: SizeConfig.blockVertical * 1,
@@ -226,22 +246,7 @@ class _ViewPageState extends State<ViewPage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            if (a.tableName.isEmpty) {
-                            } else {
-                              if (a.tableName.isNotEmpty) {
-                                SharedPreferences getId =
-                                    await SharedPreferences.getInstance();
-                                getId.setInt("saveId", a.idTable);
-                                print(a.idTable);
-                                SharedPreferences getTable =
-                                    await SharedPreferences.getInstance();
-                                getTable.setString("saveTable", a.tableName);
-                                print(a.tableName);
-
-                                Navigator.pushReplacementNamed(
-                                    context, '/inputCount');
-                              }
-                            }
+                            handleTableClicked(a);
                           },
                           child: Container(
                             margin: EdgeInsets.only(

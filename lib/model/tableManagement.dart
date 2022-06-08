@@ -4,14 +4,14 @@ import 'package:flutter_mobile/model/sessionTable.dart';
 class TableManagement {
   late int idOutlet;
   late int idTable;
-  late SessionTable session;
+  late SessionTable? session;
   late bool isParentMarge;
   late String tableName;
+  late bool hasSession;
 
   TableManagement({
     required this.idOutlet,
     required this.idTable,
-    required this.session,
     required this.isParentMarge,
     required this.tableName,
   });
@@ -19,12 +19,18 @@ class TableManagement {
   TableManagement.fromJson(Map<String, dynamic> json) {
     idOutlet = json["id_outlet"];
     idTable = json["id_table_management"];
-    var session;
+
+    print("Getting table data ...");
+    print(json["session_table"]);
+
     if (json["session_table"] != null) {
       session = SessionTable.fromJson(json["session_table"]);
+      hasSession = true;
+    } else {
+      hasSession = false;
+      session = null;
     }
 
-    var isParentMarge;
     if (json["is_parent_table"] != null) {
       isParentMarge = json["is_parent_table"];
     }
@@ -36,7 +42,7 @@ class TableManagement {
     return {
       "id_outlet": idOutlet,
       "id_table_management": idTable,
-      "session_table": session.toJson(),
+      "session_table": session?.toJson(),
       "is_parent_table": isParentMarge,
       "table_name": tableName,
     };

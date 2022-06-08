@@ -10,6 +10,10 @@ class TransactionProvider with ChangeNotifier {
   final List<TransactionProduct> transactionProducts = [];
   List<TransactionProduct> get products => transactionProducts;
 
+  TransactionProvider() {
+    transaction = transaction;
+  }
+
   addProduct(TransactionProduct product) {
     if (product.id == null) {
       insertProduct(product);
@@ -82,6 +86,19 @@ class TransactionProvider with ChangeNotifier {
       return transactionStatus;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<void> getTransaction(int? orderId) async {
+    try {
+      var transactionData = await TransactionService().getOrder(orderId);
+
+      transaction.orderId = transactionData["id_order"];
+
+      print(transactionData["id_order"]);
+
+    } catch (e) {
+      rethrow;
     }
   }
 }

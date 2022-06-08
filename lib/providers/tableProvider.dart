@@ -4,6 +4,8 @@ import 'package:flutter_mobile/model/tableManagement.dart';
 
 //provider table management
 class TableProviders with ChangeNotifier {
+  late TableManagement table;
+
   List<TableManagement> _tables = [];
   List<TableManagement> get tables => _tables;
 
