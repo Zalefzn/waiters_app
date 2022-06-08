@@ -19,7 +19,6 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
-  var selectedValue;
   var loading = false;
   var button2 = false;
   var buttonText2 = false;
