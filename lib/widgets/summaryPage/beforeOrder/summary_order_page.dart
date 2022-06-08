@@ -29,10 +29,6 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
     getTableData();
   }
 
-  getTab() async {
-    await Provider.of<TableProviders>(context, listen: false).getTable();
-  }
-
   void getTableData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -138,8 +134,6 @@ class _SummaryOrderPage extends State<SummaryOrderPage> {
 
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => ViewPage()));
-
-            getTab();
           } else {
             print("Cannot place order, please try again");
           }

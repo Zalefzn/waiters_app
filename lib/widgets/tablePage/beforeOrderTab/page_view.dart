@@ -150,13 +150,13 @@ class _ViewPageState extends State<ViewPage> {
         preferences.setInt("saveId", table.idTable);
         preferences.setString("saveTable", table.tableName);
 
-        if (table.idTable != null) {
+        if (table.session?.idSession == table.idTable) {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
         } else {
           Navigator.pushNamed(context, '/inputCount');
         }
-
+        print(table.session?.idSession);
         print(table.tableName);
         print(table.idTable);
       }
