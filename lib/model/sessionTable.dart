@@ -1,16 +1,18 @@
-//model session table
-import 'package:flutter_mobile/model/margeTable.dart';
+import 'margeTable.dart';
 
 class SessionTable {
   late int sessionTable;
   late bool isAccessed;
   late MargedTable margeTable;
   late int orderId;
+  // late IdOrder idOrder;
+  late int idSession;
+  // late SessionStatus sessionStatus;
 
   SessionTable({
-    required this.isAccessed,
-    required this.sessionTable,
-    required this.margeTable,
+    // required this.idOrder,
+    required this.idSession,
+    // required this.sessionStatus,
   });
 
   SessionTable.fromJson(Map<String, dynamic> json) {
@@ -24,13 +26,16 @@ class SessionTable {
     if (json["id_order"] != null) {
       orderId = json["id_order"]["id_order"];
     }
+    // idOrder = IdOrder.fromJson(json["id_order"]);
+    idSession = json["id_session_table"];
+    // sessionStatus = SessionStatus.fromJson(json["session_table_status"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id_session_table": sessionTable,
-      "is_accessed": isAccessed,
-      'marged_table': margeTable.toJson(),
+      // "id_order": idOrder,
+      "id_session_table": idSession,
+      // "session_table_status": sessionStatus.toJson(),
     };
   }
 }

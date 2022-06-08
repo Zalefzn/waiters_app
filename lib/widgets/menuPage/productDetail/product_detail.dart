@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobile/model/transactionProduct.dart';
-import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
@@ -108,7 +107,6 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
     TransactionProvider transactionProvider =
         Provider.of<TransactionProvider>(context);
 
@@ -291,6 +289,7 @@ class _ProductDetailState extends State<ProductDetail> {
       body: ListView(
         children: [
           header(),
+          SizedBox(height: SizeConfig.blockVertical * 1),
           image(),
           Container(
             height: SizeConfig.blockVertical * 0.2,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
-import 'package:flutter_mobile/widgets/menu%20page/menu_grid.dart';
+import 'package:flutter_mobile/widgets/menuPage/menuGrid/menu_grid.dart';
 import 'package:flutter_mobile/widgets/menuPage/menuList/menu_list.dart';
-import 'package:flutter_mobile/widgets/summery%20page/summary_order_page.dart';
+import 'package:flutter_mobile/widgets/summaryPage/beforeOrder/summary_order_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +26,11 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   int _currentIndex = 0;
   int selectedIndex = 0;
   List options = [
-    MenuPage(),
+    MenuGrid(),
     SummaryOrderPage(),
   ];
   @override
   Widget build(BuildContext context) {
-    CartProvider cartprovider = Provider.of<CartProvider>(context);
     TransactionProvider transactionProvider =
         Provider.of<TransactionProvider>(context);
 
@@ -79,7 +77,7 @@ class _ViewMenuGridState extends State<ViewMenuGrid> {
   }
 }
 
-//navigation navbar menu list
+//navigation navbar menu List
 class ViewMenuList extends StatefulWidget {
   @override
   State<ViewMenuList> createState() => _ViewMenuListState();
@@ -101,7 +99,9 @@ class _ViewMenuListState extends State<ViewMenuList> {
   ];
   @override
   Widget build(BuildContext context) {
-    CartProvider cartprovider = Provider.of<CartProvider>(context);
+    TransactionProvider transactionProvider =
+        Provider.of<TransactionProvider>(context);
+
     SizeConfig().init(context);
     return Sizer(builder: (context, orientation, deviceType) {
       return Scaffold(
@@ -117,10 +117,11 @@ class _ViewMenuListState extends State<ViewMenuList> {
             ),
             BottomNavigationBarItem(
               icon: Badge(
-                badgeContent: Text(cartprovider.totalItems().toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
+                badgeContent:
+                    Text(transactionProvider.totalItemCount().toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
                 child: Icon(
                   Icons.summarize_outlined,
                 ),

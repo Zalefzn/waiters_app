@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/cartProduct.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/widgets/loginPage/login_page.dart';
@@ -46,7 +45,6 @@ class _LogOutState extends State<LogOut> {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
     SizeConfig().init(context);
     return Sizer(builder: (context, orentation, deviceType) {
       return Scaffold(
@@ -255,7 +253,7 @@ class _LogOutState extends State<LogOut> {
                                 SharedPreferences cacheInputCount =
                                     await SharedPreferences.getInstance();
                                 var clearCount = cacheInputCount.remove("key");
-                                cartProvider.carts.clear();
+
                                 print(tableClear);
                                 print(clearCount);
                                 showDialog(

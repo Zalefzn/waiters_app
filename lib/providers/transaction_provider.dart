@@ -24,6 +24,11 @@ class TransactionProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  removeProduct(TransactionProduct product) {
+    transactionProducts.removeAt(product.productId);
+    notifyListeners();
+  }
+
   insertProduct(TransactionProduct product) {
     product.id = generateTransactionProductId();
     transactionProducts.add(product);
@@ -76,7 +81,8 @@ class TransactionProvider with ChangeNotifier {
 
   Future<bool> saveTransaction() async {
     try {
-      var transactionStatus =  await TransactionService().placeOrder(transactionProducts);
+      var transactionStatus =
+          await TransactionService().placeOrder(transactionProducts);
 
       if (transactionStatus == true) {
         TableProviders().getTable();

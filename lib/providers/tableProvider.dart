@@ -8,7 +8,6 @@ class TableProviders with ChangeNotifier {
 
   List<TableManagement> _tables = [];
   List<TableManagement> get tables => _tables;
-
   set tables(List<TableManagement> tables) {
     notifyListeners();
   }
@@ -16,6 +15,7 @@ class TableProviders with ChangeNotifier {
   Future<void> getTable() async {
     try {
       List<TableManagement> tables = await TableService().getTable();
+
       _tables = tables;
     } catch (e) {
       print(e);

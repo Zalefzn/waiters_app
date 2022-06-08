@@ -7,6 +7,7 @@ import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
+import 'package:flutter_mobile/widgets/tablePage/dropdownPage/dropdown_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
+  var selectedValue;
   var loading = false;
   var button2 = false;
   var buttonText2 = false;
@@ -33,10 +35,12 @@ class _ViewPageState extends State<ViewPage> {
     TableProviders tableProviders = Provider.of<TableProviders>(context, listen: false);
     SectionTable sectionTable = Provider.of<SectionTable>(context);
 
-    void filterTableSection() async {
+    filterTableSection() {
       tableProviders.tables
           .where((element) => element.idTable == sectionTable.sections)
           .toList();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => PageView()));
     }
 
     Widget header() {
@@ -54,69 +58,7 @@ class _ViewPageState extends State<ViewPage> {
                   ),
                   child: Stack(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 3,
-                                top: SizeConfig.blockVertical * 3),
-                            child: Text(
-                              'Section/Floor : ',
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 1,
-                                top: SizeConfig.blockVertical * 2.5),
-                            width: SizeConfig.blockHorizontal * 60,
-                            height: SizeConfig.blockVertical * 5,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.black),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                hint: Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockHorizontal * 2),
-                                  child: Text(
-                                    'Base Section',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                elevation: 0,
-                                items: _dropDownItem(),
-                                onChanged: (value) {
-                                  switch (value) {
-                                    case 'Base Section':
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewPage()));
-                                      break;
-                                    case 'Section 001':
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ViewPage()));
-                                      break;
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      DropdownPage(),
                     ],
                   ),
                 ),
@@ -208,7 +150,6 @@ class _ViewPageState extends State<ViewPage> {
 
         preferences.setInt("saveId", table.idTable);
         preferences.setString("saveTable", table.tableName);
-
         print(table.session?.sessionTable);
         print(table.session?.orderId);
 
@@ -304,13 +245,4 @@ class _ViewPageState extends State<ViewPage> {
       );
     });
   }
-}
-
-List<DropdownMenuItem<String>> _dropDownItem() {
-  List<String> dll = ['Base Section', 'Section 001'];
-  return dll
-      .map(
-        (value) => DropdownMenuItem(value: value, child: Text(value)),
-      )
-      .toList();
 }

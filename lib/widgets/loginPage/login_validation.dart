@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/providers/userServer.dart';
@@ -39,6 +40,10 @@ class _ValidationLoginState extends State<ValidationLogin> {
       _isLoading = true;
     });
     super.initState();
+  }
+
+  getSectionProduct() async {
+    await Provider.of<ProductCategorys>(context, listen: false).getCategory();
   }
 
   getProducts() async {
@@ -173,8 +178,7 @@ class _ValidationLoginState extends State<ValidationLogin> {
                           getTab();
                           getProducts();
                           getUser();
-                          // getCategory();
-
+                          getSectionProduct();
                           pressedLogin = !pressedLogin;
                         });
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

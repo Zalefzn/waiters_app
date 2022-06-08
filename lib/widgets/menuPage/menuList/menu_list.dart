@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/transactionProduct.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/productProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/utilities/navigation/navigation_navbar.dart';
+import 'package:flutter_mobile/widgets/menuPage/categoryProduct/category_product.dart';
 import 'package:flutter_mobile/widgets/menuPage/productCard/productCard.dart';
+import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail.dart';
 import 'package:flutter_mobile/widgets/setting/logout.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
 import 'package:provider/provider.dart';
@@ -80,179 +83,7 @@ class _MenuListState extends State<MenuList> {
                   ),
                   child: Stack(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 2.5,
-                                top: SizeConfig.blockVertical * 2),
-                            height: SizeConfig.blockVertical * 6,
-                            width: SizeConfig.blockHorizontal * 95,
-                            child: ElevatedButton(
-                              child: Text(
-                                'All Items                                                             >',
-                                style: TextStyle(
-                                  fontFamily: 'Rubik',
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              onPressed: () {
-                                //category product
-                                showModalBottomSheet(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(45),
-                                        topRight: Radius.circular(45),
-                                      ),
-                                    ),
-                                    isScrollControlled: true,
-                                    enableDrag: true,
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                        height: SizeConfig.blockVertical * 87,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(45)),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                  top:
-                                                      SizeConfig.blockVertical *
-                                                          2,
-                                                ),
-                                                height:
-                                                    SizeConfig.blockVertical *
-                                                        1,
-                                                width:
-                                                    SizeConfig.blockHorizontal *
-                                                        40,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey.shade300,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .blockVertical *
-                                                        2),
-                                                child: Text(
-                                                  'Armor Kopi Leuwit - Best Seller',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 15.sp,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: SizeConfig
-                                                              .blockVertical *
-                                                          2,
-                                                      left: SizeConfig
-                                                              .blockHorizontal *
-                                                          0),
-                                                  height:
-                                                      SizeConfig.blockVertical *
-                                                          75,
-                                                  width: SizeConfig
-                                                          .blockHorizontal *
-                                                      90,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: ListView.builder(
-                                                      itemCount: category
-                                                          .categorys.length,
-                                                      itemBuilder:
-                                                          (context, int index) {
-                                                        final a = category
-                                                            .categorys[index];
-                                                        return GestureDetector(
-                                                          onTap: () async {
-                                                            Navigator.pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            ViewMenuGrid()));
-                                                          },
-                                                          child: Container(
-                                                            margin: EdgeInsets.only(
-                                                                top: SizeConfig
-                                                                        .blockVertical *
-                                                                    2),
-                                                            height: SizeConfig
-                                                                    .blockVertical *
-                                                                10,
-                                                            width: SizeConfig
-                                                                    .blockHorizontal *
-                                                                80,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    color: buttonPressed
-                                                                        ? buttonColor
-                                                                        : textColor2,
-                                                                    border:
-                                                                        Border
-                                                                            .all(
-                                                                      width: 1,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5)),
-                                                            child: Center(
-                                                              child: Text(
-                                                                a.categoryName,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }) //GridView.count(
-
-                                                  ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    color: Colors.black,
-                                    width: 1.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      CatgeoryProduct(),
                     ],
                   ),
                 ),
@@ -324,6 +155,15 @@ class _MenuListState extends State<MenuList> {
     }
 
     Widget menuListPage() {
+      //handle navigate product
+      handleProductNavigate() async {
+        // Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) => ProductDetail(transactionProduct)),
+        //     );
+      }
+
       return Container(
           height: 63.h,
           width: SizeConfig.blockHorizontal * 100,
@@ -375,7 +215,9 @@ class _MenuListState extends State<MenuList> {
               : loading
                   ? Center(child: CircularProgressIndicator())
                   : GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        handleProductNavigate();
+                      },
                       child: ListView.builder(
                           itemCount: productProviders.products.length,
                           itemBuilder: (context, b) {
@@ -384,11 +226,6 @@ class _MenuListState extends State<MenuList> {
                                 double.parse(i.priceProduct).floor();
                             return GestureDetector(
                               onTap: () {},
-                              // productProviders.products
-                              //     .map(
-                              //         (product) => ProductCard(product))
-                              //     .toList(),
-
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
