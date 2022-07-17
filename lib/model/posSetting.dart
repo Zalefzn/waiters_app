@@ -1,18 +1,19 @@
 //pos setting
-class SettingPos {
-  late String outletName;
 
-  SettingPos({
-    required this.outletName,
+class PosSettingData {
+  late String nameOutlate;
+
+  PosSettingData({
+    required this.nameOutlate,
   });
 
-  SettingPos.fromJson(Map<String, dynamic> json) {
-    outletName = json["outlet_name"];
+  PosSettingData.fromJson(Map<String, dynamic> json) {
+    nameOutlate = json['outlate_name'];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "outlet_name": outletName,
+      "outlate_name": nameOutlate,
     };
   }
 }

@@ -4,19 +4,21 @@ import 'package:flutter_mobile/model/posSetting.dart';
 
 //provider pos setting
 class PosProviders with ChangeNotifier {
-  List<SettingPos> _pos = [];
-  List<SettingPos> get pos => _pos;
+  List<PosSettingData> _pos = [];
+  List<PosSettingData> get pos => _pos;
 
-  set pos(List<SettingPos> poses) {
+  set pos(List<PosSettingData> poses) {
     notifyListeners();
   }
 
   Future<void> getPos() async {
     try {
-      List<SettingPos> poses = await PosSettings().posSettings();
+      List<PosSettingData> poses = await PosSettings().posSettings();
       _pos = poses;
     } catch (e) {
       print(e);
     }
   }
+
+  Future<void> getUserPos() async {}
 }

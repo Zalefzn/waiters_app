@@ -125,14 +125,15 @@ class _ValidationLoginState extends State<ValidationLogin> {
                               obscureText: true,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                  hintStyle: hintStyle,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                    borderSide: BorderSide(
-                                        width: SizeConfig.blockHorizontal * 1,
-                                        color: buttonNavbar),
-                                  ),
-                                  hintText: 'Enter Your Pin'),
+                                hintStyle: hintStyle,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                      width: SizeConfig.blockHorizontal * 1,
+                                      color: buttonNavbar),
+                                ),
+                                hintText: 'Enter Your Pin',
+                              ),
                               style: TextStyle(
                                 color: buttonNavbar,
                               ),

@@ -83,7 +83,7 @@ class _MenuListState extends State<MenuList> {
                   ),
                   child: Stack(
                     children: [
-                      CatgeoryProduct(),
+                      CategoryProduct(),
                     ],
                   ),
                 ),
@@ -155,15 +155,6 @@ class _MenuListState extends State<MenuList> {
     }
 
     Widget menuListPage() {
-      //handle navigate product
-      handleProductNavigate() async {
-        // Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //           builder: (context) => ProductDetail(transactionProduct)),
-        //     );
-      }
-
       return Container(
           height: 63.h,
           width: SizeConfig.blockHorizontal * 100,
@@ -215,9 +206,7 @@ class _MenuListState extends State<MenuList> {
               : loading
                   ? Center(child: CircularProgressIndicator())
                   : GestureDetector(
-                      onTap: () {
-                        handleProductNavigate();
-                      },
+                      onTap: () {},
                       child: ListView.builder(
                           itemCount: productProviders.products.length,
                           itemBuilder: (context, b) {

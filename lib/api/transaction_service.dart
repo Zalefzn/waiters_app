@@ -4,26 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionService {
-
-  // late String baseUrl;
-  // late String accessToken;
-  // late Map<String, String> httpHeaders;
-  //
-  // TransactionService() {
-  //   getPreferences();
-  // }
-
-  // getPreferences() async {
-  //   SharedPreferences preferences = SharedPreferences.getInstance() as SharedPreferences;
-  //
-  //   baseUrl = preferences.getString("setApi")!;
-  //   accessToken = preferences.getString("access_token")!;
-  //   httpHeaders = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': "Bearer $accessToken",
-  //   };
-  // }
-
   Future<bool> placeOrder(List<TransactionProduct> transactionProduct) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -34,7 +14,7 @@ class TransactionService {
       'Authorization': "Bearer $accessToken",
     };
 
-    var url = '$baseUrl/order';
+    var url = '$baseUrl/api/order';
 
     var tableName = preferences.getString("saveTable");
 

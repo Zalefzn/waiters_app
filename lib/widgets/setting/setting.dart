@@ -4,6 +4,7 @@ import 'package:flutter_mobile/providers/tableProvider.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/utilities/methodStyle/theme.dart';
 import 'package:flutter_mobile/widgets/loginPage/login_page.dart';
+import 'package:flutter_mobile/widgets/setting/getServerName.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -94,37 +95,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       child: Stack(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: SizeConfig.blockHorizontal * 0,
-                                top: SizeConfig.blockVertical * 0),
-                            height: SizeConfig.blockVertical * 25,
-                            width: SizeConfig.blockHorizontal * 100,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Servers Name : ',
-                                  style: nameServer.copyWith(fontSize: 11.sp),
-                                ),
-                                Text(
-                                  'Clock in Time: ' +
-                                      '  ' +
-                                      formatedTanggal.toString(),
-                                  style: nameServer.copyWith(fontSize: 11.sp),
-                                ),
-                                Text(
-                                  'Date:  ' + ' ' + formatedTahun.toString(),
-                                  style: nameServer.copyWith(fontSize: 11.sp),
-                                ),
-                                Text(
-                                  'Local: ' + '  $api',
-                                  style: nameServer.copyWith(fontSize: 11.sp),
-                                ),
-                              ],
-                            ),
-                          ),
+                          ServerName(),
                         ],
                       ),
                     ),
@@ -212,10 +183,9 @@ class _SettingsState extends State<Settings> {
                                     buttonOutline
                                         ? null
                                         : buttonOutline = !buttonOutline;
-                                    // getUser();
+
                                     getTab();
-                                    // getPosSetting();
-                                    // getUserServer();
+                                    getPosSetting();
                                   });
                                 }
                               },

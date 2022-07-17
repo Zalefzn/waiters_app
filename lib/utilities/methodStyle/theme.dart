@@ -48,7 +48,7 @@ TextStyle footerText = TextStyle(
 
 //login validation page style
 TextStyle hintStyle = TextStyle(
-  color: hint,
+  color: Colors.grey.shade400,
 );
 
 //Login page Setting style

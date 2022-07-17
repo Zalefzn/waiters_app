@@ -9,12 +9,14 @@ import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
-class CatgeoryProduct extends StatefulWidget {
+class CategoryProduct extends StatefulWidget {
+  const CategoryProduct({Key? key}) : super(key: key);
+
   @override
-  State<CatgeoryProduct> createState() => _CategoryProduct();
+  State<CategoryProduct> createState() => _CategoryProductState();
 }
 
-class _CategoryProduct extends State<CatgeoryProduct> {
+class _CategoryProductState extends State<CategoryProduct> {
   @override
   Widget build(BuildContext context) {
     ProductProviders productProviders = Provider.of<ProductProviders>(context);
@@ -24,11 +26,9 @@ class _CategoryProduct extends State<CatgeoryProduct> {
       var data = productProviders.products
           .where((element) => element.idProCategory == category.idCategory)
           .toList();
+
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
-      // var data = productProviders.products
-      //     .where((element) => element.idProCategory == category.idCategory)
-      //     .toList();
 
       print(data);
     }

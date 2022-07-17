@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_mobile/providers/transaction_provider.dart';
 import 'package:flutter_mobile/model/tableManagement.dart';
 import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
@@ -11,7 +13,6 @@ import 'package:flutter_mobile/widgets/tablePage/margeTable/marge_table.dart';
 import 'package:flutter_mobile/widgets/tablePage/moveTable/move_table.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewPage extends StatefulWidget {
   @override
@@ -144,18 +145,22 @@ class _ViewPageState extends State<ViewPage> {
 
     Widget tablePage() {
       handleTableNavigate(TableManagement table) async {
+        TransactionProvider transactionProvider =
+            Provider.of<TransactionProvider>(context, listen: false);
         SharedPreferences preferences = await SharedPreferences.getInstance();
 
         preferences.setInt("saveId", table.idTable);
         preferences.setString("saveTable", table.tableName);
 
-        if (table.session?.idSession == table.idTable) {
+        if (table.session?.sessionTable != null) {
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
+          transactionProvider.getTransaction(table.session?.orderId);
+          print(table.session?.orderId);
         } else {
           Navigator.pushNamed(context, '/inputCount');
         }
-        print(table.session?.idSession);
+        print(table.session?.sessionTable);
         print(table.tableName);
         print(table.idTable);
       }

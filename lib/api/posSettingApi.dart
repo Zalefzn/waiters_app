@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //api pos setting
 class PosSettings {
-  Future<List<SettingPos>> posSettings() async {
+  Future<List<PosSettingData>> posSettings() async {
     SharedPreferences getServ = await SharedPreferences.getInstance();
     var baseUrl = getServ.getString("setApi");
     var url = '$baseUrl/pos_setting';
@@ -17,16 +17,18 @@ class PosSettings {
     };
 
     var response = await http.get(Uri.parse(url), headers: headers);
-    print(response.body);
 
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)["data"];
-      List<SettingPos> serv = [];
+      var data;
+      data = jsonDecode(response.body);
+      print(data);
+      List<PosSettingData> posSetting = [];
 
-      for (var item in data) {
-        serv.add(SettingPos.fromJson(item));
-      }
-      return serv;
+      // for (var item in data) {
+      //   item.add(PosSettingData.fromJson(item));
+      // }
+
+      return posSetting;
     } else {
       throw Exception('Gagal Get Outlet');
     }

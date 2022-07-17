@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobile/model/posSetting.dart';
 import 'package:flutter_mobile/providers/authService.dart';
 import 'package:flutter_mobile/providers/categoryProduct.dart';
 import 'package:flutter_mobile/providers/maredTable.dart';

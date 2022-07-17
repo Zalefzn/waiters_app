@@ -5,11 +5,12 @@ class SessionTable {
   late bool isAccessed;
   late MargedTable margeTable;
   late int orderId;
-  // late IdOrder idOrder;
-  late int idSession;
 
   SessionTable({
-    required this.idSession,
+    required this.sessionTable,
+    required this.isAccessed,
+    required this.margeTable,
+    required this.orderId,
   });
 
   SessionTable.fromJson(Map<String, dynamic> json) {
@@ -23,13 +24,14 @@ class SessionTable {
     if (json["id_order"] != null) {
       orderId = json["id_order"]["id_order"];
     }
-    // idOrder = IdOrder.fromJson(json["id_order"]);
-    idSession = json["id_session_table"];
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id_session_table": idSession,
+      "id_session_table": sessionTable,
+      "is_accessed": isAccessed,
+      "marged_table": margeTable,
+      "id_order": orderId,
     };
   }
 }

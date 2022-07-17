@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobile/providers/sectionTable,.dart';
 import 'package:flutter_mobile/utilities/methodSize/method.dart';
 import 'package:flutter_mobile/widgets/tablePage/beforeOrderTab/page_view.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class DropdownPage extends StatefulWidget {
+  const DropdownPage({Key? key}) : super(key: key);
+
   @override
   State<DropdownPage> createState() => _DropdownPage();
 }
@@ -13,7 +13,6 @@ class DropdownPage extends StatefulWidget {
 class _DropdownPage extends State<DropdownPage> {
   @override
   Widget build(BuildContext context) {
-    SectionTable sectionTable = Provider.of<SectionTable>(context);
     return Scaffold(
       body: Row(
         children: [

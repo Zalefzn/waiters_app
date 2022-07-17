@@ -50,6 +50,7 @@ class _MenuGridState extends State<MenuGrid> {
             data.idoutlet.toString().contains(text))
           productProviders.search.add(data);
       });
+
       setState(() {});
     }
 
@@ -68,7 +69,7 @@ class _MenuGridState extends State<MenuGrid> {
                   ),
                   child: Stack(
                     children: [
-                      CatgeoryProduct(),
+                      CategoryProduct(),
                     ],
                   ),
                 ),
@@ -96,7 +97,7 @@ class _MenuGridState extends State<MenuGrid> {
                         border: InputBorder.none),
                     onChanged: onSearchTextChanged,
                   ),
-                  trailing: IconButton(
+                  trailing: IconButton(     
                     icon: Icon(Icons.cancel),
                     onPressed: () {
                       searchController.clear();

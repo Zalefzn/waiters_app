@@ -6,9 +6,8 @@ import 'package:flutter_mobile/widgets/menuPage/productDetail/product_detail.dar
 import 'package:provider/provider.dart';
 
 class OrderedProductCard extends StatefulWidget {
-  final TransactionProduct transactionProductModel;
-  const OrderedProductCard(this.transactionProductModel, {Key? key})
-      : super(key: key);
+  final TransactionProduct product;
+  const OrderedProductCard(this.product, {Key? key}) : super(key: key);
 
   @override
   State<OrderedProductCard> createState() => _OrderedProductCard();
@@ -21,10 +20,6 @@ class _OrderedProductCard extends State<OrderedProductCard> {
         Provider.of<TransactionProvider>(context);
     bool _itemPressed = false;
 
-    handleProductRemove() {
-      transactionProvider.removeProduct(widget.transactionProductModel);
-    }
-
     return GestureDetector(
       onTap: () {
         _itemPressed = !_itemPressed;
@@ -32,8 +27,7 @@ class _OrderedProductCard extends State<OrderedProductCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ProductDetail(widget.transactionProductModel)));
+                builder: (context) => ProductDetail(widget.product)));
       },
       child: Container(
         height: SizeConfig.blockVertical * 20,
@@ -51,9 +45,9 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                 Container(
                   margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 5),
                   child: Text(
-                    widget.transactionProductModel.quantity.toString() +
+                    widget.product.quantity.toString() +
                         "x " +
-                        widget.transactionProductModel.name,
+                        widget.product.name,
                     style: const TextStyle(
                       fontSize: 18,
                       fontFamily: 'Montserrat',
@@ -66,7 +60,7 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                   margin:
                       EdgeInsets.only(right: SizeConfig.blockHorizontal * 5),
                   child: Text(
-                    widget.transactionProductModel.price.toString(),
+                    widget.product.price.toString(),
                     style: const TextStyle(
                         fontSize: 18,
                         fontFamily: 'Montserrat',
@@ -85,7 +79,7 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                   margin: EdgeInsets.only(left: SizeConfig.blockHorizontal * 5),
                   height: SizeConfig.blockVertical * 5,
                   width: SizeConfig.blockHorizontal * 35,
-                  child: Text(widget.transactionProductModel.notes,
+                  child: Text(widget.product.notes,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black,
@@ -95,9 +89,7 @@ class _OrderedProductCard extends State<OrderedProductCard> {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete, size: 30, color: Colors.red),
-                  onPressed: () {
-                    // handleProductRemove();
-                  },
+                  onPressed: () {},
                 )
               ],
             )

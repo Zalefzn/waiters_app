@@ -5,7 +5,7 @@ import 'package:flutter_mobile/model/transactionProduct.dart';
 import 'package:flutter_mobile/providers/tableProvider.dart';
 
 class TransactionProvider with ChangeNotifier {
-  late TransactionModel transaction;
+  TransactionModel? transaction;
 
   final List<TransactionProduct> transactionProducts = [];
   List<TransactionProduct> get products => transactionProducts;
@@ -50,11 +50,11 @@ class TransactionProvider with ChangeNotifier {
 
   subtotal() {
     double subtotal = 0;
-
+  
     for (var product in transactionProducts) {
       subtotal += product.price * product.quantity;
     }
-
+  
     return subtotal;
   }
 
@@ -99,10 +99,9 @@ class TransactionProvider with ChangeNotifier {
     try {
       var transactionData = await TransactionService().getOrder(orderId);
 
-      transaction.orderId = transactionData["id_order"];
+      transaction?.orderId = transactionData["id_order"];
 
       print(transactionData["id_order"]);
-
     } catch (e) {
       rethrow;
     }
