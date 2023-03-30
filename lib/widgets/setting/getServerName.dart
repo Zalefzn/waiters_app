@@ -34,12 +34,12 @@ class _ServerNameState extends State<ServerName> {
     setState(() {
       api = getApi.getString("setApi") ?? "-";
     });
-  }
-
+  } 
+  
   @override
   Widget build(BuildContext context) {
     ProviderUser providerUser = Provider.of<ProviderUser>(context);
-
+    
     return Container(
       margin: EdgeInsets.only(
           left: SizeConfig.blockHorizontal * 0,

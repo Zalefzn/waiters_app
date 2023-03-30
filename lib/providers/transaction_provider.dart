@@ -23,7 +23,7 @@ class TransactionProvider with ChangeNotifier {
 
     notifyListeners();
   }
-
+    
   removeProduct(TransactionProduct product) {
     transactionProducts.removeAt(product.productId);
     notifyListeners();
@@ -94,7 +94,7 @@ class TransactionProvider with ChangeNotifier {
       return false;
     }
   }
-
+  
   Future<void> getTransaction(int? orderId) async {
     try {
       var transactionData = await TransactionService().getOrder(orderId);

@@ -81,7 +81,7 @@ class _MargeTable extends State<MargeTable> {
                         Container(
                           margin: EdgeInsets.only(
                               left: SizeConfig.blockHorizontal * 6),
-                          child: RaisedButton(
+                          child: TextButton(
                             onPressed: () async {
                               SharedPreferences remove =
                                   await SharedPreferences.getInstance();
@@ -96,8 +96,6 @@ class _MargeTable extends State<MargeTable> {
                                 fontSize: 12.sp,
                               ),
                             ),
-                            color: backgroundClor,
-                            elevation: 0,
                           ),
                         ),
                       ],

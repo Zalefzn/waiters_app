@@ -79,7 +79,7 @@ class _MoveTable extends State<MoveTable> {
                           Container(
                             margin: EdgeInsets.only(
                                 left: SizeConfig.blockHorizontal * 10),
-                            child: RaisedButton(
+                            child: TextButton(
                               onPressed: () {},
                               child: Text(
                                 "Clear",
@@ -87,8 +87,6 @@ class _MoveTable extends State<MoveTable> {
                                   fontSize: 12.sp,
                                 ),
                               ),
-                              color: backgroundClor,
-                              elevation: 0,
                             ),
                           ),
                         ],

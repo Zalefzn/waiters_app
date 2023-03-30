@@ -97,7 +97,7 @@ class _ProductDetailState extends State<ProductDetail> {
           context, MaterialPageRoute(builder: (context) => ViewMenuGrid()));
     }
   }
-
+  
   setPreferences() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
